@@ -1,1 +1,1 @@
-i added main.c for test , just add libft if not added then make and test built-in command , still handle leaks and segfaults 
+ ## i added main.c for testing , jsut add libft if it is not included , then compile and test the built-in command , while still handling leaks and segfaults.
