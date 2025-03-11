@@ -15,5 +15,9 @@ int execute_builtin(char **args)
 		my_export(args);
 	else if (ft_strncmp("unset", args[0], len) == 0)
 		my_unset(args);
+	else if (ft_strncmp("pwd", args[0], len) == 0)
+		my_pwd(args);
+	else if (ft_strncmp("cd", args[0], len) == 0)
+		my_cd(args);
 	return (0);
 }

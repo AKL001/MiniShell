@@ -4,6 +4,8 @@ SRC =	init_env.c \
 		built-in/export.c \
 		built-in/env.c \
 		built-in/unset.c \
+		built-in/cd.c \
+		built-in/pwd.c \
 		main.c \
 		global.c
 

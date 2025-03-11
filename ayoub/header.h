@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 00:17:34 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/03/10 07:42:35 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/03/11 03:02:40 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include <math.h>
 #include <stdbool.h>
 #include <limits.h>
+#include <dirent.h>
 #include <readline/readline.h>
 #include "global.h"
 
@@ -39,6 +40,8 @@ void my_unset(char **args);
 void  my_env();
 void my_export(char **args);
 int my_echo(char **args);
+void my_pwd(char **args);
+void my_cd(char **args);
 int execute_builtin(char **args);
 
 #endif
