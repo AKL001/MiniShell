@@ -1,6 +1,6 @@
 #include "../header.h"
 
-void my_unset(char **args)
+void my_unset(t_env *my_envp, char **args)
 {
     t_env *head;
     t_env *prev;

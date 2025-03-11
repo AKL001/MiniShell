@@ -6,8 +6,7 @@ SRC =	init_env.c \
 		built-in/unset.c \
 		built-in/cd.c \
 		built-in/pwd.c \
-		main.c \
-		global.c
+		main.c 
 
 OGJ = $(SRC:.c=.o)
 

@@ -1,6 +1,6 @@
 #include "../header.h"
 
-char *get_var_value(char *name)
+char *get_var_value(t_env *my_envp,char *name)
 {
 	t_env *head;
 	int len;
@@ -20,13 +20,13 @@ char *get_var_value(char *name)
 	return (NULL);
 }
 
-int check_var(char *name)
+int check_var(t_env *my_envp,char *name)
 {
 	char *var_value;
 
 	if (name[0] == '$')
 	{
-		var_value = get_var_value(name + 1);
+		var_value = get_var_value(my_envp, name + 1);
 		if (var_value)
 			printf("%s", var_value);
 		return(1);
@@ -34,7 +34,7 @@ int check_var(char *name)
 	return(0);
 }
 
-int my_echo(char **args)
+int my_echo(t_env *my_envp,char **args)
 {
 	int i;
 	int new_line;
@@ -48,7 +48,7 @@ int my_echo(char **args)
 	}
 	while (args[i])
 	{
-		if (!check_var(args[i]))
+		if (!check_var(my_envp, args[i]))
 			printf("%s", args[i]);
 		if (args[i + 1])
 			printf(" ");

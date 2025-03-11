@@ -1,26 +1,44 @@
 #include "../header.h"
 
-
-static void add_envp_var(char *name, char *value)
+static int update_env_var(t_env *head, char *name, char *value)
 {
-    t_env *new_var;
-    t_env *head;
-    
-    new_var = malloc(sizeof(t_env));
-    if (!new_var)
-        return;
-    new_var->name = ft_strdup(name);
-    new_var->value = ft_strdup(value);
-    new_var->Next = NULL;
-   
-    head = my_envp;
-        while (head->Next->Next)
-            head = head->Next;  
-        new_var->Next = head->Next;  
-    head->Next = new_var;
+    while (head)
+    {
+        if (strcmp(head->name, name) == 0)
+        {
+            free(head->value);
+            head->value = strdup(value);
+            return 1;
+        }
+        head = head->Next;
+    }
+    return 0;
 }
 
-void my_export(char **args)
+static void add_envp_var(t_env **my_envp, char *name, char *value)
+{
+    t_env *new_node, *head;
+
+    if (!my_envp || !name || !value)
+        return;
+    if (*my_envp && update_env_var(*my_envp, name, value))
+        return;
+    new_node = create_new(name, value);
+    if (!new_node)
+        return;
+    if (!*my_envp)
+    {
+        *my_envp = new_node;
+        return;
+    }
+    head = *my_envp;
+    while (head->Next)
+        head = head->Next;
+
+    head->Next = new_node;
+}
+
+void my_export(t_env *my_envp, char **args)
 {
     char *equal;
 
@@ -28,7 +46,7 @@ void my_export(char **args)
     if (equal)
     {
         *equal = '\0';
-        add_envp_var(args[1], equal + 1);
+        add_envp_var(&my_envp, args[1], equal + 1);
         *equal = '=';
     }
 }

@@ -1,6 +1,6 @@
 #include "../header.h"
 
-void  my_env()
+void  my_env(t_env *my_envp)
 {
     t_env *head;
 

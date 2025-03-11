@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 00:17:34 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/03/11 03:02:40 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/03/11 07:37:52 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,25 +23,29 @@
 #include <limits.h>
 #include <dirent.h>
 #include <readline/readline.h>
-#include "global.h"
 
-typedef struct exec_function
+
+typedef struct s_env
 {
     char *name;
-    int (*func)(char **args);
-}builtin_cmd;
+    char *value;
+    struct s_env *Next;
+}t_env;
 
 
 
+void add_env_var(t_env **my_envp, char *name, char *value);
+t_env *init_envp(char **envp);
+void my_unset(t_env *my_envp, char **args);
+void  my_env(t_env *my_envp);
+void my_export(t_env *my_envp, char **args);
+int my_echo(t_env *my_envp, char **args);
+void my_pwd( char **args);
+void my_cd( char **args);
+int execute_builtin(t_env *my_envp, char **args);
 
-void add_env_var(char *name, char *value);
-void init_envp(char **envp);
-void my_unset(char **args);
-void  my_env();
-void my_export(char **args);
-int my_echo(char **args);
-void my_pwd(char **args);
-void my_cd(char **args);
-int execute_builtin(char **args);
+t_env *create_new(char *name, char *value);
+void add_env_var(t_env **my_envp, char *name, char *value);
+
 
 #endif
