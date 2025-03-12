@@ -11,7 +11,6 @@ SRCS = main.c \
 	   src/tokonizer/printf_tokens.c\
 	   src/tokonizer/tokonizer_utils.c\
 	   src/tokonizer/tokonizer.c
-		src/built-in/built_exe.c\
 		
 
 OBJS = $(SRCS:.c=.o)
