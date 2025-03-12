@@ -49,7 +49,7 @@ typedef struct s_token
 
 /* PARSING */
 void increament_quotes(char c,int *s_q_count,int *d_q_count);
-int syntax_checker_and_tokoniz(char *input);
+t_token *syntax_checker_and_tokoniz(char *input);
 void handle_q_type(char *input,int i,char *q_type);
 // operatore utils functions
 int is_valid_operator(char *input, int i, char set);

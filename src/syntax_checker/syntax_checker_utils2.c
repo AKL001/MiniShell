@@ -1,6 +1,5 @@
 #include "../../includes/minishell.h"
 
-
 int	is_valid_redirection(char *input, int i)
 {
 	if (input[i] == '>')

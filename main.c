@@ -8,19 +8,22 @@
 
 */
 
-int main() {
-    // using_history();  // Enable command history
-
+int main(int c, char **av, char **env)
+{
+    t_env *my_envp = NULL;
+    t_token *tokens;
+    my_envp = init_envp(env);
     while (1) {
         char *pwd;
         
-        // pwd = getcwd(NULL, 0);
         char* input = readline("minishell$ ");
 
-        if (!input)  // Check for EOF (Ctrl+D)
+        if (!input)
             break;
-        // syntax_checker_and_tokoniz(input);
-
+        tokens = syntax_checker_and_tokoniz(input);
+        // execute_builtin(my_envp , str);
+        // printf_tokenizer(tokens);
+        
     }
 
     return 0;

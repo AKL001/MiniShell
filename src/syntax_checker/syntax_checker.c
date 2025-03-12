@@ -142,7 +142,7 @@ static int syntax_checker(char *input)
     return 0;
 }
 
-int syntax_checker_and_tokoniz(char *input)
+t_token *syntax_checker_and_tokoniz(char *input)
 {
     char *input_trim;
     t_token *tokens;
@@ -150,15 +150,15 @@ int syntax_checker_and_tokoniz(char *input)
     input_trim = ft_strtrim(input, " \v\t\n\r");
     free(input);
     if (!input_trim)
-        return 1;
+        return (NULL);
     if(syntax_checker(input_trim))
     {
         free(input_trim);
-        return 1;
+        return NULL;
     }
     // condition for tokonizer
     tokens = tokeniz_input(input_trim);
-    free(input_trim);
-    printf_tokenizer(tokens);
-    return 0;
+    // free(input_trim);
+    // printf_tokenizer(tokens);
+    return tokens;
 }

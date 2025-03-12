@@ -1,4 +1,4 @@
-#include "../header.h"
+#include "../../includes/header.h"
 
 char *get_var_value(t_env *my_envp,char *name)
 {
