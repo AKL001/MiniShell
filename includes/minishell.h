@@ -46,6 +46,17 @@ typedef struct s_token
     t_token_type    type;       // Type of token
     struct s_token  *next;      // Pointer to the next token
 } t_token;
+/* garbage collector */
+typedef struct s_gc_node
+{
+    void                *ptr;   // Pointer to allocated memory
+    struct s_gc_node    *next;  // Next node in the list
+} t_gc_node;
+
+typedef struct s_gc
+{
+    t_gc_node *allocations; // Head of the allocation list
+} t_gc;
 
 /* PARSING */
 void increament_quotes(char c,int *s_q_count,int *d_q_count);

@@ -1,19 +1,5 @@
+#include "../../includes/minishell.h"
 // garbage collector here;
-/*
-
-typedef struct s_gc_node
-{
-    void                *ptr;   // Pointer to allocated memory
-    struct s_gc_node    *next;  // Next node in the list
-} t_gc_node;
-
-
-typedef struct s_gc
-{
-    t_gc_node *allocations; // Head of the allocation list
-} t_gc;
-
-
 
 void *gc_malloc(t_gc *gc, size_t size)
 {
@@ -57,5 +43,3 @@ void gc_destroy(t_gc *gc)
 }
 
 
-
-*/
