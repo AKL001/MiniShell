@@ -1,4 +1,4 @@
-#include "../header.h"
+#include "../../includes/header.h"
 
 static int update_env_var(t_env *head, char *name, char *value)
 {
@@ -34,7 +34,6 @@ static void add_envp_var(t_env **my_envp, char *name, char *value)
     head = *my_envp;
     while (head->Next)
         head = head->Next;
-
     head->Next = new_node;
 }
 
