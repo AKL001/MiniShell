@@ -1,26 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstsize_bonus.c                                 :+:      :+:    :+:   */
+/*   handle_word.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/30 08:36:12 by ablabib           #+#    #+#             */
-/*   Updated: 2025/03/16 04:30:57 by ael-aiss         ###   ########.fr       */
+/*   Created: 2025/03/18 04:55:14 by ael-aiss          #+#    #+#             */
+/*   Updated: 2025/03/20 00:41:13 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/header.h"
 
-int	ft_lstsize(t_list *lst)
+char	*handle_word(char *cmd, int *i)
 {
-	int	size;
+	int		len;
+	char	*str;
+	char	*tmp;
 
-	size = 0;
-	while (lst)
+	len = 0;
+	while (cmd[*i] && !is_op_or_quote(cmd[*i]))
 	{
-		++size;
-		lst = lst->next;
+		len++;
+		(*i)++;
 	}
-	return (size);
+	str = ft_substr(cmd, *i - len, len);
+	tmp = trim_whitespace(str);
+	free(str);
+	return (tmp);
 }

@@ -1,26 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstsize_bonus.c                                 :+:      :+:    :+:   */
+/*   handle_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/30 08:36:12 by ablabib           #+#    #+#             */
-/*   Updated: 2025/03/16 04:30:57 by ael-aiss         ###   ########.fr       */
+/*   Created: 2025/03/18 04:54:44 by ael-aiss          #+#    #+#             */
+/*   Updated: 2025/03/20 00:55:13 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/header.h"
 
-int	ft_lstsize(t_list *lst)
+char	*handle_quote(char *cmd, int *i)
 {
-	int	size;
+	char	quote;
+	int		len;
+	char	*str;
 
-	size = 0;
-	while (lst)
+	quote = cmd[*i];
+	len = 0;
+	(*i)++;
+	while (cmd[*i] && cmd[*i] != quote)
 	{
-		++size;
-		lst = lst->next;
+		len++;
+		(*i)++;
 	}
-	return (size);
+	str = ft_substr(cmd, *i - len - 1, len + 2);
+	if (!str)
+		return (NULL);
+	(*i)++;
+	return (str);
+}
+
+int	is_quote(char c)
+{
+	return (c == '"' || c == '\'');
 }

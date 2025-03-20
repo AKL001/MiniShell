@@ -1,26 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstsize_bonus.c                                 :+:      :+:    :+:   */
+/*   handle_operator.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/30 08:36:12 by ablabib           #+#    #+#             */
-/*   Updated: 2025/03/16 04:30:57 by ael-aiss         ###   ########.fr       */
+/*   Created: 2025/03/16 07:26:19 by ael-aiss          #+#    #+#             */
+/*   Updated: 2025/03/18 06:47:56 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/header.h"
 
-int	ft_lstsize(t_list *lst)
+char	*handle_operator(char *cmd, int *i)
 {
-	int	size;
+	int		len;
+	char	*str;
 
-	size = 0;
-	while (lst)
-	{
-		++size;
-		lst = lst->next;
-	}
-	return (size);
+	len = 1;
+	if (is_operator(cmd[*i + 1]))
+		len = 2;
+	str = ft_substr(cmd, *i, len);
+	if (!str)
+		return (NULL);
+	(*i) += len;
+	return (str);
 }

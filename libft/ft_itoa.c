@@ -3,13 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ablabib <ablabib@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 15:45:01 by ablabib           #+#    #+#             */
-/*   Updated: 2024/10/27 15:45:52 by ablabib          ###   ########.fr       */
+/*   Updated: 2025/03/15 23:11:15 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft.h"
+
 
 static int	ft_sign(int nbr)
 {
