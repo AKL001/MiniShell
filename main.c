@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:52:26 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/03/21 23:58:55 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/03/23 00:52:58 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,10 @@ int	main(int argc, char *args[], char **envp)
 			break ;
 		add_history(cmd);
 		tokens = tokenazation(cmd);
-		exec_cmd = parse_token(tokens);
-		variable_expansion(exec_cmd, custom_env);
+		exec_cmd = parse_token(tokens , custom_env);
+		
 		print_commands(exec_cmd);
-		// print_tokens(tokens);
-		free_token(tokens);
+		
 		free_commands(exec_cmd);
 	}
 	clear_history();

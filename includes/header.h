@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 03:32:11 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/03/21 23:34:34 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/03/23 00:52:34 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void				add_strings_to_token(char **words, t_token **token);
 void				split_wordes(t_token **token);
 
 /***************parsing*********************/
-t_command			*parse_token(t_token *token);
+t_command			*parse_token(t_token *token, t_env *custom_env);
 
 /**************parse_utils******************/
 void				add_command_redirection(t_command *cmd, t_redir_type type,
