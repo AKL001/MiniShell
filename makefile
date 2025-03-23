@@ -11,6 +11,11 @@ src =   cleanup/clean_up.c \
 		parsing/parse_cmd.c \
 		parsing/parse_utils.c \
 		parsing/redirection.c \
+		expansion/assign_value.c \
+		expansion/check_var.c \
+		expansion/expande.c \
+		built-in/init_env.c \
+		built-in/env.c \
 		main.c \
 		print_cmd.c
 

@@ -1,4 +1,4 @@
-#include "../../includes/header.h"
+#include "../includes/header.h"
 
 void my_unset(t_env *my_envp, char **args)
 {
@@ -9,15 +9,15 @@ void my_unset(t_env *my_envp, char **args)
     prev = head;
     while (head)
     {
-        if (ft_strncmp(args[1], head->name,ft_strlen(args[1])) == 0)
+        if (ft_strncmp(args[1], head->key,ft_strlen(args[1])) == 0)
             break;
         prev = head;
-        head = head->Next;
+        head = head->next;
     }
-    if (ft_strncmp(args[1], head->name,ft_strlen(args[1])) == 0)
+    if (ft_strncmp(args[1], head->key,ft_strlen(args[1])) == 0)
     {
-        prev->Next = head->Next;
-        free(head->name);
+        prev->next = head->next;
+        free(head->key);
         free(head->value);
         free(head);
     }

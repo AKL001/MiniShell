@@ -1,4 +1,4 @@
-#include "../../includes/header.h"
+#include "../includes/header.h"
 
 void my_pwd(char **args)
 {

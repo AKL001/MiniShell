@@ -1,36 +1,36 @@
-#include "../../includes/header.h"
+#include "../includes/header.h"
 
-t_env *create_new(char *name, char *value)
+t_env *create_new(char *key, char *value)
 {
     t_env *new_node;
 
     new_node = malloc(sizeof(t_env));
     if (!new_node)
         return (NULL);
-    new_node->name = ft_strdup(name);
+    new_node->key = ft_strdup(key);
     new_node->value = ft_strdup(value);
-    new_node->Next = NULL;
+    new_node->next = NULL;
     return (new_node);
 }
 
-void add_env_var(t_env **my_envp, char *name, char *value)
+void add_env_var(t_env **my_envp, char *key, char *value)
 {
     t_env *new_node, *head;
 
-    if (!my_envp || !name || !value)
+    if (!my_envp || !key || !value)
         return;
     head = *my_envp;
     while (head)
     {
-        if (ft_strncmp(head->name, name, ft_strlen(name)) == 0)
+        if (ft_strncmp(head->key, key, ft_strlen(key)) == 0)
         {
             free(head->value);
             head->value = ft_strdup(value);
             return;
         }
-        head = head->Next;
+        head = head->next;
     }
-    new_node = create_new(name, value);
+    new_node = create_new(key, value);
     if (!new_node)
         return;
     if (!*my_envp)
@@ -39,9 +39,9 @@ void add_env_var(t_env **my_envp, char *name, char *value)
         return;
     }
     head = *my_envp;
-    while (head->Next)
-        head = head->Next;
-    head->Next = new_node;
+    while (head->next)
+        head = head->next;
+    head->next = new_node;
 }
 
 t_env *init_envp(char **envp)

@@ -6,16 +6,22 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:52:26 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/03/20 01:12:36 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/03/21 23:58:55 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/header.h"
 
-int	main(void)
+int	main(int argc, char *args[], char **envp)
 {
 	char		*cmd;
 	t_token		*tokens;
+	t_env *custom_env;
+	argc++;
+	args = NULL;
+
+	custom_env  = init_envp(envp);
+
 	t_command	*exec_cmd;
 
 	while (1)
@@ -26,8 +32,9 @@ int	main(void)
 		add_history(cmd);
 		tokens = tokenazation(cmd);
 		exec_cmd = parse_token(tokens);
+		variable_expansion(exec_cmd, custom_env);
 		print_commands(exec_cmd);
-		print_tokens(tokens);
+		// print_tokens(tokens);
 		free_token(tokens);
 		free_commands(exec_cmd);
 	}

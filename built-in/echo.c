@@ -1,32 +1,32 @@
-#include "../../includes/header.h"
+#include "../includes/header.h"
 
-char *get_var_value(t_env *my_envp,char *name)
+char *get_var_value(t_env *my_envp,char *key)
 {
 	t_env *head;
 	int len;
 	char *var_value;
 
-	len = ft_strlen(name);
+	len = ft_strlen(key);
 	head = my_envp;
 	while (head)
 	{
-		if (ft_strncmp(name,head->name,len) == 0)
+		if (ft_strncmp(key,head->key,len) == 0)
 		{
 			var_value = ft_strdup(head->value);
 			return(var_value);
 		}
-		head = head->Next;
+		head = head->next;
 	}
 	return (NULL);
 }
 
-int check_var(t_env *my_envp,char *name)
+int check_var(t_env *my_envp,char *key)
 {
 	char *var_value;
 
-	if (name[0] == '$')
+	if (key[0] == '$')
 	{
-		var_value = get_var_value(my_envp, name + 1);
+		var_value = get_var_value(my_envp, key + 1);
 		if (var_value)
 			printf("%s", var_value);
 		return(1);

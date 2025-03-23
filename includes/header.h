@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 03:32:11 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/03/20 00:54:18 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/03/21 23:34:34 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <dirent.h>
 
 typedef enum s_token_type
 {
@@ -64,6 +65,17 @@ typedef struct s_cmd
 	t_redir			*redirections;
 	struct s_cmd	*next;
 }					t_command;
+
+
+
+typedef struct s_env
+{
+    char *key;
+    char *value;
+    struct s_env *next;
+} t_env;
+
+
 
 // lexing*********************************
 t_token				*create_new_token(char *value);
@@ -113,3 +125,22 @@ t_redir_type		get_redirection_type(t_token_type token_type);
 
 //print cmd :
 void				print_commands(t_command *cmd);
+
+// ******************expantion**********************
+char				*get_var_value(t_env *custom_env, char *key);
+void				variable_expansion(t_command *command ,t_env *custom_env);
+int					is_escaped(char *arg);
+char				*is_valid_key(char *arg);
+char				*dollar_verification(char *arg);
+void				assign_variable_value(char **dollar_value, char *key, t_env *custom_env);
+char				*retrieve_variable_value(t_env *custom_env, char *key);
+
+// built_in functions : 
+
+t_env *init_envp(char **envp);
+int execute_builtin(t_env *my_envp, char **args);
+void my_export(t_env *my_envp, char **args);
+void my_unset(t_env *my_envp, char **args);
+int my_echo(t_env *my_envp, char **args);
+void my_pwd(char **args);
+void my_env(t_env *custom_env);

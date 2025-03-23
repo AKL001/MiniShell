@@ -1,29 +1,29 @@
-#include "../../includes/header.h"
+#include "../includes/header.h"
 
-static int update_env_var(t_env *head, char *name, char *value)
+static int update_env_var(t_env *head, char *key, char *value)
 {
     while (head)
     {
-        if (strcmp(head->name, name) == 0)
+        if (strcmp(head->key, key) == 0)
         {
             free(head->value);
             head->value = strdup(value);
             return 1;
         }
-        head = head->Next;
+        head = head->next;
     }
     return 0;
 }
 
-static void add_envp_var(t_env **my_envp, char *name, char *value)
+static void add_envp_var(t_env **my_envp, char *key, char *value)
 {
     t_env *new_node, *head;
 
-    if (!my_envp || !name || !value)
+    if (!my_envp || !key || !value)
         return;
-    if (*my_envp && update_env_var(*my_envp, name, value))
+    if (*my_envp && update_env_var(*my_envp, key, value))
         return;
-    new_node = create_new(name, value);
+    new_node = create_new(key, value);
     if (!new_node)
         return;
     if (!*my_envp)
@@ -32,9 +32,9 @@ static void add_envp_var(t_env **my_envp, char *name, char *value)
         return;
     }
     head = *my_envp;
-    while (head->Next)
-        head = head->Next;
-    head->Next = new_node;
+    while (head->next)
+        head = head->next;
+    head->next = new_node;
 }
 
 void my_export(t_env *my_envp, char **args)
