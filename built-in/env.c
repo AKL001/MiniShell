@@ -1,15 +1,15 @@
-#include "../../includes/header.h"
+#include "../includes/header.h"
 
-void  my_env(t_env *my_envp)
+void  my_env(t_env *custom_env)
 {
 	t_env *head;
 
-	if (!my_envp)
+	if (!custom_env)
 		return ;
-	head = my_envp;
+	head = custom_env;
 	while (head)
 	{
-		printf("%s=%s\n",head->name,head->value);
-		head = head->Next;
+		printf("%s=%s\n",head->key,head->value);
+		head = head->next;
 	}
 }

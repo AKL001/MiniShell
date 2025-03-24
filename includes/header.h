@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 03:32:11 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/03/20 00:54:18 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/03/24 07:10:06 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <dirent.h>
+
+extern int g_exit_status;
 
 typedef enum s_token_type
 {
@@ -65,6 +68,17 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }					t_command;
 
+
+
+typedef struct s_env
+{
+    char *key;
+    char *value;
+    struct s_env *next;
+} t_env;
+
+
+
 // lexing*********************************
 t_token				*create_new_token(char *value);
 void				add_new_token(t_token **tokens, char *value);
@@ -92,7 +106,7 @@ void				add_strings_to_token(char **words, t_token **token);
 void				split_wordes(t_token **token);
 
 /***************parsing*********************/
-t_command			*parse_token(t_token *token);
+t_command			*parse_token(char *cmd, t_env *custom_env);
 
 /**************parse_utils******************/
 void				add_command_redirection(t_command *cmd, t_redir_type type,
@@ -113,3 +127,41 @@ t_redir_type		get_redirection_type(t_token_type token_type);
 
 //print cmd :
 void				print_commands(t_command *cmd);
+
+// ******************expantion**********************
+char				*get_var_value(t_env *custom_env, char *key);
+void				variable_expansion(t_command *command ,t_env *custom_env);
+int					is_escaped(char *arg);
+char				*is_valid_key(char *arg);
+char				*dollar_verification(char *arg);
+void				assign_variable_value(char **dollar_value, char *key, t_env *custom_env);
+char				*retrieve_variable_value(t_env *custom_env, char *key);
+
+// built_in functions : 
+
+t_env *init_envp(char **envp);
+// int execute_builtin(t_env *my_envp, char **args);
+
+int	execute_builtin(t_command *cmd, t_env **env);
+
+
+void my_export(t_env *my_envp, char **args);
+void my_unset(t_env *my_envp, char **args);
+int my_echo(t_env *my_envp, char **args);
+void my_pwd(char **args);
+void my_env(t_env *custom_env);
+void my_cd(char **args); 
+
+/*  execution  */
+
+int	execute_command_line(t_command *cmd, t_env *env);
+char	*ft_strjoin_three(char *s1, char *s2, char *s3);
+char	*get_env_value(char *key, t_env *env);
+char	*find_command_path(char *cmd, t_env *env);
+int	error_message(char *msg, int status);
+char	**args_to_array(t_args *args);
+
+char	**env_to_array(t_env *env);
+void	free_array(char **arr);
+int	ft_strcmp(const char *s1, const char *s2);
+int	handle_redirections(t_command *cmd);

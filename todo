@@ -1,0 +1,235 @@
+1-Word tokens:
+    Keep reading until you hit a special character or whitespace
+    Treat these as commands or arguments
+
+2-Handling Edge Cases
+
+    Escape characters:
+
+    If a character is preceded by a backslash, treat it literally
+    Example: echo Hello\ World should be one token, not two
+
+
+    Environment variables:
+
+    You'll need to expand these during or after tokenization
+    Example: echo $HOME should expand to the home directory
+
+
+    Command substitution:
+
+    Handle $(command) or backticks by recursively executing the inner command
+
+3-Testing Your Tokenizer
+    Test with increasingly complex commands:
+
+    echo hello
+    ls -la | grep .c
+    cat file > output.txt
+    echo "quoted text with spaces"
+    ls && echo success || echo failure
+
+4-Input: "echo "Hello World" | grep Hello > output.txt && ls -la"
+
+    Tokens and their types:
+    1. "echo"          → T_WORD
+    2. "Hello World"   → T_WORD (is_quoted=1)
+    3. "|"             → T_PIPE
+    4. "grep"          → T_WORD
+    5. "Hello"         → T_WORD
+    6. ">"             → T_REDIR_OUT
+    7. "output.txt"    → T_WORD
+    8. "&&"            → T_AND
+    9. "ls"            → T_WORD
+    10. "-la"          → 
+    
+
+5-The strategy for your shell:
+    "is to have the parent process do all the piping and redirection 
+    before forking the processes. In this way the children will inherit the redirection. The parent 
+    needs to save input/output and restore it at the end. Stderr is the same for all processes" 
+
+
+6- expande:
+
+what i have and what i need ? 
+
+i have custom_env and command 
+that has : args as link list and each node has value that name argument
+
+so i have this thing -- args -- and --custom_env--
+
+what is the goal ??? 
+--the goal is to serche in args and check if there a $ 
+if yes replace it by is value found in env;
+else remove var name ,
+
+so how many case do i have ?? 
+
+1- normale cases : 
+{
+    -dollar exists and has a value
+    -multiple dollar signs in the string
+    -dollar exists and is part of a valid variable
+    -dollar is used with a special shell variable ($?, $#, $0, etc.)
+    -dollar is within a string but not expanding any variable
+}
+
+2- spicial cases :
+{
+    -
+    -
+    -dollar doesn't exist
+    -dollar exists but is not followed by a valid variable or value
+    {
+        -dollar exists but is at the last of the string
+
+    }
+    -string is enclosed by single quote
+    -dollar is preceded by a backslash (escaped)
+}
+
+
+now what is the steps?? 
+
+must search for dollar ;
+
+but must same its possision for chech if there more then one;
+after this chech if there error (2- spicial cases)
+then check its value 
+if all this good replace it by its value, 
+
+what is functions can i use : 
+
+fist function is : chech exist dollar,
+{
+    here can hapend a problem ;
+    i found it, so to handle multiple dollar replace it by its value then dont 
+    increment retry process from zero,
+    but if variable dont valid remove it or \ exist ignore it; good;
+    if dont find dollar u can break loop and ancrement args; 
+
+
+    so in summary 
+    {
+        1 search for dollar; 
+        {
+            if found it {
+                if valid {
+                    replace it by its value then reset index;
+                }
+                else {
+                    remove it from string , and reset index for search in other var;
+                }
+            }
+            else 
+            {
+                increment to next args;
+            }
+        }
+    }  
+}
+
+second thing must do : 
+{
+    check var is valid or not 
+    if valid {
+        search for its value 
+        if value exist {
+            return then put it in string;
+        }
+        else 
+        {
+            remove var;
+        }
+    }
+    else 
+    {
+        remove it from string;
+    }
+}
+
+thred thing : 
+{
+    after find dollar check if previused by backslache
+    if yes 
+    {
+        remove backslash;
+    }
+    else 
+    {
+        check validation cases;
+    }
+}
+
+fourth thing :
+{
+    check validation cases {
+        invalid dollar : 
+        {
+            dollar in end of string;
+            dollar followed by space of tab 
+            dollar closed by single qoutes 
+        }
+        esle 
+        {
+            return key;
+        }
+    }
+}
+
+fiveth thing must do 
+{
+    check key 
+    {
+        if key == ? 
+            must replace var by last exit command!!!
+        else if (key == "empty sring")
+        {
+            remove dollar from sting 
+        }
+        if (key == valid sting)
+        {
+            get value from envp;
+            if (exist)
+                add it to string;
+            else 
+                remove var;
+        }
+    }
+}
+
+
+Start -> Search for '$' -> Is '$' found? -> No -> End
+                         | Yes
+                         v
+             Check for Backslash Escape -> Is it escaped? -> No -> Validate Variable
+                         | Yes                         |
+                         v                            v
+                   Remove Backslash          Is Variable valid?
+                         |                             |
+                         v                             v
+                    Continue                No -> Remove Variable & Reset Index
+                                              | Yes
+                                              v
+                                         Retrieve Variable Value
+                                              |
+                                      Is value found?
+                                              | 
+                     Yes                               No
+                     |                                  |
+                Replace with Value         Remove Variable or Keep Placeholder
+                     |                                  |
+                     v                                  v
+                Validate Use Cases -> Invalid Context? -> Yes -> Handle Invalid Case
+                     | Yes                              |
+                     v                                  v
+                   No -> Proceed to Next Argument      No -> Continue Processing
+
+NOTES :
+    we need the syntax errors for (unsuported operators || &&)
+    we need the EXIT built-in
+    export and unset -> segfault
+    "cd" only is not working its should cd to the ~ root
+    added  a global variable for the exit status ;
+    data should be sent without single quotes or double quotes;

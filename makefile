@@ -11,8 +11,19 @@ src =   cleanup/clean_up.c \
 		parsing/parse_cmd.c \
 		parsing/parse_utils.c \
 		parsing/redirection.c \
+		expansion/assign_value.c \
+		expansion/check_var.c \
+		expansion/expande.c \
+		built-in/init_env.c \
+		built-in/env.c \
+		built-in/built_exe.c\
+		built-in/cd.c\
+		built-in/echo.c\
+		built-in/pwd.c\
 		main.c \
-		print_cmd.c
+		print_cmd.c\
+		execution/exec_utils.c\
+		execution/execute_command_line.c\
 
 obj = $(src:.c=.o)
 
