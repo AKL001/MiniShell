@@ -6,19 +6,20 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 09:13:49 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/03/23 00:54:18 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/03/24 07:08:29 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/header.h"
 
-t_command	*parse_token(t_token *token, t_env *custom_env)
+t_command	*parse_token(char *cmd, t_env *custom_env)
 {
 	t_command		*current_cmd;
 	t_command		*head;
 	t_command		**tail;
 	t_redir_type	type;
-
+	t_token *token;
+	token = tokenazation(cmd);
 	current_cmd = NULL;
 	head = NULL;
 	tail = &head;
