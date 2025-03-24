@@ -27,7 +27,7 @@ int	main(void)
 		tokens = tokenazation(cmd);
 		exec_cmd = parse_token(tokens);
 		print_commands(exec_cmd);
-		print_tokens(tokens);
+		// print_tokens(tokens);
 		free_token(tokens);
 		free_commands(exec_cmd);
 	}
