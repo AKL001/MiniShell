@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 03:32:11 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/03/24 07:10:06 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/03/24 23:31:12 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void				add_strings_to_token(char **words, t_token **token);
 void				split_wordes(t_token **token);
 
 /***************parsing*********************/
-t_command			*parse_token(char *cmd, t_env *custom_env);
+t_command			*parse_token(t_token *token, t_env *custom_env);
 
 /**************parse_utils******************/
 void				add_command_redirection(t_command *cmd, t_redir_type type,
@@ -123,7 +123,7 @@ void				free_redir(t_redir *redir);
 int					is_redirection(t_token_type token_type);
 t_redir_type		get_redirection_type(t_token_type token_type);
 
-//print cmd :
+//**************print cmd**************************
 void				print_commands(t_command *cmd);
 
 // ******************expantion**********************
@@ -135,8 +135,10 @@ char				*dollar_verification(char *arg);
 void				assign_variable_value(char **dollar_value, char *key, t_env *custom_env);
 char				*retrieve_variable_value(t_env *custom_env, char *key);
 
-// built_in functions : 
+// ******************expantion**********************
+void				remove_quotes(t_command *cmd);
 
+// built_in functions : 
 t_env *init_envp(char **envp);
 int execute_builtin(t_env *my_envp, char **args);
 void my_export(t_env *my_envp, char **args);

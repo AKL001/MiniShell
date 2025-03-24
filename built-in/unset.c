@@ -1,11 +1,11 @@
 #include "../includes/header.h"
 
-void my_unset(t_env *my_envp, char **args)
+void my_unset(t_env *custom_envp, char **args)
 {
     t_env *head;
     t_env *prev;
 
-    head = my_envp;
+    head = custom_envp;
     prev = head;
     while (head)
     {

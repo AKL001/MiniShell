@@ -1,6 +1,6 @@
 #include "../includes/header.h"
 
-int execute_builtin(t_env *my_envp, char **args)
+int execute_builtin(t_env *custom_envp, char **args)
 {
 	size_t len;
 
@@ -8,13 +8,13 @@ int execute_builtin(t_env *my_envp, char **args)
 		return (1);
 	len = ft_strlen(args[0]);
 	if (ft_strncmp("env", args[0], len) == 0)
-		my_env(my_envp);
+		my_env(custom_envp);
 	else if (ft_strncmp("echo", args[0], len) == 0)
-		my_echo(my_envp, args);
+		my_echo(custom_envp, args);
 	else if (ft_strncmp("export", args[0], len) == 0)
-		my_export(my_envp, args);
+		my_export(custom_envp, args);
 	else if (ft_strncmp("unset", args[0], len) == 0)
-		my_unset(my_envp, args);
+		my_unset(custom_envp, args);
 	else if (ft_strncmp("pwd", args[0], len) == 0)
 		my_pwd(args);
 	else if (ft_strncmp("cd", args[0], len) == 0)
