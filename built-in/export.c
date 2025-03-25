@@ -15,29 +15,29 @@ static int update_env_var(t_env *head, char *key, char *value)
     return 0;
 }
 
-static void add_envp_var(t_env **my_envp, char *key, char *value)
+static void add_envp_var(t_env **custom_envp, char *key, char *value)
 {
     t_env *new_node, *head;
 
-    if (!my_envp || !key || !value)
+    if (!custom_envp || !key || !value)
         return;
-    if (*my_envp && update_env_var(*my_envp, key, value))
+    if (*custom_envp && update_env_var(*custom_envp, key, value))
         return;
     new_node = create_new(key, value);
     if (!new_node)
         return;
-    if (!*my_envp)
+    if (!*custom_envp)
     {
-        *my_envp = new_node;
+        *custom_envp = new_node;
         return;
     }
-    head = *my_envp;
+    head = *custom_envp;
     while (head->next)
         head = head->next;
     head->next = new_node;
 }
 
-void my_export(t_env *my_envp, char **args)
+void my_export(t_env *custom_envp, char **args)
 {
     char *equal;
 
@@ -45,7 +45,7 @@ void my_export(t_env *my_envp, char **args)
     if (equal)
     {
         *equal = '\0';
-        add_envp_var(&my_envp, args[1], equal + 1);
+        add_envp_var(&custom_envp, args[1], equal + 1);
         *equal = '=';
     }
 }

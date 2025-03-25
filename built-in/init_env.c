@@ -13,13 +13,13 @@ t_env *create_new(char *key, char *value)
     return (new_node);
 }
 
-void add_env_var(t_env **my_envp, char *key, char *value)
+void add_env_var(t_env **custom_envp, char *key, char *value)
 {
     t_env *new_node, *head;
 
-    if (!my_envp || !key || !value)
+    if (!custom_envp || !key || !value)
         return;
-    head = *my_envp;
+    head = *custom_envp;
     while (head)
     {
         if (ft_strncmp(head->key, key, ft_strlen(key)) == 0)
@@ -33,12 +33,12 @@ void add_env_var(t_env **my_envp, char *key, char *value)
     new_node = create_new(key, value);
     if (!new_node)
         return;
-    if (!*my_envp)
+    if (!*custom_envp)
     {
-        *my_envp = new_node;
+        *custom_envp = new_node;
         return;
     }
-    head = *my_envp;
+    head = *custom_envp;
     while (head->next)
         head = head->next;
     head->next = new_node;
@@ -48,7 +48,7 @@ t_env *init_envp(char **envp)
 {
     int i;
     char *equal;
-    t_env *my_envp = NULL;
+    t_env *custom_envp = NULL;
 
     i = 0;
     while (envp[i])
@@ -57,10 +57,10 @@ t_env *init_envp(char **envp)
         if (equal)
         {
             *equal = '\0';
-            add_env_var(&my_envp, envp[i], equal + 1);
+            add_env_var(&custom_envp, envp[i], equal + 1);
             *equal = '=';
         }
         i++;
     }
-    return (my_envp);
+    return (custom_envp);
 }

@@ -10,6 +10,7 @@ src =   cleanup/clean_up.c \
 		lexing/unclosed_quotes.c \
 		parsing/parse_cmd.c \
 		parsing/parse_utils.c \
+		parsing/remove_quotes.c \
 		parsing/redirection.c \
 		expansion/assign_value.c \
 		expansion/check_var.c \
@@ -39,10 +40,10 @@ run: re
 all: $(name)
 
 $(name): $(obj) $(libft)
-	cc $(flags) $(obj) -o $(name) $(libft) -lreadline
+	cc  $(obj) -o $(name) $(libft) -lreadline
 
 %.o: %.c
-	cc $(flags) -c $< -o $@
+	cc  -c $< -o $@
 
 # $(libft):
 # 	@make -C libft/

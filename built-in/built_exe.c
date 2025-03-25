@@ -1,6 +1,5 @@
 #include "../includes/header.h"
 
-
 char **convert_args_to_array(t_args *args)
 {
 	int count = 0;
@@ -74,5 +73,6 @@ int	execute_builtin(t_command *cmd, t_env **env)
 	// else if (ft_strcmp(command, "exit") == 0)
 	// 	return (builtin_exit(cmd->args->next));
 	free(args_array);
-	return (0);
+	return 0;
 }
+

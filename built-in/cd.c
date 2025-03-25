@@ -4,8 +4,11 @@ void my_cd(char **args)
 {
     DIR *dir;
 
-     if (!args[1])
-         dir = opendir("~");
+    if (args[1] == NULL)
+    {
+        dir = opendir("~");
+        // printf("cd => %s , %s\n",args[0],args[1]);
+    }
     else 
         dir = opendir(args[1]);
     if (!dir)

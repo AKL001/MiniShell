@@ -1,8 +1,5 @@
 {
     "files.associations": {
-        "readline.h": "c",
-        "header.h": "c",
-        "fcntl.h": "c",
-        "libft.h": "c"
+        "header.h": "c"
     }
 }

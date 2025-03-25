@@ -6,25 +6,28 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:52:26 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/03/24 07:22:05 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/03/24 23:03:58 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/header.h"
 
-int g_exit_status;
+// int g_exit_status;
 
+t_vars 		g_vars;   
 
 int	main(int argc, char *args[], char **envp)
 {
 	char		*cmd;
+	t_token		*tokens;
 	t_env *custom_env;
 	t_command	*exec_cmd;
 	argc++;
 	(*args) = NULL;
 
 	custom_env  = init_envp(envp);
-
+	// init the global var ;
+	ft_memset(&g_vars, 0, sizeof(t_vars));
 
 	while (1)
 	{
@@ -32,7 +35,8 @@ int	main(int argc, char *args[], char **envp)
 		if (!cmd)
 			break ;
 		add_history(cmd);
-		exec_cmd = parse_token(cmd, custom_env);	
+		tokens = tokenazation(cmd);
+		exec_cmd = parse_token(tokens , custom_env);
 		// if (!exec_cmd)
 		// 	return(1);
 		// execute_cmd(exec_cmd);

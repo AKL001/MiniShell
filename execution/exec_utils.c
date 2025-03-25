@@ -1,6 +1,5 @@
 #include "../includes/header.h"
 
-
 void	free_array(char **arr)
 {
 	int	i;
@@ -110,12 +109,10 @@ char	*find_command_path(char *cmd, t_env *env)
 	return (NULL);
 }
 
-
-
 int	error_message(char *msg, int status)
 {
 	perror(msg);
-	g_exit_status = status;
+	g_vars.g_exit_status = status;
 	return (-1);
 }
 
