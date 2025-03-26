@@ -1,7 +1,5 @@
 #include "../includes/header.h"
-#include <sched.h>
-#include <fcntl.h>
-#include <sys/wait.h>
+
 
 static int	handle_input_redir(t_redir *redir, int *first_in)
 {
@@ -106,7 +104,7 @@ int	execute_simple_command(t_command *cmd, t_env *env)
 	pid = fork();
 	if (pid == -1)
 		return (error_message("fork", 1));
-	if (pid == 0)
+	if (pid == 0)										// simple command child 
 		child_process_exec(cmd, env);
 	waitpid(pid, NULL, 0);
 	// if (WIFEXITED(status))
@@ -122,8 +120,8 @@ int	execute_command(t_command *cmd, t_env *env)
 
 	if (!cmd->args)
 		return (0);
-	if (execute_builtin(cmd, &env))
-		return (g_vars.g_exit_status);
+	// if (execute_builtin(cmd, &env))
+	// 	return (g_vars.g_exit_status);
 		// return 1;
 	cmd_path = find_command_path(cmd->args->value, env);
 	if (!cmd_path)
@@ -152,7 +150,7 @@ int	setup_pipes(t_command *cmd, int input_fd, t_env *env)
 
 	if (!cmd->next)
 	{
-		if (input_fd != STDIN_FILENO)
+		if (input_fd != STDIN_FILENO)   // read from the last pipe 
 		{
 			dup2(input_fd, STDIN_FILENO);
 			close(input_fd);
@@ -164,7 +162,7 @@ int	setup_pipes(t_command *cmd, int input_fd, t_env *env)
 	pid = fork();
 	if (pid == -1)
 		return (error_message("fork", 1));
-	if (pid == 0)
+	if (pid == 0) 										// first  child 
 	{
 		close(pipefd[0]);
 		if (input_fd != STDIN_FILENO)
@@ -174,9 +172,8 @@ int	setup_pipes(t_command *cmd, int input_fd, t_env *env)
 		}
 		dup2(pipefd[1], STDOUT_FILENO);
 		close(pipefd[1]);
-		if (handle_redirections(cmd) == -1)
+		if (handle_redirections(cmd) == -1)     // if redirection in close pipe[1]
 			exit(1);
-		// execute_simple_command(cmd, env);
 		execute_command(cmd, env);
 		exit(g_vars.g_exit_status);
 	}
@@ -184,12 +181,16 @@ int	setup_pipes(t_command *cmd, int input_fd, t_env *env)
 	if (input_fd != STDIN_FILENO)
 		close(input_fd);
 	status = setup_pipes(cmd->next, pipefd[0], env);
+	close(pipefd[0]);
 	waitpid(pid, NULL, 0);
 	// if (WIFEXITED(status))
 	// 	g_vars.g_exit_status = WEXITSTATUS(status);
 	return (g_vars.g_exit_status);
 }
 
+
+// cat | ls => hangs cuz last cmd have problem in the logic 
+// to fix it i guess is to track all the childs and then close them all ??? 
 
 int	execute_command_line(t_command *cmd, t_env *env)
 {

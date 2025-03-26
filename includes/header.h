@@ -20,6 +20,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <dirent.h>
+#include <sched.h>
+#include <fcntl.h>
+#include <sys/wait.h>
 
 typedef struct s_vars{
 
@@ -184,3 +187,4 @@ char	**env_to_array(t_env *env);
 void	free_array(char **arr);
 int	ft_strcmp(const char *s1, const char *s2);
 int	handle_redirections(t_command *cmd);
+int	execute_pipeline(t_command *cmd, t_env *env);
