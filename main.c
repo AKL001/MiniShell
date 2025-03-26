@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:52:26 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/03/24 23:03:58 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/03/25 23:47:49 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	main(int argc, char *args[], char **envp)
 {
 	char		*cmd;
 	t_token		*tokens;
-	t_env *custom_env;
+	t_env 		*custom_env;
 	t_command	*exec_cmd;
 	argc++;
 	(*args) = NULL;
