@@ -106,6 +106,7 @@ int	execute_simple_command(t_command *cmd, t_env *env)
 		return (error_message("fork", 1));
 	if (pid == 0)										// simple command child 
 		child_process_exec(cmd, env);
+	printf("last command pid => %d\n",pid);
 	waitpid(pid, NULL, 0);
 	// if (WIFEXITED(status))
 	// 	g_vars.g_exit_status = WEXITSTATUS(status);
@@ -120,97 +121,115 @@ int	execute_command(t_command *cmd, t_env *env)
 
 	if (!cmd->args)
 		return (0);
-	// if (execute_builtin(cmd, &env))
-	// 	return (g_vars.g_exit_status);
-		// return 1;
+	if (handle_redirections(cmd) == -1)
+		exit(1);
 	cmd_path = find_command_path(cmd->args->value, env);
 	if (!cmd_path)
 	{
+		// Command not found 127
 		error_message(cmd->args->value, 127);
 		exit(127);
 	}
 	args_arr = args_to_array(cmd->args);
 	env_arr = env_to_array(env);
 	execve(cmd_path, args_arr, env_arr);
-	// {
 	error_message(cmd->args->value, 126);
 	free(cmd_path);
 	free_array(args_arr);
 	free_array(env_arr);
+	// 126 Command cannot execute
 	exit(126);
-	// }
 }
 
+int setup_pipes(t_command *cmd, int input_fd, t_env *env, pid_t *child_pids, int *pid_count) {
+    int pipefd[2];
+    pid_t pid;
 
-int	setup_pipes(t_command *cmd, int input_fd, t_env *env)
-{
-	int		pipefd[2];
-	pid_t	pid;
-	int		status;
+    if (!cmd->next) {
+        pid = fork();
+        if (pid == -1)
+            return error_message("fork", 1);
+        if (pid == 0) {
+            if (input_fd != STDIN_FILENO) {
+                dup2(input_fd, STDIN_FILENO);
+                close(input_fd);
+            }
+            execute_command(cmd, env);
+            exit(g_vars.g_exit_status);
+        } else {
+            child_pids[(*pid_count)++] = pid;
+            if (input_fd != STDIN_FILENO)
+                close(input_fd);
+            return 0;
+        }
+    }
 
-	if (!cmd->next)
-	{
-		if (input_fd != STDIN_FILENO)   // read from the last pipe 
-		{
-			dup2(input_fd, STDIN_FILENO);
-			close(input_fd);
-		}
-		return (execute_simple_command(cmd, env));
-	}
-	if (pipe(pipefd) == -1)
-		return (error_message("pipe", 1));
-	pid = fork();
-	if (pid == -1)
-		return (error_message("fork", 1));
-	if (pid == 0) 										// first  child 
-	{
-		close(pipefd[0]);
-		if (input_fd != STDIN_FILENO)
-		{
-			dup2(input_fd, STDIN_FILENO);
-			close(input_fd);
-		}
-		dup2(pipefd[1], STDOUT_FILENO);
-		close(pipefd[1]);
-		if (handle_redirections(cmd) == -1)     // if redirection in close pipe[1]
-			exit(1);
-		execute_command(cmd, env);
-		exit(g_vars.g_exit_status);
-	}
-	close(pipefd[1]);
-	if (input_fd != STDIN_FILENO)
-		close(input_fd);
-	status = setup_pipes(cmd->next, pipefd[0], env);
-	close(pipefd[0]);
-	waitpid(pid, NULL, 0);
-	// if (WIFEXITED(status))
-	// 	g_vars.g_exit_status = WEXITSTATUS(status);
-	return (g_vars.g_exit_status);
+    if (pipe(pipefd) == -1)
+        return error_message("pipe", 1);
+
+    pid = fork();
+    if (pid == -1)
+        return error_message("fork", 1);
+
+    if (pid == 0) {
+        close(pipefd[0]);
+        if (input_fd != STDIN_FILENO) {
+            dup2(input_fd, STDIN_FILENO);
+            close(input_fd);
+        }
+        dup2(pipefd[1], STDOUT_FILENO);
+        close(pipefd[1]);
+        if (handle_redirections(cmd) == -1)
+            exit(1);
+        execute_command(cmd, env);
+        exit(g_vars.g_exit_status);
+    } else {
+        child_pids[(*pid_count)++] = pid;
+        close(pipefd[1]);
+        if (input_fd != STDIN_FILENO)
+            close(input_fd);
+        setup_pipes(cmd->next, pipefd[0], env, child_pids, pid_count);
+        close(pipefd[0]);
+    }
+    return 0;
 }
 
+int execute_command_line(t_command *cmd, t_env *env) {
+    int stdin_copy = dup(STDIN_FILENO);
+    int stdout_copy = dup(STDOUT_FILENO);
+    pid_t child_pids[100];
+    int pid_count = 0;
+	int i;
+    int status;
 
-// cat | ls => hangs cuz last cmd have problem in the logic 
-// to fix it i guess is to track all the childs and then close them all ??? 
+    if (!cmd)
+        return 0;
 
-int	execute_command_line(t_command *cmd, t_env *env)
-{
-	int		stdin_copy;
-	int		stdout_copy;
-
-	if (!cmd)
-		return (0);
-	stdin_copy = dup(STDIN_FILENO);
-	stdout_copy = dup(STDOUT_FILENO);
-	// multiple pipe still not working 
-	if (cmd->next)
-		g_vars.g_exit_status = setup_pipes(cmd, STDIN_FILENO, env);
-	else
-		g_vars.g_exit_status = execute_simple_command(cmd, env);
-	dup2(stdin_copy, STDIN_FILENO);
-	dup2(stdout_copy, STDOUT_FILENO);
-	close(stdin_copy);
-	close(stdout_copy);
-	// printf("g_exit_status => %d\n",g_vars.g_exit_status);
-	// printf("\033[1;32mg_exit_status => \033[1;36m%d\033[0m\n", g_vars.g_exit_status);
-	return (g_vars.g_exit_status);
+    if (cmd->next) {
+        setup_pipes(cmd, STDIN_FILENO, env, child_pids, &pid_count);
+    } else {
+        pid_t pid = fork();
+        if (pid == -1)
+            return error_message("fork", 1);
+        if (pid == 0) {
+            execute_command(cmd, env);
+            exit(g_vars.g_exit_status);
+        } else {
+            child_pids[pid_count++] = pid;
+        }
+    }
+	i = -1;
+	while(++i < pid_count)
+	{
+		waitpid(child_pids[i],&status,0);
+		if (WIFEXITED(status))
+            g_vars.g_exit_status = WEXITSTATUS(status);
+	}
+	// Restore stdin/stdout
+    dup2(stdin_copy, STDIN_FILENO);
+    dup2(stdout_copy, STDOUT_FILENO);
+    close(stdin_copy);
+    close(stdout_copy);
+	printf("\033[1;32mg_exit_status => \033[1;36m%d\033[0m\n", g_vars.g_exit_status);
+    return g_vars.g_exit_status;
 }
