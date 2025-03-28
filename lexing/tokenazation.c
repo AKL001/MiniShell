@@ -49,6 +49,11 @@ t_token	*tokenazation(char *input)
 	trim = trim_whitespace(input);
 	if (!trim)
 		return (NULL);
+	if(syntax_checker(trim))
+    {
+        free(trim);
+        return (NULL);
+    }
 	if (!check_unclosed_quotes(input))
 	{
 		free(trim);

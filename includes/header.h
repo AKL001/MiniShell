@@ -24,6 +24,10 @@
 #include <fcntl.h>
 #include <sys/wait.h>
 
+
+#define RED   "\033[31m"
+#define RESET "\033[0m"
+
 typedef struct s_vars{
 
 	int g_exit_status;
@@ -140,6 +144,18 @@ t_redir_type		get_redirection_type(t_token_type token_type);
 void				free_commands(t_command *cmd);
 void				free_args(t_args *args);
 void				free_redir(t_redir *redir);
+
+
+/*****************SYNTAX ERROR*****************/
+int syntax_checker(char *input);
+int	is_valid_redirection(char *input, int i);
+int	check_redir_follow(char *input, int i);
+int	check_op_at_end(char *input, int i);
+int	check_operator(char *input, int *i, char op);
+int is_valid_operator(char *input, int i, char set);
+void handle_q_type(char *input,int i,char *q_type);
+char	*skip_spaces(char *input);
+
 
 /***************redirections.c*****************/
 int					is_redirection(t_token_type token_type);

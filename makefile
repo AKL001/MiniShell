@@ -25,6 +25,10 @@ src =   cleanup/clean_up.c \
 		print_cmd.c\
 		execution/exec_utils.c\
 		execution/execute_command_line.c\
+		syntax_checker/syntax_checker.c\
+		syntax_checker/syntax_utils.c\
+		syntax_checker/syntax_utils2.c
+		
 
 
 obj = $(src:.c=.o)
