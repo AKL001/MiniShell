@@ -7,7 +7,7 @@ char	*ft_read_until_newline(int fd)
 	int		i;
 	int		bytes_read;
 
-	buffer = malloc(1 * sizeof(char));
+	buffer = malloc(16 * sizeof(char));
 	i = 0;
 	if (!buffer)
 		return (NULL);

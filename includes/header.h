@@ -214,3 +214,4 @@ char	*ft_read_until_newline(int fd);
 int	read_heredoc(t_redir *heredoc, int *heredoc_fd);
 int	handle_heredocs(t_command *cmd);
 int	get_next_line(char *delimiter, int heredoc_fd);
+void	cleanup_heredocs(t_command *cmd);
