@@ -233,3 +233,4 @@ NOTES :
     "cd" only is not working its should cd to the ~ root
     added  a global variable for the exit status ;
     data should be sent without single quotes or double quotes;
+    7-04 => ls | cat | echo hello > outfile , need fix;

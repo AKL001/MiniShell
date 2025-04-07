@@ -76,6 +76,7 @@ typedef struct s_redir
 {
 	t_redir_type	type;
 	char			*filename;
+	int             heredoc_fd;
 	struct s_redir	*next;
 }					t_redir;
 
@@ -204,3 +205,12 @@ void	free_array(char **arr);
 int	ft_strcmp(const char *s1, const char *s2);
 int	handle_redirections(t_command *cmd);
 int	execute_pipeline(t_command *cmd, t_env *env);
+// int setup_pipes_with_heredoc(t_command *cmd, int input_fd, t_env *env, pid_t *child_pids, int *pid_count);
+// int execute_command_line_with_heredoc(t_command *cmd, t_env *env);
+
+/* herdoc_UTILS */
+
+char	*ft_read_until_newline(int fd);
+int	read_heredoc(t_redir *heredoc, int *heredoc_fd);
+int	handle_heredocs(t_command *cmd);
+int	get_next_line(char *delimiter, int heredoc_fd);

@@ -27,8 +27,9 @@ src =   cleanup/clean_up.c \
 		execution/execute_command_line.c\
 		syntax_checker/syntax_checker.c\
 		syntax_checker/syntax_utils.c\
-		syntax_checker/syntax_utils2.c
-		
+		syntax_checker/syntax_utils2.c\
+		execution/exec_here_doc.c\
+		execution/get_next_line.c 
 
 
 obj = $(src:.c=.o)
