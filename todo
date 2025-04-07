@@ -233,3 +233,5 @@ NOTES :
     "cd" only is not working its should cd to the ~ root
     added  a global variable for the exit status ;
     data should be sent without single quotes or double quotes;
+
+before execute command must be sure it is not empty.

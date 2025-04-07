@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 23:05:16 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/03/24 23:39:51 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/07 11:16:59 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,25 +28,30 @@ void remove_quotes(t_command *cmd)
     char *string;
     char *new_string;
     t_args *args;
+    t_command *head;
     int len;
 
     if (!cmd)
         return;
-    args = cmd->args;
-    while (args)
+    head = cmd;
+    while (head)
     {
-        string = args->value;
-        if (is_quoted(string))
+        args = head->args;   
+        while (args)
         {
-            printf("i am here");
-            len = ft_strlen(string);
-            new_string = ft_substr(string, 1, len - 2);
-            if (new_string)
+            string = args->value;
+            if (is_quoted(string))
             {
-                free(string);
-                args->value = new_string;
+                len = ft_strlen(string);
+                new_string = ft_substr(string, 1, len - 2);
+                if (new_string)
+                {
+                    args->value = new_string;
+                    free(string);
+                }
             }
+            args = args->next;
         }
-        args = args->next;
+        head = head->next;
     }
 }

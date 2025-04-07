@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 07:09:39 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/03/22 23:31:42 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/07 10:31:45 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,14 @@ int does_dollar_exist(char *arg)
     while (arg[i])
     {
         if (arg[i] == '$')
+        {
+            if (i != 0)
+            {
+                if (arg[i - 1] == '\\')
+                    return (0);
+            }
             return (1);
+        }
         i++;
     }
     return (0);
@@ -54,7 +61,7 @@ char *is_valid_key(char *arg)
         return (NULL);
     int len = 0;
     i++;
-    while (arg[i] && arg[i] != '"' && arg[i] != '\'' && arg[i] != '$')
+    while (arg[i] && arg[i] != '"' && arg[i] != '\'' && arg[i] != '$' && arg[i] != ' ')
     {
         i++;
         len++;
@@ -65,11 +72,11 @@ char *is_valid_key(char *arg)
     if (!key)
         return (NULL);
     i -= len;
-    len = 0;
-    while (arg[i])
+    int k = 0;
+    while (k < len)
     {
-        key[len] = arg[i];
-        len++;
+        key[k] = arg[i];
+        k++;
         i++;
     }
     key[len] = '\0';
@@ -85,7 +92,5 @@ char *dollar_verification(char *arg)
     if (!does_dollar_exist(arg) || arg[0] == '\'')
         return (NULL);
     key = is_valid_key(arg);
-    if (!key)
-        return (NULL);
     return (key);
 }
