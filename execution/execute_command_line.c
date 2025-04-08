@@ -263,11 +263,13 @@ int handle_redirections(t_command *cmd)
     t_redir *r = cmd->redirections;
     int in_fd = -1;
     int out_fd = -1;
+
     while (r)
     {
         if (r->type == REDIR_HEREDOC)
         {
-            if (in_fd != -1) close(in_fd);
+            if (in_fd != -1)
+				close(in_fd);
             in_fd = r->heredoc_fd;
         }
         if (r->type == REDIR_IN)
@@ -365,6 +367,7 @@ static int	exec_child(t_command *cmd, t_env *env, char *cmd_path)
 	args_arr = args_to_array(cmd->args);
 	env_arr = env_to_array(env);
 	execve(cmd_path, args_arr, env_arr);
+	printf("executed after\n");
 	error_message(cmd->args->value, 126);
 	free(cmd_path);
 	free_array(args_arr);
@@ -376,6 +379,8 @@ int	execute_command(t_command *cmd, t_env *env)
 {
 	char	*cmd_path;
 
+	if (cmd->args == NULL || cmd->args->value == NULL)
+        return 0;
 	if (handle_redirections(cmd) == -1)
 		return (1);
 	if (execute_builtin(cmd, &env))
@@ -393,6 +398,7 @@ static int	exec_single_cmd(t_command *cmd,t_env *env,pid_t *pids, int *count)
 {
 	pid_t	pid;
 
+	
 	pid = fork();
 	if (pid == -1)
 		return (error_message("fork", 1));
@@ -480,7 +486,7 @@ int	execute_command_line(t_command *cmd, t_env *env)
 
 	if (!cmd)
 		return (0);
-    if (handle_heredocs(cmd) == -1)  // Add this line
+    if (handle_heredocs(cmd) == -1)
         return (cleanup_heredocs(cmd),1);
 	pid_count = 0;
 	if (cmd->next)

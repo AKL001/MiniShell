@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "includes/header.h"
+#include "libft/libft.h"
 
 // int g_exit_status;
 
@@ -36,6 +37,7 @@ int	main(int argc, char *args[], char **envp)
 			break ;
 		add_history(cmd);
 		tokens = tokenazation(cmd);
+		free(cmd);
 		exec_cmd = parse_token(tokens , custom_env);
 		// if (!exec_cmd)
 		// 	return(1);

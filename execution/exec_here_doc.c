@@ -69,12 +69,12 @@ static int	write_heredoc_content(int fd, char *delimiter)
 	return (0);
 }
 
-int	read_heredoc(t_redir *heredoc, int *heredoc_fd)
+int	read_heredoc(t_redir *heredoc, int *heredoc_fd,int open_fd)
 {
 	int		temp_fd;
-	char	temp_filename[] = ".heredoc_temp";
 
-	temp_fd = open(temp_filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	
+	temp_fd = open(".heredoc_temp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (temp_fd == -1)
 		return (error_message("heredoc temp file", 1));
 	if (write_heredoc_content(temp_fd, heredoc->filename) == -1)
@@ -83,10 +83,20 @@ int	read_heredoc(t_redir *heredoc, int *heredoc_fd)
 		return (-1);
 	}
 	close(temp_fd);
-	*heredoc_fd = open(temp_filename, O_RDONLY);
-	unlink(temp_filename);
-	if (*heredoc_fd == -1)
-		return (error_message("heredoc read", 1));
+	if (open_fd == 1)
+	{
+		*heredoc_fd = open(".heredoc_temp", O_RDONLY);
+		if (*heredoc_fd == -1)
+        {
+            unlink(".heredoc_temp");
+            return (error_message("heredoc read", 1));
+        }
+	}
+	else
+		*heredoc_fd = -1;
+	unlink(".heredoc_temp");
+	// if (*heredoc_fd == -1)
+	// 	return (error_message("heredoc read", 1));
 	return (0);
 }
 
@@ -94,16 +104,20 @@ int	handle_heredocs(t_command *cmd)
 {
 	t_command	*current;
 	t_redir		*redir;
+	int			open;
 
+	open = 0;
 	current = cmd;
 	while (current)
 	{
+		if (current->args != NULL && current->args->value != NULL)
+            open = 1;
 		redir = current->redirections;
 		while (redir)
 		{
 			if (redir->type == REDIR_HEREDOC)
 			{
-				if (read_heredoc(redir, &redir->heredoc_fd) == -1)
+				if (read_heredoc(redir, &redir->heredoc_fd,open) == -1)
 					return (-1);
 			}
 			redir = redir->next;
