@@ -36,37 +36,47 @@ int handle_redirections(t_command *cmd)
     t_redir *r = cmd->redirections;
     int in_fd = -1;
     int out_fd = -1;
+    int last_input_type = 0;
 
+    r = cmd->redirections;
     while (r)
     {
-        if (r->type == REDIR_HEREDOC)
+        if (r->type == REDIR_IN && !last_input_type)
         {
             if (in_fd != -1)
-				close(in_fd);
-            in_fd = r->heredoc_fd;
+                close(in_fd);
+            if (handle_input_redir(r, &in_fd) == -1)
+                return (-1);
+            last_input_type = 1;
         }
-        if (r->type == REDIR_IN)
-		{
-			if (handle_input_redir(r, &in_fd) == -1)
-				return (-1);
-		}
-		if (r->type == REDIR_OUT || r->type == REDIR_APPEND)
-		{
-			if (handle_output_redir(r, &out_fd) == -1)
-				return (-1);
-		}
+        else if (r->type == REDIR_HEREDOC && !last_input_type)
+        {
+            if (in_fd != -1)
+                close(in_fd);
+            in_fd = r->heredoc_fd;
+            last_input_type = 1;
+        }
         r = r->next;
     }
-
-    if (in_fd != -1) dup2(in_fd, STDIN_FILENO);
-    if (out_fd != -1) dup2(out_fd, STDOUT_FILENO);
-    
-    if (in_fd != -1) close(in_fd);
-    if (out_fd != -1) close(out_fd);
+    r = cmd->redirections;
+    while (r)
+    {
+        if (r->type == REDIR_OUT || r->type == REDIR_APPEND)
+        {
+            if (handle_output_redir(r, &out_fd) == -1)
+                return (-1);
+        }
+        r = r->next;
+    }
+    if (in_fd != -1)
+        if (dup2(in_fd, STDIN_FILENO) == -1 || close(in_fd) == -1)
+            return (-1);
+    if (out_fd != -1)
+        if (dup2(out_fd, STDOUT_FILENO) == -1 || close(out_fd) == -1)
+            return (-1);
     
     return 0;
 }
-
 
 static int	exec_child(t_command *cmd, t_env *env, char *cmd_path)
 {
@@ -88,10 +98,10 @@ int	execute_command(t_command *cmd, t_env *env)
 {
 	char	*cmd_path;
 
-	if (cmd->args == NULL || cmd->args->value == NULL)
-        return 0;
 	if (handle_redirections(cmd) == -1)
 		return (1);
+	if (cmd->args == NULL || cmd->args->value == NULL)
+        return 0;
 	if (execute_builtin(cmd, &env))
 		return (g_vars.g_exit_status);
 	cmd_path = find_command_path(cmd->args->value, env);

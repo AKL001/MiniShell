@@ -231,7 +231,7 @@ NOTES :
     we need the EXIT built-in
     export and unset -> segfault
     "cd" only is not working its should cd to the ~ root
-    added  a global variable for the exit status ;
+    added  a global variable for the exit status ;  
     data should be sent without single quotes or double quotes;
     7-04 => ls | cat | echo hello > outfile , need fix;
     before execute command must be sure it is not empty.
