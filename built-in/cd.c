@@ -12,29 +12,59 @@
 
 #include "../includes/header.h"
 
-void	my_cd(char **args)
+static void	update_env(t_env **env, const char *key, const char *value)
 {
-	DIR		*dir;
-	int		count;
-	char	*path;
+	t_env	*current;
+	t_env	*new;
 
-	while (args[count])
-		count++;
-	if (count > 2)
+	current = *env;
+	while (current && strcmp(current->key, key))
+		current = current->next;
+	if (current)
 	{
-		printf("cd: too many arguments\n");
+		free(current->value);
+		current->value = strdup(value);
 		return ;
 	}
-	if (count == 1)
-		path = getenv("HOME");
-	else
-		path = args[1];
-	dir = opendir(path);
-	if (!dir)
-	{
-		perror(path);
+	new = malloc(sizeof(t_env));
+	if (!new || !(new->key = strdup(key)) || !(new->value = strdup(value)))
 		return ;
+	new->next = *env;
+	*env = new;
+}
+
+static char	*get_env(t_env *env, const char *key)
+{
+	while (env)
+	{
+		if (!strcmp(env->key, key))
+			return (env->value);
+		env = env->next;
 	}
-	chdir(path);
-	closedir(dir);
+	return (NULL);
+}
+
+static int	handle_cd_error(char *msg, int ret)
+{
+	error_message(msg, 1);
+	return (ret);
+}
+
+void	my_cd(char **args, t_env **env)
+{
+	char	cwd[1024];
+	char	*target;
+
+	if (!getcwd(cwd, sizeof(cwd)))
+		return ((void)handle_cd_error("getcwd", -1));
+	target = args[1];
+	if (!target && !(target = get_env(*env, "HOME")))
+		return ((void)handle_cd_error("cd: HOME not set", 1));
+	if (chdir(target) == -1)
+		return ((void)handle_cd_error("cd: ", 1));
+	g_vars.g_exit_status = 0;
+	update_env(env, "OLDPWD", cwd);
+	if (!getcwd(cwd, sizeof(cwd)))
+		return ((void)handle_cd_error("getcwd", 1));
+	update_env(env, "PWD", cwd);
 }

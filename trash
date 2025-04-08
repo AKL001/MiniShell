@@ -551,3 +551,61 @@ int	execute_multiple_pipe_command(t_command *cmd, t_env *env)
 //     // printf("\033[1;32mg_exit_status => \033[1;36m%d\033[0m\n", g_vars.g_exit_status);
 //     return g_vars.g_exit_status;
 // }
+
+/*                cddddddddddddddddddddddddddddddddddddddddd  */
+
+// void	my_cd(char **args, t_env *env)
+// {
+// 	char	*home_dir;
+// 	char	*old_pwd;
+// 	char	current_dir[1024];
+// 	char	*target_dir;
+// 	t_env	*current;
+
+// 	home_dir = NULL;
+// 	old_pwd = NULL;
+// 	if (getcwd(current_dir, sizeof(current_dir)) == NULL)
+// 		if (error_message("getcwd", 1) == -1)
+// 			return ;
+// 	current = env;
+// 	while (current)
+// 	{
+// 		if (ft_strcmp(current->key, "HOME") == 0)
+// 		{
+// 			home_dir = current->value;
+// 			break ;
+// 		}
+// 		current = current->next;
+// 	}
+// 	current = env;
+// 	while (current)
+// 	{
+// 		if (strcmp(current->key, "OLDPWD") == 0)
+// 		{
+// 			old_pwd = current->value;
+// 			break ;
+// 		}
+// 		current = current->next;
+// 	}
+// 	if (args[1] == NULL)
+// 	{
+// 		if (home_dir == NULL)
+// 			if(error_message("cd: HOME not set", 1))
+// 				return ;
+// 		target_dir = home_dir;
+// 	}
+// 	else
+// 		target_dir = args[1];
+// 	if (chdir(target_dir) == -1)
+// 	{
+// 		if(error_message("cd: ", 1))
+// 			return ;
+// 	}
+// 	else
+// 	 	g_vars.g_exit_status = 0;
+// 	update_env(env, "OLDPWD", current_dir);
+// 	if (getcwd(current_dir, sizeof(current_dir)) != NULL)
+// 		update_env(env, "PWD", current_dir);
+// 	else
+// 		error_message("getcwd", 1);
+// }

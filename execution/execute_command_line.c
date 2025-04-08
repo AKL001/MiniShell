@@ -4,7 +4,9 @@
 int	exec_single_cmd(t_command *cmd,pid_t *pids, int *count)
 {
 	pid_t	pid;
-
+	//  added this cuz of the cd is executed in the child and doesnt change dir 
+	if (execute_builtin(cmd, &cmd->env))
+        return (g_vars.g_exit_status);
 	pid = fork();
 	if (pid == -1)
 		return (error_message("fork", 1));

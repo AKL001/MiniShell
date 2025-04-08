@@ -1,4 +1,5 @@
 #include "../includes/header.h"
+#include <stdio.h>
 
 void my_pwd(char **args)
 {
@@ -9,7 +10,8 @@ void my_pwd(char **args)
         perror("pwd: ");
         return ;
     }
-    getcwd(path,sizeof(path));
+    if (getcwd(path,sizeof(path)) == NULL)
+        return ;
     // if (path)
     printf("%s\n",path);
 }

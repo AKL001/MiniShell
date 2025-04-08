@@ -177,19 +177,22 @@ int	execute_builtin(t_command *cmd, t_env **env);
 
 
 void my_export(t_env *my_envp, char **args);
-void my_unset(t_env *my_envp, char **args);
+// void my_unset(t_env *my_envp, char **args);
 int my_echo(t_env *my_envp, char **args);
 void my_pwd(char **args);
 void my_env(t_env *custom_env);
-void my_cd(char **args); 
-
+void	my_unset(t_env **env, char **args);
+// void my_cd(char **args); 
+// void	my_cd(char **args, t_env *env);
+void	my_cd(char **args, t_env **env);
+t_env *create_new(char *key, char *value);
 /*  execution  */
 
 int	execute_command_line(t_command *cmd, t_env *env);
 char	*ft_strjoin_three(char *s1, char *s2, char *s3);
 char	*get_env_value(char *key, t_env *env);
 char	*find_command_path(char *cmd, t_env *env);
-int	error_message(char *msg, int status);
+int		error_message(char *msg, int status);
 char	**args_to_array(t_args *args);
 
 char	**env_to_array(t_env *env);
