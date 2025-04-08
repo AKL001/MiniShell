@@ -10,6 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef HEADER_H
+#define HEADER_H
+
 #include "../libft/libft.h"
 #include <limits.h>
 #include <math.h>
@@ -37,16 +40,6 @@ typedef struct s_vars{
 extern t_vars g_vars;
 
 
-typedef struct s_gc_node {
-    void *ptr;
-    struct s_gc_node *next;
-} 				t_gc_node;
-
-typedef struct s_gc {
-    t_gc_node *allocations;
-} 					t_gc;
-
-
 typedef enum s_token_type
 {
 	TOKEN_WORD,
@@ -64,6 +57,14 @@ typedef enum e_redir_type
 	REDIR_APPEND,
 	REDIR_HEREDOC
 }					t_redir_type;
+
+typedef struct s_env
+{
+    char *key;
+    char *value;
+    struct s_env *next;
+} t_env;
+
 
 typedef struct s_token
 {
@@ -92,16 +93,6 @@ typedef struct s_cmd
 	t_redir			*redirections;
 	struct s_cmd	*next;
 }					t_command;
-
-
-
-typedef struct s_env
-{
-    char *key;
-    char *value;
-    struct s_env *next;
-} t_env;
-
 
 
 // lexing*********************************
@@ -216,3 +207,8 @@ int	handle_heredocs(t_command *cmd);
 int	get_next_line(char *delimiter, int heredoc_fd);
 void	cleanup_heredocs(t_command *cmd);
 int	read_heredoc(t_redir *heredoc, int *heredoc_fd,int open);
+
+
+
+
+#endif

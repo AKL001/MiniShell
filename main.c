@@ -43,6 +43,7 @@ int	main(int argc, char *args[], char **envp)
 		// 	return(1);
 		// execute_cmd(exec_cmd);
 		execute_command_line(exec_cmd,custom_env);
+		printf("---------\033[1;32mg_exit_status => \033[1;36m%d\033[0m--------\n", g_vars.g_exit_status);
 		// print_commands(exec_cmd);
 		free_commands(exec_cmd);
 	}
