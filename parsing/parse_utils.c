@@ -56,6 +56,7 @@ t_command	*create_command(void)
 		return (NULL);
 	cmd->args = NULL;
 	cmd->next = NULL;
+	cmd->env = NULL;
 	cmd->redirections = NULL;
 	return (cmd);
 }

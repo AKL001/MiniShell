@@ -34,6 +34,7 @@ t_command	*parse_token(t_token *token, t_env *custom_env)
 				return (NULL);
 			}
 			*tail = current_cmd;
+			current_cmd->env = custom_env;
 			tail = &current_cmd->next;
 		}
 		if (is_redirection(token->type))

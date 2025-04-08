@@ -91,6 +91,7 @@ typedef struct s_cmd
 {
 	t_args			*args;
 	t_redir			*redirections;
+	t_env			*env;
 	struct s_cmd	*next;
 }					t_command;
 
@@ -207,8 +208,11 @@ int	handle_heredocs(t_command *cmd);
 int	get_next_line(char *delimiter, int heredoc_fd);
 void	cleanup_heredocs(t_command *cmd);
 int	read_heredoc(t_redir *heredoc, int *heredoc_fd,int open);
-
-
-
+// +++++++++
+// int	exec_single_cmd(t_command *cmd,t_env *env,pid_t *pids, int *count);
+// int	setup_pipes(t_command *cmd, int in_fd, t_env *env, pid_t *pids, int *count);
+int	execute_command(t_command *cmd, t_env *env);
+int	exec_single_cmd(t_command *cmd,pid_t *pids, int *count);
+int	setup_pipes(t_command *cmd, int in_fd, pid_t *pids, int *count); 
 
 #endif

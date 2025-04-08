@@ -25,11 +25,13 @@ src =   cleanup/clean_up.c \
 		print_cmd.c\
 		execution/exec_utils.c\
 		execution/execute_command_line.c\
+		execution/here_doc.c\
+		execution/get_next_line.c\
+		execution/pipes.c\
+		execution/redirection.c\
 		syntax_checker/syntax_checker.c\
 		syntax_checker/syntax_utils.c\
 		syntax_checker/syntax_utils2.c\
-		execution/exec_here_doc.c\
-		execution/get_next_line.c 
 
 
 obj = $(src:.c=.o)
@@ -40,7 +42,7 @@ flags = -g -Wall -Wextra -Werror
 
 run: re
 	@make clean
-	@clear
+	# @clear
 	@./$(name)
 
 all: $(name)

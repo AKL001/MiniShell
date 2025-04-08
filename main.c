@@ -29,7 +29,7 @@ int	main(int argc, char *args[], char **envp)
 	custom_env  = init_envp(envp);
 	// init the global var ;
 	ft_memset(&g_vars, 0, sizeof(t_vars));
-
+	
 	while (1)
 	{
 		cmd = readline("shell~$ ");
@@ -48,6 +48,7 @@ int	main(int argc, char *args[], char **envp)
 		free_commands(exec_cmd);
 	}
 	clear_history();
+	free(custom_env);
 	return (0);
 }
 
