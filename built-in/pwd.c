@@ -11,4 +11,5 @@ void my_pwd(char **args)
         return ;
     }
     printf("%s\n",path);
+    g_vars.g_exit_status = 0;
 }

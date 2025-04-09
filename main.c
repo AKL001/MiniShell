@@ -29,7 +29,8 @@ int	main(int argc, char *args[], char **envp)
 	custom_env  = init_envp(envp);
 	// init the global var ;
 	ft_memset(&g_vars, 0, sizeof(t_vars));
-	
+	if (!isatty(1) || !isatty(0))
+		return (free(custom_env), 0);
 	while (1)
 	{
 		cmd = readline("shell~$ ");
