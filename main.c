@@ -42,33 +42,12 @@ int	main(int argc, char *args[], char **envp)
 		// if (!exec_cmd)
 		// 	return(1);
 		// execute_cmd(exec_cmd);
-		// execute_command_line(exec_cmd,custom_env);
-		// printf("---------\033[1;32mg_exit_status => \033[1;36m%d\033[0m--------\n", g_vars.g_exit_status);
-		print_commands(exec_cmd);
+		// print_commands(exec_cmd);
+		execute_command_line(exec_cmd,custom_env);
+		printf("---------\033[1;32mg_exit_status => \033[1;36m%d\033[0m--------\n", g_vars.g_exit_status);
 		free_commands(exec_cmd);
 	}
 	clear_history();
 	free(custom_env);
 	return (0);
 }
-
-// int main(int c, char **av, char **env)
-// {
-//     t_env *my_envp = NULL;
-//     t_token *tokens;
-//     my_envp = init_envp(env);
-//     while (1) {
-//         char *pwd;
-        
-//         char* input = readline("minishell$ ");
-
-//         if (!input)
-//             break;
-//         tokens = syntax_checker_and_tokoniz(input);
-//         // execute_builtin(my_envp , str);
-//         // printf_tokenizer(tokens);
-        
-//     }
-
-//     return 0;
-// }

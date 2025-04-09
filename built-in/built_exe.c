@@ -1,6 +1,6 @@
 #include "../includes/header.h"
 
-char **convert_args_to_array(t_args *args)
+static char **convert_args_to_array(t_args *args)
 {
 	int count = 0;
 	t_args *temp;
@@ -56,8 +56,6 @@ int	execute_builtin(t_command *cmd, t_env **env)
 	args_array = convert_args_to_array(cmd->args);
 	if (!args_array)
 		return 0; 
-	// if (handle_redirections(cmd) == -1)
-	// 	return (0);
 	if (ft_strcmp(command, "echo") == 0)
 		return (my_echo(*env, args_array),free(args_array),1);
 	else if (ft_strcmp(command, "cd") == 0)
@@ -70,8 +68,8 @@ int	execute_builtin(t_command *cmd, t_env **env)
 		return (my_unset(env, args_array),1);
 	else if (ft_strcmp(command, "env") == 0)
 		return (my_env(*env),free(args_array),1);
-	// else if (ft_strcmp(command, "exit") == 0)
-	// 	return (builtin_exit(cmd->args->next));
+	else if (ft_strcmp(command, "exit") == 0)
+		return (my_exit(args_array),1);
 	free(args_array);
 	return 0;
 }

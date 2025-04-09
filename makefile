@@ -23,6 +23,7 @@ src =   cleanup/clean_up.c \
 		built-in/pwd.c\
 		built-in/unset.c\
 		built-in/export.c\
+		built-in/exit.c\
 		main.c \
 		print_cmd.c\
 		execution/exec_utils.c\
