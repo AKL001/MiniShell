@@ -26,6 +26,7 @@
 #include <sched.h>
 #include <fcntl.h>
 #include <sys/wait.h>
+#include <unistd.h>
 
 
 #define RED   "\033[31m"

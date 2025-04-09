@@ -26,6 +26,7 @@ src =   cleanup/clean_up.c \
 		main.c \
 		print_cmd.c\
 		execution/exec_utils.c\
+		execution/exec_utils2.c\
 		execution/execute_command_line.c\
 		execution/here_doc.c\
 		execution/get_next_line.c\

@@ -1,49 +1,16 @@
-#include  "../includes/header.h"
-#include <unistd.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   here_doc.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ablabib <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/09 12:04:56 by ablabib           #+#    #+#             */
+/*   Updated: 2025/04/09 12:04:58 by ablabib          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-// int	read_heredoc(t_redir *heredoc, int *heredoc_fd)
-// {
-// 	char	*line;
-// 	char	temp_filename[] = ".heredoc_temp";
-// 	int		temp_fd;
-// 	char	*delimiter;
-
-// 	delimiter = heredoc->filename;
-// 	temp_fd = open(temp_filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-// 	if (temp_fd == -1)
-// 		return (error_message("heredoc temp file", 1));
-// 	while (1)
-// 	{
-// 		write(STDOUT_FILENO, "> ", 2);
-// 		line = ft_read_until_newline(STDIN_FILENO);
-// 		if (!line)
-// 			break;
-		
-// 		// Trim newline and compare
-// 		if (line[ft_strlen(line)-1] == '\n')
-// 			line[ft_strlen(line)-1] = '\0';
-		
-// 		if (ft_strcmp(line, delimiter) == 0)
-// 		{
-// 			free(line);
-// 			// close(stdin_copy);
-// 			break;
-// 		}
-		
-// 		// Restore newline for writing
-// 		write(temp_fd, line, ft_strlen(line));
-// 		write(temp_fd, "\n", 1);
-// 		free(line);
-// 	}
-// 	close(temp_fd);
-// 	// Open for reading and clean up
-// 	*heredoc_fd = open(temp_filename, O_RDONLY);
-// 	unlink(temp_filename);
-// 	if (*heredoc_fd == -1)
-// 		return (error_message("heredoc read", 1));
-// 	return (0);
-// }
-
+#include "../includes/header.h"
 
 static int	write_heredoc_content(int fd, char *delimiter)
 {
@@ -69,11 +36,10 @@ static int	write_heredoc_content(int fd, char *delimiter)
 	return (0);
 }
 
-int	read_heredoc(t_redir *heredoc, int *heredoc_fd,int open_fd)
+int	read_heredoc(t_redir *heredoc, int *heredoc_fd, int open_fd)
 {
-	int		temp_fd;
+	int	temp_fd;
 
-	
 	temp_fd = open(".heredoc_temp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (temp_fd == -1)
 		return (error_message("heredoc temp file", 1));
@@ -87,10 +53,10 @@ int	read_heredoc(t_redir *heredoc, int *heredoc_fd,int open_fd)
 	{
 		*heredoc_fd = open(".heredoc_temp", O_RDONLY);
 		if (*heredoc_fd == -1)
-        {
-            unlink(".heredoc_temp");
-            return (error_message("heredoc read", 1));
-        }
+		{
+			unlink(".heredoc_temp");
+			return (error_message("heredoc read", 1));
+		}
 	}
 	else
 		*heredoc_fd = -1;
@@ -109,13 +75,13 @@ int	handle_heredocs(t_command *cmd)
 	while (current)
 	{
 		if (current->args != NULL && current->args->value != NULL)
-            open = 1;
+			open = 1;
 		redir = current->redirections;
 		while (redir)
 		{
 			if (redir->type == REDIR_HEREDOC)
 			{
-				if (read_heredoc(redir, &redir->heredoc_fd,open) == -1)
+				if (read_heredoc(redir, &redir->heredoc_fd, open) == -1)
 					return (-1);
 			}
 			redir = redir->next;
