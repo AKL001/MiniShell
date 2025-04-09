@@ -1,4 +1,5 @@
 #include "../includes/header.h"
+#include <stdio.h>
 
 static int	exec_child(t_command *cmd, t_env *env, char *cmd_path)
 {
@@ -8,8 +9,7 @@ static int	exec_child(t_command *cmd, t_env *env, char *cmd_path)
 	args_arr = args_to_array(cmd->args);
 	env_arr = env_to_array(env);
 	execve(cmd_path, args_arr, env_arr);
-	printf("executed after\n");
-	error_message(cmd->args->value, 126);
+	error_message("No such file or directory\n", 126);
 	free(cmd_path);
 	free_array(args_arr);
 	free_array(env_arr);
@@ -29,7 +29,7 @@ int	execute_command(t_command *cmd, t_env *env)
 	cmd_path = find_command_path(cmd->args->value, env);
 	if (!cmd_path)
 	{
-		error_message(cmd->args->value, 127);
+		error_message("Command not found\n", 127);
 		return (127);
 	}
 	return (exec_child(cmd, env, cmd_path));

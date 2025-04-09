@@ -95,8 +95,6 @@ int	read_heredoc(t_redir *heredoc, int *heredoc_fd,int open_fd)
 	else
 		*heredoc_fd = -1;
 	unlink(".heredoc_temp");
-	// if (*heredoc_fd == -1)
-	// 	return (error_message("heredoc read", 1));
 	return (0);
 }
 

@@ -12,8 +12,6 @@ int	exec_single_cmd(t_command *cmd,pid_t *pids, int *count)
 		return (error_message("fork", 1));
 	if (pid == 0)
 	{
-		// if(cmd->env)
-		// 	printf("%s\n",cmd->env->value);
 		g_vars.g_exit_status = execute_command(cmd, cmd->env);
 		exit(g_vars.g_exit_status);
 	}

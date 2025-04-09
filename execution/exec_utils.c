@@ -111,8 +111,8 @@ char	*find_command_path(char *cmd, t_env *env)
 
 int	error_message(char *msg, int status)
 {
-	perror(msg);
-	// ft_putstr_fd(msg,2);
+	// perror(msg);
+	ft_putstr_fd(msg,2);
 	g_vars.g_exit_status = status;
 	return (-1);
 }
