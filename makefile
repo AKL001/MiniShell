@@ -12,8 +12,6 @@ src =   cleanup/clean_up.c \
 		parsing/parse_utils.c \
 		parsing/remove_quotes.c \
 		parsing/redirection.c \
-		expansion/assign_value.c \
-		expansion/check_var.c \
 		expansion/expande.c \
 		built-in/init_env.c \
 		built-in/env.c \

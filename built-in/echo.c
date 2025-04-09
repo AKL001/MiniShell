@@ -20,19 +20,19 @@ char *get_var_value(t_env *custom_envp,char *key)
 	return (NULL);
 }
 
-int check_var(t_env *custom_envp,char *key)
-{
-	char *var_value;
+// int check_var(t_env *custom_envp,char *key)
+// {
+// 	char *var_value;
 
-	if (key[0] == '$')
-	{
-		var_value = get_var_value(custom_envp, key + 1);
-		if (var_value)
-			printf("%s", var_value);
-		return(1);
-	}
-	return(0);
-}
+// 	if (key[0] == '$')
+// 	{
+// 		var_value = get_var_value(custom_envp, key + 1);
+// 		if (var_value)
+// 			printf("%s", var_value);
+// 		return(1);
+// 	}
+// 	return(0);
+// }
 
 int my_echo(t_env *custom_envp,char **args)
 {
@@ -48,8 +48,8 @@ int my_echo(t_env *custom_envp,char **args)
 	}
 	while (args[i])
 	{
-		if (!check_var(custom_envp, args[i]))
-			printf("%s", args[i]);
+		// if (!check_var(custom_envp, args[i]))
+		printf("%s", args[i]);
 		if (args[i + 1])
 			printf(" ");
 		i++;
@@ -58,4 +58,3 @@ int my_echo(t_env *custom_envp,char **args)
 		printf("\n");
 	return (0);
 }
-

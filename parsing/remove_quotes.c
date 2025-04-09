@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 23:05:16 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/04/07 11:16:59 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/09 11:32:20 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,35 +23,35 @@ int is_quoted(char *argument)
         return (0);
 }
 
-void remove_quotes(t_command *cmd)
-{
-    char *string;
-    char *new_string;
-    t_args *args;
-    t_command *head;
-    int len;
+// void remove_quotes(t_command *cmd)
+// {
+//     char *string;
+//     char *new_string;
+//     t_args *args;
+//     t_command *head;
+//     int len;
 
-    if (!cmd)
-        return;
-    head = cmd;
-    while (head)
-    {
-        args = head->args;   
-        while (args)
-        {
-            string = args->value;
-            if (is_quoted(string))
-            {
-                len = ft_strlen(string);
-                new_string = ft_substr(string, 1, len - 2);
-                if (new_string)
-                {
-                    args->value = new_string;
-                    free(string);
-                }
-            }
-            args = args->next;
-        }
-        head = head->next;
-    }
-}
+//     if (!cmd)
+//         return;
+//     head = cmd;
+//     while (head)
+//     {
+//         args = head->args;   
+//         while (args)
+//         {
+//             string = args->value;
+//             if (is_quoted(string))
+//             {
+//                 len = ft_strlen(string);
+//                 new_string = ft_substr(string, 1, len - 2);
+//                 if (new_string)
+//                 {
+//                     args->value = new_string;
+//                     free(string);
+//                 }
+//             }
+//             args = args->next;
+//         }
+//         head = head->next;
+//     }
+// }

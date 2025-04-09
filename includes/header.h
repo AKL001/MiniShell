@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 03:32:11 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/03/24 23:31:12 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/09 22:32:39 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,13 +162,27 @@ void				print_commands(t_command *cmd);
 char				*get_var_value(t_env *custom_env, char *key);
 void				variable_expansion(t_command *command ,t_env *custom_env);
 int					is_escaped(char *arg);
-char				*is_valid_key(char *arg);
+char				*is_valid_key(char *arg, int *index);
 char				*dollar_verification(char *arg);
 void				assign_variable_value(char **dollar_value, char *key, t_env *custom_env);
 char				*retrieve_variable_value(t_env *custom_env, char *key);
 
+char *retrive_valid_string(char *string, t_env *custom_env);
+
+//******************new expander */
+
+int get_next_indexs(char *string, int index, char q);
+void add_to_new_string(char *string, char **new_string, int i, int start);
+char *is_valid_key(char *arg, int *index);
+void handle_expand(char *string, char **new_string, int *i, t_env *custom_env);
+char *remove_singl_quotes(char *string, int *i);
+char *remove_double_quotes(char *string, int *i, t_env *custom_env);
+void handle_quotes(char *string, char **new_string, int *i, t_env *custom_env);
+char *retrive_valid_string(char *string, t_env *custom_env);
+
+
+
 // ******************expantion**********************
-void				remove_quotes(t_command *cmd);
 
 // built_in functions : 
 t_env *init_envp(char **envp);
@@ -219,5 +233,7 @@ int	read_heredoc(t_redir *heredoc, int *heredoc_fd,int open);
 int	execute_command(t_command *cmd, t_env *env);
 int	exec_single_cmd(t_command *cmd,pid_t *pids, int *count);
 int	setup_pipes(t_command *cmd, int in_fd, pid_t *pids, int *count); 
+
+char	*expand_string(const char *s, t_env *env);
 
 #endif
