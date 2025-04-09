@@ -78,6 +78,7 @@ typedef struct s_redir
 {
 	t_redir_type	type;
 	char			*filename;
+	int				quoted;
 	int             heredoc_fd;
 	struct s_redir	*next;
 }					t_redir;
@@ -227,7 +228,9 @@ char	*ft_read_until_newline(int fd);
 int	handle_heredocs(t_command *cmd);
 int	get_next_line(char *delimiter, int heredoc_fd);
 void	cleanup_heredocs(t_command *cmd);
-int	read_heredoc(t_redir *heredoc, int *heredoc_fd,int open);
+// int	read_heredoc(t_redir *heredoc, int *heredoc_fd,int open);
+int	read_heredoc(t_redir *heredoc, int *heredoc_fd, int open_fd ,t_env *env);
+
 // +++++++++
 // int	exec_single_cmd(t_command *cmd,t_env *env,pid_t *pids, int *count);
 // int	setup_pipes(t_command *cmd, int in_fd, t_env *env, pid_t *pids, int *count);
