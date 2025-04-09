@@ -88,6 +88,7 @@ void	my_export(t_env **env, char **args)
 	if (!args[1])
 	{
 		print_export(*env);
+		g_vars.g_exit_status = 0;
 		return ;
 	}
 	i = 1;
@@ -102,13 +103,22 @@ void	my_export(t_env **env, char **args)
 			if (is_valid_identifier(key))
 				add_envp_var(env, key, value,1);
 			else
+			{
 				write(2, "export: not a valid identifier\n", 31);
+				g_vars.g_exit_status = 1;
+				return ;
+			}
 			*equal = '=';
 		}
 		else if (is_valid_identifier(args[i]))
 			add_envp_var(env, args[i], "",0);
 		else
+		{
 			write(2, "export: not a valid identifier\n", 31);
+			g_vars.g_exit_status = 1;
+			return ;
+		}	
 		i++;
 	}
+	g_vars.g_exit_status = 0;
 }

@@ -55,4 +55,5 @@ void	my_unset(t_env **env, char **args)
 		}
 		i++;
 	}
+	g_vars.g_exit_status = 0;
 }

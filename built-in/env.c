@@ -9,7 +9,9 @@ void  my_env(t_env *custom_env)
 	head = custom_env;
 	while (head)
 	{
+		// if (head->value)
 		printf("%s=%s\n",head->key,head->value);
 		head = head->next;
 	}
+	g_vars.g_exit_status = 0;
 }
