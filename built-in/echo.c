@@ -34,27 +34,66 @@ char *get_var_value(t_env *custom_envp,char *key)
 // 	return(0);
 // }
 
-int my_echo(t_env *custom_envp,char **args)
-{
-	int i;
-	int new_line;
+// int my_echo(t_env *custom_envp,char **args)
+// {
+// 	int i;
+// 	int new_line;
 
+// 	i = 1;
+// 	new_line = 1;
+// 	if (args[i] && ft_strncmp(args[i], "-n", ft_strlen(args[i])) == 0)
+// 	{
+// 		new_line = 0;
+// 		i++;
+// 	}
+// 	while (args[i])
+// 	{
+// 		// if (!check_var(custom_envp, args[i]))$HO''ME
+// 		printf("%s", args[i]);
+// 		if (args[i + 1])
+// 			printf(" ");
+// 		i++;
+// 	}
+// 	if (new_line)
+// 		printf("\n");
+// 	return (0);
+// }
+int	is_valid_n_flag(char *s)
+{
+	int	i = 0;
+
+	if (!s || s[i++] != '-')
+		return (0);
+	while (s[i])
+	{
+		if (s[i] != 'n')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int	my_echo(t_env *custom_envp, char **args)
+{
+	int	i;
+	int	new_line;
+
+	(void)custom_envp;
 	i = 1;
 	new_line = 1;
-	if (args[i] && ft_strncmp(args[i], "-n", ft_strlen(args[i])) == 0)
+	while (args[i] && is_valid_n_flag(args[i]))
 	{
 		new_line = 0;
 		i++;
 	}
 	while (args[i])
 	{
-		// if (!check_var(custom_envp, args[i]))
-		printf("%s", args[i]);
+		ft_putstr_fd(args[i], 1);
 		if (args[i + 1])
-			printf(" ");
+			ft_putchar_fd(' ', 1);
 		i++;
 	}
 	if (new_line)
-		printf("\n");
+		ft_putchar_fd('\n', 1);
 	return (0);
 }
