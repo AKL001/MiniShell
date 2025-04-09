@@ -177,7 +177,8 @@ t_env *init_envp(char **envp);
 int	execute_builtin(t_command *cmd, t_env **env);
 
 
-void my_export(t_env *my_envp, char **args);
+// void my_export(t_env *my_envp, char **args);
+void	my_export(t_env **env, char **args);
 // void my_unset(t_env *my_envp, char **args);
 int my_echo(t_env *my_envp, char **args);
 void my_pwd(char **args);

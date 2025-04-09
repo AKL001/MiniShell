@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../includes/header.h"
-#include <stdio.h>
 
 static void	update_env(t_env **env, const char *key, const char *value)
 {

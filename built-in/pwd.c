@@ -5,13 +5,10 @@ void my_pwd(char **args)
 {
     char path[1024];
 
-    if (args[1])
+    if (getcwd(path,sizeof(path)) == NULL)
     {
-        perror("pwd: ");
+        error_message("pwd: ",1);
         return ;
     }
-    if (getcwd(path,sizeof(path)) == NULL)
-        return ;
-    // if (path)
     printf("%s\n",path);
 }

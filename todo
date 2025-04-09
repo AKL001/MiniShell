@@ -235,3 +235,7 @@ NOTES :
     data should be sent without single quotes or double quotes;
     7-04 => ls | cat | echo hello > outfile , need fix;
     before execute command must be sure it is not empty.
+
+NOTES 2:
+    export PATH="/kjadas/asdkas" => this should be [export] [PATH=/lajdla/askdjas]
+    
