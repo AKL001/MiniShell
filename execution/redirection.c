@@ -102,8 +102,8 @@ int	handle_redirections(t_command *cmd)
 		return (-1);
 	if (in_fd != -1 && (dup2(in_fd, STDIN_FILENO) == -1 || close(in_fd) == -1))
 		return (-1);
-	if (out_fd != -1 && (dup2(out_fd, STDOUT_FILENO) == -1 || close(out_fd) ==
-			-1))
+	if (out_fd != -1 && (dup2(out_fd, STDOUT_FILENO) == -1 || close(out_fd)
+			== -1))
 		return (-1);
 	return (0);
 }
