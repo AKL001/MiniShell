@@ -246,4 +246,15 @@ ECHO testing NOTES:
     echo $9HOME -> this should print HOME
     echo $UID$HOME
     echo $USER$var\$USER$USER\$USERtest$USER  -> false 
+    we dont need to handle cd - or cd ~
     
+
+case of 
+{
+    $@@@@HOME
+}
+
+if ($ space)
+$number
+$word done 
+$? exist status

@@ -12,6 +12,24 @@
 
 #include "../includes/header.h"
 
+static char	*ft_strndup(const char *s, size_t n)
+{
+	size_t	i;
+	char	*dup;
+
+	dup = (char *)malloc(sizeof(char) * (n + 1));
+	if (!dup)
+		return (NULL);
+	i = 0;
+	while (i < n && s[i])
+	{
+		dup[i] = s[i];
+		i++;
+	}
+	dup[i] = '\0';
+	return (dup);
+}
+
 int	is_quoted_and_strip(char **str)
 {
 	size_t	len;
@@ -23,7 +41,7 @@ int	is_quoted_and_strip(char **str)
 			(original[0] == '\'' && original[len - 1] == '\'') ||
 			(original[0] == '"' && original[len - 1] == '"')))
 	{
-		new_str = strndup(original + 1, len - 2); // strip quotes
+		new_str = ft_strndup(original + 1, len - 2);
 		free(*str);
 		*str = new_str;
 		return 1;
@@ -36,7 +54,7 @@ void	add_command_redirection(t_command *cmd, t_redir_type type, char *filename)
 	t_redir	*redir;
 	char	*fname_copy;
 
-	fname_copy = ft_strdup(filename); // work on a modifiable copy
+	fname_copy = ft_strdup(filename);
 	if (!fname_copy)
 		return ;
 
@@ -55,12 +73,8 @@ void	add_command_redirection(t_command *cmd, t_redir_type type, char *filename)
 		redir->filename = expand_string(fname_copy, cmd->env);
 	}
 	else
-	{
 		redir->filename = ft_strdup(fname_copy);
-	}
 	free(fname_copy);
-
-	// printf("heredoc quoted = %d | final filename = %s\n", redir->quoted, redir->filename);
 }
 
 // void	add_command_redirection(t_command *cmd, t_redir_type type,
