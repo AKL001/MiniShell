@@ -6,13 +6,13 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 23:49:30 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/04/10 12:09:37 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/10 17:16:10 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/header.h"
 
-char	*get_env_value_2(char *key, t_env *env)
+char *get_env_value_2(char *key, t_env *env)
 {
 	while (env)
 	{
@@ -23,25 +23,39 @@ char	*get_env_value_2(char *key, t_env *env)
 	return (ft_strdup(""));
 }
 
-char	*expand_dollar(const char *s, int *i, t_env *env)
-{
-	int		start;
-	char	*key;
-	char	*val;
-
-	(*i)++;
-	start = *i;
-	if (!s || !s[*i])
-		return (ft_strdup(""));
-	while (s[*i] && (ft_isalnum(s[*i]) || s[*i] == '_'))
-		(*i)++;
-	key = ft_substr(s, start, *i - start);
-	if (!key)
-		return (NULL);
-	val = get_env_value_2(key, env);
-	free(key);
-	return (val);
-}
+// char *expand_dollar(const char *s, int *i, t_env *env)
+// {
+// 	int start;
+// 	char *key;
+// 	char *val;
+	
+// 	if (!s)
+// 	return (ft_strdup(""));
+// 	(*i)++;
+// 	start = *i;
+// 	if (!s[*i] || s[*i] == '"')
+// 		return (ft_strdup("$"));
+// 	if (s[*i] == '$')
+// 	{
+// 		(*i)++;
+// 		return (ft_itoa(getpid()));
+// 	}
+// 	if (s[*i] == '?')
+// 	{
+// 		(*i)++;
+// 		return (ft_itoa(g_vars.g_exit_status));
+// 	}
+// 	if (s[*i] == '$' || s[*i] == ' ')
+// 		return (ft_strdup("$"));
+// 	while (s[*i] && ft_isalnum(s[*i]))
+// 		(*i)++;
+// 	key = ft_substr(s, start, *i - start);
+// 	if (!key)
+// 		return (NULL);
+// 	val = get_env_value_2(key, env);
+// 	free(key);
+// 	return (val);
+// }
 
 // char *expand_string(const char *s, t_env *env)
 // {
@@ -74,14 +88,14 @@ char	*expand_dollar(const char *s, int *i, t_env *env)
 // 	return (res);
 // }
 
-void	variable_expansion(t_command *command, t_env *custom_env)
+void variable_expansion(t_command *command, t_env *custom_env)
 {
-	char	*key;
-	t_args	*dollar;
-	char	*tmp;
+	char *key;
+	t_args *dollar;
+	char *tmp;
 
 	if (!command)
-		return ;
+		return;
 	while (command)
 	{
 		dollar = command->args;
