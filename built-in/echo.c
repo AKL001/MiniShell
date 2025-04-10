@@ -1,24 +1,24 @@
 #include "../includes/header.h"
 
-char *get_var_value(t_env *custom_envp,char *key)
-{
-	t_env *head;
-	int len;
-	char *var_value;
+// char *get_var_value(t_env *custom_envp,char *key)
+// {
+// 	t_env *head;
+// 	int len;
+// 	char *var_value;
 
-	len = ft_strlen(key);
-	head = custom_envp;
-	while (head)
-	{
-		if (ft_strncmp(key,head->key,len) == 0)
-		{
-			var_value = ft_strdup(head->value);
-			return(var_value);
-		}
-		head = head->next;
-	}
-	return (NULL);
-}
+// 	len = ft_strlen(key);
+// 	head = custom_envp;
+// 	while (head)
+// 	{
+// 		if (ft_strncmp(key,head->key,len) == 0)
+// 		{
+// 			var_value = ft_strdup(head->value);
+// 			return(var_value);
+// 		}
+// 		head = head->next;
+// 	}
+// 	return (NULL);
+// }
 
 // int check_var(t_env *custom_envp,char *key)
 // {

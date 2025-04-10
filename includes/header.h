@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 03:32:11 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/04/10 10:22:15 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/10 11:47:33 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,10 @@ char				*handle_operator(char *cmd, int *i);
 int					is_op_or_quote(char c);
 int					is_space_or_tab(char c);
 int					is_quote(char c);
+
+
+
+
 /*******************ft_split.c*****************/
 void				free_strings(char **strings);
 void				print_tokens(t_token *token);
@@ -165,50 +169,30 @@ t_redir_type		get_redirection_type(t_token_type token_type);
 void				print_commands(t_command *cmd);
 
 // ******************expantion**********************
-char				*get_var_value(t_env *custom_env, char *key);
-void				variable_expansion(t_command *command ,t_env *custom_env);
-int					is_escaped(char *arg);
-char				*is_valid_key(char *arg, int *index);
-char				*dollar_verification(char *arg);
-void				assign_variable_value(char **dollar_value, char *key, t_env *custom_env);
-char				*retrieve_variable_value(t_env *custom_env, char *key);
-
-char *retrive_valid_string(char *string, t_env *custom_env);
-
-//******************new expander */
-
-int get_next_indexs(char *string, int index, char q);
-void add_to_new_string(char *string, char **new_string, int i, int start);
-char *is_valid_key(char *arg, int *index);
-void handle_expand(char *string, char **new_string, int *i, t_env *custom_env);
-char *remove_singl_quotes(char *string, int *i);
-char *remove_double_quotes(char *string, int *i, t_env *custom_env);
-void handle_quotes(char *string, char **new_string, int *i, t_env *custom_env);
-char *retrive_valid_string(char *string, t_env *custom_env);
+char *ft_strjoin_free(char *s1, char *s2);
+char *get_env_value_2(char *key, t_env *env);
+char *expand_dollar(const char *s, int *i, t_env *env);
+char *handle_single_quote(const char *s, int *i);
+char *handle_double_quote(const char *s, int *i, t_env *env);
+char *expand_string(const char *s, t_env *env);
+void variable_expansion(t_command *command, t_env *custom_env);
 
 
-
-// ******************expantion**********************
-
-// built_in functions : 
+//*******************built_in functions************* 
 t_env *init_envp(char **envp);
-// int execute_builtin(t_env *my_envp, char **args);
 
 int	execute_builtin(t_command *cmd, t_env **env);
-
-
-// void my_export(t_env *my_envp, char **args);
+int	count_char(char *str, char c);
 void	my_export(t_env **env, char **args);
-// void my_unset(t_env *my_envp, char **args);
 int my_echo(t_env *my_envp, char **args);
 void my_pwd(char **args);
 void my_env(t_env *custom_env);
 void	my_unset(t_env **env, char **args);
 void my_exit(char **args);
-// void my_cd(char **args); 
-// void	my_cd(char **args, t_env *env);
 void	my_cd(char **args, t_env **env);
 t_env *create_new(char *key, char *value);
+
+
 /*  execution  */
 
 int	execute_command_line(t_command *cmd, t_env *env);
@@ -217,6 +201,7 @@ char	*get_env_value(char *key, t_env *env);
 char	*find_command_path(char *cmd, t_env *env);
 int		error_message(char *msg, int status);
 char	**args_to_array(t_args *args);
+// char	*get_var_value(t_env *custom_env, char *key);
 
 char	**env_to_array(t_env *env);
 void	free_array(char **arr);

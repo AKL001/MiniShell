@@ -6,25 +6,13 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 23:49:30 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/04/10 10:06:07 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/10 12:09:37 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/header.h"
 
-char *ft_strjoin_free(char *s1, char *s2)
-{
-	char *out;
-
-	if (!s2)
-		return (s1 ? s1 : ft_strdup(""));
-	out = ft_strjoin(s1, s2);
-	free(s1);
-	free(s2);
-	return (out);
-}
-
-static char *get_env_value_2(char *key, t_env *env)
+char	*get_env_value_2(char *key, t_env *env)
 {
 	while (env)
 	{
@@ -32,10 +20,10 @@ static char *get_env_value_2(char *key, t_env *env)
 			return (ft_strdup(env->value));
 		env = env->next;
 	}
-	return (ft_strdup("")); // Return empty string if not found
+	return (ft_strdup(""));
 }
 
-char *expand_dollar(const char *s, int *i, t_env *env)
+char	*expand_dollar(const char *s, int *i, t_env *env)
 {
 	int		start;
 	char	*key;
@@ -55,87 +43,51 @@ char *expand_dollar(const char *s, int *i, t_env *env)
 	return (val);
 }
 
-char *handle_single_quote(const char *s, int *i)
+// char *expand_string(const char *s, t_env *env)
+// {
+// 	int		i;
+// 	char	*res;
+// 	char	*part;
+
+// 	i = 0;
+// 	res = NULL;
+// 	while (s[i])
+// 	{
+// 		if (s[i] == '\'')
+// 			part = handle_single_quote(s, &i);
+// 		else if (s[i] == '"')
+// 			part = handle_double_quote(s, &i, env);
+// 		else if (s[i] == '$')
+// 			part = expand_dollar(s, &i, env);
+// 		else
+// 		{
+// 			int start = i;
+// 			while (s[i] && s[i] != '$' && !is_quote(s[i]))
+// 				i++;
+// 			part = ft_substr(s, start, i - start);
+// 		}
+// 		if (res)
+//             res = ft_strjoin_free(res, part);
+//         else
+//             res = part;
+// 	}
+// 	return (res);
+// }
+
+void	variable_expansion(t_command *command, t_env *custom_env)
 {
-	int		start;
-	char	*out;
-
-	(*i)++;
-	start = *i;
-	while (s[*i] && s[*i] != '\'')
-		(*i)++;
-	out = ft_substr(s, start, *i - start);
-	if (s[*i] == '\'')
-		(*i)++;
-	return (out ? out : ft_strdup(""));
-}
-
-char *handle_double_quote(const char *s, int *i, t_env *env)
-{
-	char	*res;
-	char	*part;
-
-	res = NULL;
-	(*i)++;
-	while (s[*i] && s[*i] != '"')
-	{
-		if (s[*i] == '$')
-			part = expand_dollar(s, i, env);
-		else
-		{
-			int start = *i;
-			while (s[*i] && s[*i] != '$' && s[*i] != '"')
-				(*i)++;
-			part = ft_substr(s, start, *i - start);
-		}
-		res = res ? ft_strjoin_free(res, part) : part;
-	}
-	if (s[*i] == '"')
-		(*i)++;
-	return (res ? res : ft_strdup(""));
-}
-
-char *expand_string(const char *s, t_env *env)
-{
-	int		i;
-	char	*res;
-	char	*part;
-
-	i = 0;
-	res = NULL;
-	while (s[i])
-	{
-		if (s[i] == '\'')
-			part = handle_single_quote(s, &i);
-		else if (s[i] == '"')
-			part = handle_double_quote(s, &i, env);
-		else if (s[i] == '$')
-			part = expand_dollar(s, &i, env);
-		else
-		{
-			int start = i;
-			while (s[i] && s[i] != '$' && !is_quote(s[i]))
-				i++;
-			part = ft_substr(s, start, i - start);
-		}
-		res = res ? ft_strjoin_free(res, part) : part;
-	}
-	return (res);
-}
-
-void variable_expansion(t_command *command, t_env *custom_env)
-{
-	char *key;
-	t_args *dollar;
+	char	*key;
+	t_args	*dollar;
+	char	*tmp;
 
 	if (!command)
-		return;
+		return ;
 	while (command)
 	{
 		dollar = command->args;
 		while (dollar)
 		{
-			char *tmp = dollar->value;
+			tmp = dollar->value;
 			dollar->value = expand_string(dollar->value, custom_env);
 			free(tmp);
 			dollar = dollar->next;
