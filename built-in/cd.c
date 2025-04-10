@@ -27,9 +27,15 @@ static void	update_env(t_env **env, const char *key, const char *value)
 		return ;
 	}
 	new = malloc(sizeof(t_env));
-	if (!new || !(new->key = ft_strdup(key))
-		|| !(new->value = ft_strdup(value)))
+	new->key = ft_strdup(key);
+	new->value = ft_strdup(value);
+	if (!new->key || !new->value)
+	{
+		free(new->key);
+		free(new->value);
+		free(new);
 		return ;
+	}
 	new->next = *env;
 	*env = new;
 }
@@ -59,8 +65,12 @@ void	my_cd(char **args, t_env **env)
 	if (!getcwd(cwd, sizeof(cwd)))
 		return ((void)handle_cd_error("getcwd", -1));
 	target = args[1];
-	if (!target && !(target = get_env(*env, "HOME")))
-		return ((void)handle_cd_error("cd: HOME not set", 1));
+	if (!target)
+	{
+		target = get_env(*env, "HOME");
+		if (!target)
+			return ((void)handle_cd_error("cd: HOME not set", 1));
+	}
 	if (args[2])
 		return ((void)handle_cd_error("to many aruments", 1));
 	if (chdir(target) == -1)

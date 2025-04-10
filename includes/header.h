@@ -123,7 +123,7 @@ void				split_wordes(t_token **token);
 
 /***************parsing*********************/
 t_command			*parse_token(t_token *token, t_env *custom_env);
-
+char				*ft_strndup(const char *s, size_t n);
 /**************parse_utils******************/
 void				add_command_redirection(t_command *cmd, t_redir_type type,
 						char *filename);
@@ -177,7 +177,8 @@ void				my_unset(t_env **env, char **args);
 void				my_exit(char **args);
 void				my_cd(char **args, t_env **env);
 t_env				*create_new(char *key, char *value);
-
+int					is_valid_identifier(char *str);
+void				print_export(t_env *env);
 /*  execution  */
 
 int					execute_command_line(t_command *cmd, t_env *env);
