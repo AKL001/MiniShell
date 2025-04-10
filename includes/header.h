@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 03:32:11 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/03/24 23:31:12 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/10 11:47:33 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ typedef struct s_redir
 {
 	t_redir_type	type;
 	char			*filename;
+	int				quoted;
 	int             heredoc_fd;
 	struct s_redir	*next;
 }					t_redir;
@@ -112,10 +113,19 @@ char				*handle_operator(char *cmd, int *i);
 int					is_op_or_quote(char c);
 int					is_space_or_tab(char c);
 int					is_quote(char c);
+
+
+
+
 /*******************ft_split.c*****************/
 void				free_strings(char **strings);
 void				print_tokens(t_token *token);
 char				**ft_split_plus(char *str, char *sep);
+int	is_separator(char *sep, char c);
+int	count_words(char *input, char *separator);
+int	len_word(char *str, char *sep);
+char	*word_allocation(char *str, char *sep);
+
 /*******************handle_word.c*****************/
 char				*handle_word(char *cmd, int *i);
 int					inside_quotes(char *str);
@@ -159,35 +169,30 @@ t_redir_type		get_redirection_type(t_token_type token_type);
 void				print_commands(t_command *cmd);
 
 // ******************expantion**********************
-char				*get_var_value(t_env *custom_env, char *key);
-void				variable_expansion(t_command *command ,t_env *custom_env);
-int					is_escaped(char *arg);
-char				*is_valid_key(char *arg);
-char				*dollar_verification(char *arg);
-void				assign_variable_value(char **dollar_value, char *key, t_env *custom_env);
-char				*retrieve_variable_value(t_env *custom_env, char *key);
+char *ft_strjoin_free(char *s1, char *s2);
+char *get_env_value_2(char *key, t_env *env);
+char *expand_dollar(const char *s, int *i, t_env *env);
+char *handle_single_quote(const char *s, int *i);
+char *handle_double_quote(const char *s, int *i, t_env *env);
+char *expand_string(const char *s, t_env *env);
+void variable_expansion(t_command *command, t_env *custom_env);
 
-// ******************expantion**********************
-void				remove_quotes(t_command *cmd);
 
-// built_in functions : 
+//*******************built_in functions************* 
 t_env *init_envp(char **envp);
-// int execute_builtin(t_env *my_envp, char **args);
 
 int	execute_builtin(t_command *cmd, t_env **env);
-
-
-// void my_export(t_env *my_envp, char **args);
+int	count_char(char *str, char c);
 void	my_export(t_env **env, char **args);
-// void my_unset(t_env *my_envp, char **args);
 int my_echo(t_env *my_envp, char **args);
 void my_pwd(char **args);
 void my_env(t_env *custom_env);
 void	my_unset(t_env **env, char **args);
-// void my_cd(char **args); 
-// void	my_cd(char **args, t_env *env);
+void my_exit(char **args);
 void	my_cd(char **args, t_env **env);
 t_env *create_new(char *key, char *value);
+
+
 /*  execution  */
 
 int	execute_command_line(t_command *cmd, t_env *env);
@@ -196,6 +201,7 @@ char	*get_env_value(char *key, t_env *env);
 char	*find_command_path(char *cmd, t_env *env);
 int		error_message(char *msg, int status);
 char	**args_to_array(t_args *args);
+// char	*get_var_value(t_env *custom_env, char *key);
 
 char	**env_to_array(t_env *env);
 void	free_array(char **arr);
@@ -212,12 +218,16 @@ char	*ft_read_until_newline(int fd);
 int	handle_heredocs(t_command *cmd);
 int	get_next_line(char *delimiter, int heredoc_fd);
 void	cleanup_heredocs(t_command *cmd);
-int	read_heredoc(t_redir *heredoc, int *heredoc_fd,int open);
+// int	read_heredoc(t_redir *heredoc, int *heredoc_fd,int open);
+int	read_heredoc(t_redir *heredoc, int *heredoc_fd, int open_fd ,t_env *env);
+
 // +++++++++
 // int	exec_single_cmd(t_command *cmd,t_env *env,pid_t *pids, int *count);
 // int	setup_pipes(t_command *cmd, int in_fd, t_env *env, pid_t *pids, int *count);
 int	execute_command(t_command *cmd, t_env *env);
 int	exec_single_cmd(t_command *cmd,pid_t *pids, int *count);
 int	setup_pipes(t_command *cmd, int in_fd, pid_t *pids, int *count); 
+
+char	*expand_string(const char *s, t_env *env);
 
 #endif

@@ -2,6 +2,7 @@ src =   cleanup/clean_up.c \
 		lexing/check_input.c \
 		lexing/create_token.c \
 		lexing/ft_split.c \
+		lexing/ft_split_helper.c \
 		lexing/handle_operator.c \
 		lexing/handle_quotes.c \
 		lexing/handle_word.c \
@@ -12,9 +13,9 @@ src =   cleanup/clean_up.c \
 		parsing/parse_utils.c \
 		parsing/remove_quotes.c \
 		parsing/redirection.c \
-		expansion/assign_value.c \
-		expansion/check_var.c \
 		expansion/expande.c \
+		expansion/handle_quotes.c \
+		expansion/expand_string.c \
 		built-in/init_env.c \
 		built-in/env.c \
 		built-in/built_exe.c\
@@ -23,6 +24,7 @@ src =   cleanup/clean_up.c \
 		built-in/pwd.c\
 		built-in/unset.c\
 		built-in/export.c\
+		built-in/exit.c\
 		main.c \
 		print_cmd.c\
 		execution/exec_utils.c\

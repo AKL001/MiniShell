@@ -22,7 +22,7 @@ void add_env_var(t_env **custom_envp, char *key, char *value)
     head = *custom_envp;
     while (head)
     {
-        if (ft_strncmp(head->key, key, ft_strlen(key)) == 0)
+        if (ft_strcmp(head->key, key) == 0)
         {
             free(head->value);
             head->value = ft_strdup(value);
@@ -91,3 +91,35 @@ t_env *init_envp(char **envp)
     }
     return (custom_envp);
 }
+
+// t_env *init_envp(char **envp)
+// {
+//     int     i;
+//     char    *equal;
+//     char    *key;
+//     char    *value;
+//     char    *entry;
+//     t_env   *custom_envp = NULL;
+
+//     i = 0;
+//     while (envp[i])
+//     {
+//         entry = ft_strdup(envp[i]);
+//         if (!entry)
+//             return (NULL);
+//         equal = ft_strchr(entry, '=');
+//         if (equal)
+//         {
+//             *equal = '\0';
+//             key = ft_strdup(entry);         
+//             value = ft_strdup(equal + 1);   
+//             printf("[%s] [%s]\n",key,value);
+//             add_env_var(&custom_envp, key, value);
+//             free(key);
+//             free(value);
+//         }
+//         free(entry); // safe to free now
+//         i++;
+//     }
+//     return (custom_envp);
+// }

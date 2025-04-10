@@ -6,27 +6,11 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 02:21:03 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/03/20 00:53:40 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/10 10:52:07 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/header.h"
-
-int	count_char(char *str, char c)
-{
-	int	count;
-
-	count = 0;
-	if (!str)
-		return (0);
-	while (*str)
-	{
-		if (*str == c)
-			count++;
-		str++;
-	}
-	return (count);
-}
 
 int	get_index_char(char *str, char c, int i)
 {
@@ -53,12 +37,76 @@ int	cnout_char_in_substr(char *str, int start, int end, char c)
 	return (count);
 }
 
-int	check_quote_inside(char *cmd)
+// int	check_quote_inside(char *cmd)
+// {
+// 	char	quote;
+// 	int		i;
+// 	int		d;
+// 	int		s;
+
+// 	i = 0;
+// 	d = 0;
+// 	s = 0;
+// 	while (cmd[i])
+// 	{
+// 		while (cmd[i] && is_quote(cmd[i]) == 0)
+// 			i++;
+// 		if (is_quote(cmd[i]) == 1)
+// 		{
+// 			quote = cmd[i];
+// 			if (quote == '"')
+// 				d = 1;
+// 			else
+// 				s = 1;
+// 			i++;
+// 		}
+// 		while (cmd[i] && cmd[i] != quote)
+// 			i++;
+// 		if (is_quote(cmd[i]) == 1)
+// 		{
+// 			quote = cmd[i];
+// 			if (quote == '"')
+// 				d = 0;
+// 			else
+// 				s = 0;
+// 			i++;
+// 		}
+// 	}
+// 	return (d == 0 && s == 0);
+// }
+
+static int	process_quotes(char *cmd, int *i, int *d, int *s)
 {
 	char	quote;
-	int		i;
-	int		d;
-	int		s;
+
+	if (is_quote(cmd[*i]) == 1)
+	{
+		quote = cmd[*i];
+		if (quote == '"')
+			*d = 1;
+		else
+			*s = 1;
+		(*i)++;
+	}
+	while (cmd[*i] && cmd[*i] != quote)
+		(*i)++;
+	if (is_quote(cmd[*i]) == 1)
+	{
+		quote = cmd[*i];
+		if (quote == '"')
+			*d = 0;
+		else
+			*s = 0;
+		(*i)++;
+	}
+	return (0);
+}
+
+int	check_quote_inside(char *cmd)
+{
+	int	i;
+	int	d;
+	int	s;
 
 	i = 0;
 	d = 0;
@@ -67,26 +115,7 @@ int	check_quote_inside(char *cmd)
 	{
 		while (cmd[i] && is_quote(cmd[i]) == 0)
 			i++;
-		if (is_quote(cmd[i]) == 1)
-		{
-			quote = cmd[i];
-			if (quote == '"')
-				d = 1;
-			else
-				s = 1;
-			i++;
-		}
-		while (cmd[i] && cmd[i] != quote)
-			i++;
-		if (is_quote(cmd[i]) == 1)
-		{
-			quote = cmd[i];
-			if (quote == '"')
-				d = 0;
-			else
-				s = 0;
-			i++;
-		}
+		process_quotes(cmd, &i, &d, &s);
 	}
 	return (d == 0 && s == 0);
 }

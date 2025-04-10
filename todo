@@ -239,3 +239,11 @@ NOTES :
 NOTES 2:
     export PATH="/kjadas/asdkas" => this should be [export] [PATH=/lajdla/askdjas]
     
+
+ECHO testing NOTES:
+    echo $  -> should print 	$
+    echo $UID -> did not work
+    echo $9HOME -> this should print HOME
+    echo $UID$HOME
+    echo $USER$var\$USER$USER\$USERtest$USER  -> false 
+    

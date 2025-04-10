@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 09:13:49 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/04/07 10:48:41 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/09 23:24:20 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ t_command	*parse_token(t_token *token, t_env *custom_env)
 		return (NULL);
 	}
 	variable_expansion(head, custom_env);
-	remove_quotes(head);
 	free_token(head_token);
 	return (head);
 }

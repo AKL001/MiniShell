@@ -6,98 +6,92 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 23:49:30 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/04/07 10:37:58 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/10 12:09:37 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/header.h"
 
-int check_lenght(char *str1, char *str2)
+char	*get_env_value_2(char *key, t_env *env)
 {
-	return (ft_strlen(str1) == ft_strlen(str2));	
+	while (env)
+	{
+		if (ft_strcmp(env->key, key) == 0)
+			return (ft_strdup(env->value));
+		env = env->next;
+	}
+	return (ft_strdup(""));
 }
 
-char *retrieve_variable_value(t_env *custom_env, char *key)
+char	*expand_dollar(const char *s, int *i, t_env *env)
 {
-	char *value;
-	int len;
+	int		start;
+	char	*key;
+	char	*val;
 
-	value = NULL;
-	if (!key || !custom_env)
+	(*i)++;
+	start = *i;
+	if (!s || !s[*i])
+		return (ft_strdup(""));
+	while (s[*i] && (ft_isalnum(s[*i]) || s[*i] == '_'))
+		(*i)++;
+	key = ft_substr(s, start, *i - start);
+	if (!key)
 		return (NULL);
-	while (custom_env)
-	{
-		len = ft_strlen(custom_env->key);
-		if (ft_strncmp(custom_env->key, key, len) == 0 && check_lenght(custom_env->key,key))
-		{
-			value = ft_strdup(custom_env->value);
-			break;
-		}
-		custom_env = custom_env->next;
-	}
-	return (value);
+	val = get_env_value_2(key, env);
+	free(key);
+	return (val);
 }
 
-int back_slash_exist(char *str, int *index)
-{
-	int i;
-	
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '\\')
-		{
-			*index = i;
-			return (1);
-		}
-		i++;
-	}
-	return (0);
-}
+// char *expand_string(const char *s, t_env *env)
+// {
+// 	int		i;
+// 	char	*res;
+// 	char	*part;
 
-void strip_backslash(t_args **args)
-{
-	int i;
-	t_args *arg;
-	char *after_slach;
-	char *new_value;
-	char *value;
+// 	i = 0;
+// 	res = NULL;
+// 	while (s[i])
+// 	{
+// 		if (s[i] == '\'')
+// 			part = handle_single_quote(s, &i);
+// 		else if (s[i] == '"')
+// 			part = handle_double_quote(s, &i, env);
+// 		else if (s[i] == '$')
+// 			part = expand_dollar(s, &i, env);
+// 		else
+// 		{
+// 			int start = i;
+// 			while (s[i] && s[i] != '$' && !is_quote(s[i]))
+// 				i++;
+// 			part = ft_substr(s, start, i - start);
+// 		}
+// 		if (res)
+//             res = ft_strjoin_free(res, part);
+//         else
+//             res = part;
+// 	}
+// 	return (res);
+// }
 
-	arg = *args;
-	while (arg)
-	{
-		while (back_slash_exist(arg->value, &i))
-		{
-			value = arg->value;
-			value[i] = '\0';
-			after_slach = value + i + 1;
-			new_value = ft_strjoin(value, after_slach);
-			arg->value = new_value;
-			free(value);
-		}
-		arg = arg->next;
-	}
-}
-
-void variable_expansion(t_command *command, t_env *custom_env)
+void	variable_expansion(t_command *command, t_env *custom_env)
 {
-	char *key;
-	t_args *dollar;
+	char	*key;
+	t_args	*dollar;
+	char	*tmp;
 
 	if (!command)
-		return;
+		return ;
 	while (command)
 	{
 		dollar = command->args;
 		while (dollar)
 		{
-			key = dollar_verification(dollar->value);
-			if (!key || !*key) // attention about key is empty but not null !!
-				dollar = dollar->next;
-			else
-				assign_variable_value(&(dollar->value), key, custom_env);
+			tmp = dollar->value;
+			dollar->value = expand_string(dollar->value, custom_env);
+			free(tmp);
+			dollar = dollar->next;
 		}
-		strip_backslash(&command->args);
 		command = command->next;
 	}
 }
