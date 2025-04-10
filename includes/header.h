@@ -177,7 +177,7 @@ char *handle_single_quote(const char *s, int *i);
 char *handle_double_quote(const char *s, int *i, t_env *env);
 char *expand_string(const char *s, t_env *env);
 void variable_expansion(t_command *command, t_env *custom_env);
-
+char	*ft_strndup(const char *s, size_t n);
 
 //*******************built_in functions************* 
 t_env *init_envp(char **envp);
@@ -192,7 +192,8 @@ void	my_unset(t_env **env, char **args);
 void my_exit(char **args);
 void	my_cd(char **args, t_env **env);
 t_env *create_new(char *key, char *value);
-
+int	is_valid_identifier(char *str);
+void	print_export(t_env *env);
 
 /*  execution  */
 
