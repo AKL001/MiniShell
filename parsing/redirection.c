@@ -14,10 +14,8 @@
 
 int	is_redirection(t_token_type token_type)
 {
-	if (token_type == TOKEN_REDIRECT_IN
-		|| token_type == TOKEN_REDIRECT_OUT
-		|| token_type == TOKEN_APPEND
-		|| token_type == TOKEN_HEREDOC)
+	if (token_type == TOKEN_REDIRECT_IN || token_type == TOKEN_REDIRECT_OUT
+		|| token_type == TOKEN_APPEND || token_type == TOKEN_HEREDOC)
 		return (1);
 	return (0);
 }

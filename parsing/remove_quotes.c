@@ -12,15 +12,17 @@
 
 #include "../includes/header.h"
 
-int is_quoted(char *argument)
+int	is_quoted(char *argument)
 {
-    if (!argument || !*argument)
-        return (0);
-    int len = ft_strlen(argument);
-    if (len >= 2 && is_quote(argument[0]) && argument[len - 1] == argument[0])
-        return (1);
-    else
-        return (0);
+	int	len;
+
+	if (!argument || !*argument)
+		return (0);
+	len = ft_strlen(argument);
+	if (len >= 2 && is_quote(argument[0]) && argument[len - 1] == argument[0])
+		return (1);
+	else
+		return (0);
 }
 
 // void remove_quotes(t_command *cmd)
@@ -32,11 +34,11 @@ int is_quoted(char *argument)
 //     int len;
 
 //     if (!cmd)
-//         return;
+//         return ;
 //     head = cmd;
 //     while (head)
 //     {
-//         args = head->args;   
+//         args = head->args;
 //         while (args)
 //         {
 //             string = args->value;

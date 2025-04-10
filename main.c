@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:52:26 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/04/09 23:36:16 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/10 18:53:39 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	main(int argc, char *args[], char **envp)
 	custom_env  = init_envp(envp);
 	ft_memset(&g_vars, 0, sizeof(t_vars));
 	if (!isatty(1) || !isatty(0))
-		return (free(custom_env), 0);
+		return (free_env(custom_env), 0);
 	while (1)
 	{
 		setup_parent_signals();
@@ -52,6 +52,53 @@ int	main(int argc, char *args[], char **envp)
 		free_commands(exec_cmd);
 	}
 	clear_history();
-	free(custom_env);
+	free_env(custom_env);
 	return (0);
 }
+
+
+// int main(int argc, char *args[], char **envp)
+// {
+//     char        cmd[1024];  // Buffer for scanf input
+//     t_token     *tokens;
+//     t_env       *custom_env;
+//     t_command   *exec_cmd;
+    
+//     argc++;
+//     (*args) = NULL;
+
+//     custom_env = init_envp(envp);
+//     ft_memset(&g_vars, 0, sizeof(t_vars));
+    
+//     if (!isatty(1) || !isatty(0))
+//         return (free_env(custom_env), 0);
+
+//     while (1)
+//     {
+//         setup_parent_signals();
+//         g_vars.in_child = 0;
+        
+//         // Replace readline with scanf that reads everything including spaces
+//         printf("shell~$ ");
+//         if (scanf("%1023[^\n]", cmd) != 1)
+//         {
+//             printf("exit\n");
+//             while (getchar() != '\n');  // Clear input buffer
+//             break;
+//         }
+//         while (getchar() != '\n');  // Clear the newline from buffer
+
+//         g_vars.in_child = 1;
+//         if (*cmd)
+//             add_history(cmd);
+        
+//         tokens = tokenazation(cmd);
+//         exec_cmd = parse_token(tokens, custom_env);
+//         execute_command_line(exec_cmd, custom_env);
+//         free_commands(exec_cmd);
+//     }
+    
+//     clear_history();
+//     free_env(custom_env);
+//     return (0);
+// }

@@ -1,11 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   built_exe.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/10 19:12:55 by ael-aiss          #+#    #+#             */
+/*   Updated: 2025/04/10 19:12:56 by ael-aiss         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/header.h"
 
-static char **convert_args_to_array(t_args *args)
+static char	**convert_args_to_array(t_args *args)
 {
-	int count = 0;
-	t_args *temp;
-	char **arg_array;
+	int		count;
+	t_args	*temp;
+	char	**arg_array;
 
+	count = 0;
 	temp = args;
 	while (temp && ++count)
 		temp = temp->next;
@@ -23,27 +36,6 @@ static char **convert_args_to_array(t_args *args)
 	return (arg_array);
 }
 
-// int execute_builtin(t_env *my_envp, char **args)
-// {
-// 	size_t len;
-
-// 	if (!*args)
-// 		return (1);
-// 	len = ft_strlen(args[0]);
-// 	if (ft_strncmp("env", args[0], len) == 0)
-// 		my_env(my_envp);
-// 	else if (ft_strncmp("echo", args[0], len) == 0)
-// 		my_echo(my_envp, args);
-// 	else if (ft_strncmp("export", args[0], len) == 0)
-// 		my_export(my_envp, args);
-// 	else if (ft_strncmp("unset", args[0], len) == 0)
-// 		my_unset(my_envp, args);
-// 	else if (ft_strncmp("pwd", args[0], len) == 0)
-// 		my_pwd(args);
-// 	else if (ft_strncmp("cd", args[0], len) == 0)
-// 		my_cd(args);
-// 	return (0);
-// }
 int	execute_builtin(t_command *cmd, t_env **env)
 {
 	char	*command;
@@ -54,22 +46,21 @@ int	execute_builtin(t_command *cmd, t_env **env)
 	command = cmd->args->value;
 	args_array = convert_args_to_array(cmd->args);
 	if (!args_array)
-		return 0; 
+		return (0);
 	if (ft_strcmp(command, "echo") == 0)
-		return (my_echo(*env, args_array),free(args_array),1);
+		return (my_echo(*env, args_array), free(args_array), 1);
 	else if (ft_strcmp(command, "cd") == 0)
-		return (my_cd(args_array,env),free(args_array),1);
+		return (my_cd(args_array, env), free(args_array), 1);
 	else if (ft_strcmp(command, "pwd") == 0)
-		return (my_pwd(args_array),free(args_array),1);
+		return (my_pwd(args_array), free(args_array), 1);
 	else if (ft_strcmp(command, "export") == 0)
-		return (my_export(env,args_array),1);
+		return (my_export(env, args_array), 1);
 	else if (ft_strcmp(command, "unset") == 0)
-		return (my_unset(env, args_array),1);
+		return (my_unset(env, args_array), 1);
 	else if (ft_strcmp(command, "env") == 0)
-		return (my_env(*env),free(args_array),1);
+		return (my_env(*env), free(args_array), 1);
 	else if (ft_strcmp(command, "exit") == 0)
-		return (my_exit(args_array),1);
+		return (my_exit(args_array), 1);
 	free(args_array);
-	return 0;
+	return (0);
 }
-
