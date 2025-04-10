@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 03:32:11 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/04/09 22:32:39 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/10 10:22:15 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,11 @@ int					is_quote(char c);
 void				free_strings(char **strings);
 void				print_tokens(t_token *token);
 char				**ft_split_plus(char *str, char *sep);
+int	is_separator(char *sep, char c);
+int	count_words(char *input, char *separator);
+int	len_word(char *str, char *sep);
+char	*word_allocation(char *str, char *sep);
+
 /*******************handle_word.c*****************/
 char				*handle_word(char *cmd, int *i);
 int					inside_quotes(char *str);

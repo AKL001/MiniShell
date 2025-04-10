@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 06:24:45 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/03/20 00:47:38 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/10 10:15:08 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,11 @@ int	is_space_or_tab(char c)
 
 int	inside_quotes(char *str)
 {
-	int		len;
+	int	len;
 
 	len = ft_strlen(str);
-	if ((str[0] == '\'' && str[len - 1] == '\'')
-		|| (str[0] == '"' && str[len - 1] == '"'))
+	if ((str[0] == '\'' && str[len - 1] == '\'') || (str[0] == '"'
+			&& str[len - 1] == '"'))
 	{
 		return (1);
 	}

@@ -2,6 +2,7 @@ src =   cleanup/clean_up.c \
 		lexing/check_input.c \
 		lexing/create_token.c \
 		lexing/ft_split.c \
+		lexing/ft_split_helper.c \
 		lexing/handle_operator.c \
 		lexing/handle_quotes.c \
 		lexing/handle_word.c \

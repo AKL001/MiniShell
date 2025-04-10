@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 04:18:57 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/04/09 20:41:02 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/10 10:17:53 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,26 @@ t_token	*create_new_token(char *value)
 	return (new_token);
 }
 
+void	append_token(t_token **tokens, t_token *new_token)
+{
+	t_token	*head;
+
+	if (!*tokens)
+		*tokens = new_token;
+	else
+	{
+		head = *tokens;
+		while (head->next)
+			head = head->next;
+		head->next = new_token;
+	}
+}
+
 void	add_new_token(t_token **tokens, char *val)
 {
 	t_token	*new_token;
-	t_token	*head;
-	int		i;
 	char	**value;
+	int		i;
 
 	i = 0;
 	if (!inside_quotes(val))
@@ -61,35 +75,59 @@ void	add_new_token(t_token **tokens, char *val)
 		value = ft_split_plus(val, " \t");
 		while (value[i])
 		{
-			new_token = create_new_token(value[i]);
+			new_token = create_new_token(value[i++]);
 			if (!new_token)
 				return ;
-			if (!*tokens)
-				*tokens = new_token;
-			else
-			{
-				head = *tokens;
-				while (head->next)
-					head = head->next;
-				head->next = new_token;
-			}
-			i++;
+			append_token(tokens, new_token);
 		}
 		free_strings(value);
 	}
 	else
-	{
-		new_token = create_new_token(val);
-		if (!new_token)
-			return ;
-		if (!*tokens)
-			*tokens = new_token;
-		else
-		{
-			head = *tokens;
-			while (head->next)
-				head = head->next;
-			head->next = new_token;
-		}
-	}
+		append_token(tokens, create_new_token(val));
 }
+
+// void	add_new_token(t_token **tokens, char *val)
+// {
+// 	t_token	*new_token;
+// 	t_token	*head;
+// 	int		i;
+// 	char	**value;
+
+// 	i = 0;
+// 	if (!inside_quotes(val))
+// 	{
+// 		value = ft_split_plus(val, " \t");
+// 		while (value[i])
+// 		{
+// 			new_token = create_new_token(value[i]);
+// 			if (!new_token)
+// 				return ;
+// 			if (!*tokens)
+// 				*tokens = new_token;
+// 			else
+// 			{
+// 				head = *tokens;
+// 				while (head->next)
+// 					head = head->next;
+// 				head->next = new_token;
+// 			}
+// 			i++;
+// 		}
+// 		free_strings(value);
+// 	}
+// 	else
+// 	{
+// 		new_token = create_new_token(val);
+// 		if (!new_token)
+// 			return ;
+// 		if (!*tokens)
+// 			*tokens = new_token;
+// 		else
+// 		{
+// 			head = *tokens;
+// 			while (head->next)
+// 				head = head->next;
+// 			head->next = new_token;
+// 		}
+// 	}
+// }
