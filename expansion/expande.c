@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 23:49:30 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/04/10 17:09:44 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/10 17:16:10 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,42 +23,39 @@ char *get_env_value_2(char *key, t_env *env)
 	return (ft_strdup(""));
 }
 
-char *expand_dollar(const char *s, int *i, t_env *env)
-{
-	int start;
-	char *key;
-	char *val;
+// char *expand_dollar(const char *s, int *i, t_env *env)
+// {
+// 	int start;
+// 	char *key;
+// 	char *val;
 	
-	if (!s)
-	return (ft_strdup(""));
-	(*i)++;
-	start = *i;
-	// printf("%c\n", s[*i]);
-	printf("s: %c\n",s[*i]);
-
-	if (!s[*i] || s[*i] == '"')
-		return (ft_strdup("$"));
-	if (s[*i] == '$')
-	{
-		(*i)++;
-		return (ft_itoa(getpid()));
-	}
-	if (s[*i] == '?')
-	{
-		(*i)++;
-		return (ft_itoa(g_vars.g_exit_status));
-	}
-	if (s[*i] == '$' || s[*i] == ' ')
-	return (ft_strdup("$"));
-	while (s[*i] && ft_isalnum(s[*i]))
-		(*i)++;
-	key = ft_substr(s, start, *i - start);
-	if (!key)
-		return (NULL);
-	val = get_env_value_2(key, env);
-	free(key);
-	return (val);
-}
+// 	if (!s)
+// 	return (ft_strdup(""));
+// 	(*i)++;
+// 	start = *i;
+// 	if (!s[*i] || s[*i] == '"')
+// 		return (ft_strdup("$"));
+// 	if (s[*i] == '$')
+// 	{
+// 		(*i)++;
+// 		return (ft_itoa(getpid()));
+// 	}
+// 	if (s[*i] == '?')
+// 	{
+// 		(*i)++;
+// 		return (ft_itoa(g_vars.g_exit_status));
+// 	}
+// 	if (s[*i] == '$' || s[*i] == ' ')
+// 		return (ft_strdup("$"));
+// 	while (s[*i] && ft_isalnum(s[*i]))
+// 		(*i)++;
+// 	key = ft_substr(s, start, *i - start);
+// 	if (!key)
+// 		return (NULL);
+// 	val = get_env_value_2(key, env);
+// 	free(key);
+// 	return (val);
+// }
 
 // char *expand_string(const char *s, t_env *env)
 // {
