@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 11:47:50 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/04/10 12:10:54 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/10 16:44:10 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,6 @@ static char	*handle_dollar_in_dquote(const char *s, int *i, t_env *env,
 		char *res)
 {
 	char	*part;
-
 	part = expand_dollar(s, i, env);
 	if (res)
 		return (ft_strjoin_free(res, part));
