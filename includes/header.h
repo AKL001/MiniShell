@@ -14,20 +14,21 @@
 #define HEADER_H
 
 #include "../libft/libft.h"
-#include <limits.h>
-#include <math.h>
+// #include <limits.h>
+// #include <math.h>
 #include <readline/history.h>
 #include <readline/readline.h>
-#include <stdbool.h>
+// #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <dirent.h>
-#include <sched.h>
+// #include <string.h>
+// #include <dirent.h>
+// #include <sched.h>
 #include <fcntl.h>
 #include <sys/wait.h>
 #include <unistd.h>
 
+#include <signal.h>
 
 #define RED   "\033[31m"
 #define RESET "\033[0m"
@@ -35,7 +36,7 @@
 typedef struct s_vars{
 
 	int g_exit_status;
-
+	int in_child;
 } 				t_vars;
 
 extern t_vars g_vars;
@@ -229,5 +230,10 @@ int	exec_single_cmd(t_command *cmd,pid_t *pids, int *count);
 int	setup_pipes(t_command *cmd, int in_fd, pid_t *pids, int *count); 
 
 char	*expand_string(const char *s, t_env *env);
+
+/* signals */
+void	sigint_handler(int sig);
+void	setup_parent_signals(void);
+void	setup_child_signals(void);
 
 #endif

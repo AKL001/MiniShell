@@ -37,7 +37,7 @@ src =   cleanup/clean_up.c \
 		syntax_checker/syntax_checker.c\
 		syntax_checker/syntax_utils.c\
 		syntax_checker/syntax_utils2.c\
-
+		signals/signals.c
 
 obj = $(src:.c=.o)
 

@@ -18,16 +18,16 @@ static void	update_env(t_env **env, const char *key, const char *value)
 	t_env	*new;
 
 	current = *env;
-	while (current && strcmp(current->key, key))
+	while (current && ft_strcmp(current->key, key))
 		current = current->next;
 	if (current)
 	{
 		free(current->value);
-		current->value = strdup(value);
+		current->value = ft_strdup(value);
 		return ;
 	}
 	new = malloc(sizeof(t_env));
-	if (!new || !(new->key = strdup(key)) || !(new->value = strdup(value)))
+	if (!new || !(new->key = ft_strdup(key)) || !(new->value = ft_strdup(value)))
 		return ;
 	new->next = *env;
 	*env = new;
@@ -37,7 +37,7 @@ static char	*get_env(t_env *env, const char *key)
 {
 	while (env)
 	{
-		if (!strcmp(env->key, key))
+		if (!ft_strcmp(env->key, key))
 			return (env->value);
 		env = env->next;
 	}

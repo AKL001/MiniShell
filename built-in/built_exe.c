@@ -23,7 +23,6 @@ static char **convert_args_to_array(t_args *args)
 	return (arg_array);
 }
 
-
 // int execute_builtin(t_env *my_envp, char **args)
 // {
 // 	size_t len;

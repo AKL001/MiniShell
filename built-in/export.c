@@ -4,10 +4,10 @@ static int update_env_var(t_env *head, char *key, char *value)
 {
     while (head)
     {
-        if (strcmp(head->key, key) == 0)
+        if (ft_strcmp(head->key, key) == 0)
         {
             free(head->value);
-            head->value = strdup(value);
+            head->value = ft_strdup(value);
             return 1;
         }
         head = head->next;
@@ -28,7 +28,7 @@ static void add_envp_var(t_env **custom_envp, char *key, char *value, int overwr
         head = *custom_envp;
         while (head)
         {
-            if (strcmp(head->key, key) == 0)
+            if (ft_strcmp(head->key, key) == 0)
                 return;
             head = head->next;
         }

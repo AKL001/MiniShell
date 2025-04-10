@@ -12,6 +12,25 @@
 
 #include "../includes/header.h"
 
+static void	handle_exit_status(int status)
+{
+	if (WIFEXITED(status))
+		g_vars.g_exit_status = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+	{
+		if (WTERMSIG(status) == SIGINT)
+		{
+			ft_putstr_fd("\n", 1);
+			g_vars.g_exit_status = 130;
+		}
+		else if (WTERMSIG(status) == SIGQUIT)
+		{
+			ft_putstr_fd("Quit\n", 1);
+			g_vars.g_exit_status = 131;
+		}
+	}
+}
+
 int	exec_single_cmd(t_command *cmd, pid_t *pids, int *count)
 {
 	pid_t	pid;
@@ -23,6 +42,7 @@ int	exec_single_cmd(t_command *cmd, pid_t *pids, int *count)
 		return (error_message("fork", 1));
 	if (pid == 0)
 	{
+		setup_child_signals();
 		g_vars.g_exit_status = execute_command(cmd, cmd->env);
 		exit(g_vars.g_exit_status);
 	}
@@ -54,8 +74,7 @@ int	execute_command_line(t_command *cmd, t_env *env)
 	while (++i < pid_count)
 	{
 		waitpid(child_pids[i], &status, 0);
-		if (WIFEXITED(status))
-			g_vars.g_exit_status = WEXITSTATUS(status);
+		handle_exit_status(status);
 	}
 	cleanup_heredocs(cmd);
 	return (g_vars.g_exit_status);

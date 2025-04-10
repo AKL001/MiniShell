@@ -55,6 +55,7 @@ static int	exec_last_cmd(t_command *cmd, int in_fd, pid_t *pids, int *count)
 		return (error_message("fork", 1));
 	if (pid == 0)
 	{
+		setup_child_signals();
 		if (in_fd != STDIN_FILENO)
 		{
 			dup2(in_fd, STDIN_FILENO);
@@ -72,6 +73,7 @@ static int	exec_last_cmd(t_command *cmd, int in_fd, pid_t *pids, int *count)
 
 static int	exec_pipe_child(t_command *cmd, int in_fd, int pipefd[2])
 {
+	setup_child_signals();
 	close(pipefd[0]);
 	if (in_fd != STDIN_FILENO)
 	{
