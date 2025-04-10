@@ -63,9 +63,7 @@ static int	write_heredoc_content(int fd, char *delimiter, int quoted, t_env *env
 				free(expanded);
 			}
 			else
-			{
 				write(fd, line, ft_strlen(line));
-			}
 		}
 		else
 			write(fd, line, ft_strlen(line));
