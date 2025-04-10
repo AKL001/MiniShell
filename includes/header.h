@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 03:32:11 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/04/10 11:47:33 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/10 18:51:04 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ t_redir_type		get_redirection_type(t_token_type token_type);
 void				free_commands(t_command *cmd);
 void				free_args(t_args *args);
 void				free_redir(t_redir *redir);
-
+void free_env(t_env *env);
 
 /*****************SYNTAX ERROR*****************/
 int syntax_checker(char *input);

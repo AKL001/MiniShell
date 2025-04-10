@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 00:28:49 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/03/18 02:15:18 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/10 19:25:44 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,23 +33,24 @@ static char	*ft_strndup(const char *s, size_t n)
 int	is_quoted_and_strip(char **str)
 {
 	size_t	len;
-	char	*original = *str;
+	char	*original;
 	char	*new_str;
 
+	original = *str;
 	len = strlen(original);
-	if (len >= 2 && (
-			(original[0] == '\'' && original[len - 1] == '\'') ||
-			(original[0] == '"' && original[len - 1] == '"')))
+	if (len >= 2 && ((original[0] == '\'' && original[len - 1] == '\'')
+			|| (original[0] == '"' && original[len - 1] == '"')))
 	{
 		new_str = ft_strndup(original + 1, len - 2);
 		free(*str);
 		*str = new_str;
-		return 1;
+		return (1);
 	}
-	return 0;
+	return (0);
 }
 
-void	add_command_redirection(t_command *cmd, t_redir_type type, char *filename)
+void	add_command_redirection(t_command *cmd, t_redir_type type,
+		char *filename)
 {
 	t_redir	*redir;
 	char	*fname_copy;
@@ -57,17 +58,13 @@ void	add_command_redirection(t_command *cmd, t_redir_type type, char *filename)
 	fname_copy = ft_strdup(filename);
 	if (!fname_copy)
 		return ;
-
 	redir = malloc(sizeof(t_redir));
 	if (!redir)
 		return ;
-
 	redir->quoted = is_quoted_and_strip(&fname_copy);
 	redir->type = type;
-	// redir->heredoc_fd = -1;
 	redir->next = cmd->redirections;
 	cmd->redirections = redir;
-
 	if (!redir->quoted && expand_string(fname_copy, cmd->env) != NULL)
 	{
 		redir->filename = expand_string(fname_copy, cmd->env);
@@ -76,20 +73,6 @@ void	add_command_redirection(t_command *cmd, t_redir_type type, char *filename)
 		redir->filename = ft_strdup(fname_copy);
 	free(fname_copy);
 }
-
-// void	add_command_redirection(t_command *cmd, t_redir_type type,
-// 		char *filename)
-// {
-// 	t_redir	*redir;
-
-	
-// 	redir = malloc(sizeof(t_redir));
-// 	redir->filename = ft_strdup(filename);
-// 	// ft_strdup(filename)
-// 	redir->type = type;
-// 	redir->next = cmd->redirections;
-// 	cmd->redirections = redir;
-// }
 
 void	add_command_args(t_command *cmd, char *value)
 {

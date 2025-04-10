@@ -153,6 +153,7 @@ static char	*handle_dollar_in_dquote(const char *s, int *i, t_env *env,
 		char *res)
 {
 	char	*part;
+
 	part = expand_dollar(s, i, env);
 	if (res)
 		return (ft_strjoin_free(res, part));

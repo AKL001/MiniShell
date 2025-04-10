@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 02:43:18 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/03/18 09:26:42 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/10 19:11:19 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void	free_commands(t_command *cmd)
 		head = cmd;
 		free_args(cmd->args);
 		free_redir(cmd->redirections);
-		// free(cmd->env);
 		cmd = cmd->next;
 		free(head);
 	}

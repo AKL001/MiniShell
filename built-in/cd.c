@@ -27,7 +27,8 @@ static void	update_env(t_env **env, const char *key, const char *value)
 		return ;
 	}
 	new = malloc(sizeof(t_env));
-	if (!new || !(new->key = ft_strdup(key)) || !(new->value = ft_strdup(value)))
+	if (!new || !(new->key = ft_strdup(key))
+		|| !(new->value = ft_strdup(value)))
 		return ;
 	new->next = *env;
 	*env = new;

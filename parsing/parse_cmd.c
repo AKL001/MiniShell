@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 09:13:49 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/04/09 23:24:20 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/10 19:45:39 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,12 @@ t_command	*parse_token(t_token *token, t_env *custom_env)
 	t_command		*head;
 	t_command		**tail;
 	t_redir_type	type;
+	t_token			*head_token;
 
 	current_cmd = NULL;
 	head = NULL;
 	tail = &head;
-	t_token *head_token = token;
+	head_token = token;
 	while (token)
 	{
 		if (!current_cmd)
@@ -87,3 +88,4 @@ t_command	*parse_token(t_token *token, t_env *custom_env)
 	free_token(head_token);
 	return (head);
 }
+

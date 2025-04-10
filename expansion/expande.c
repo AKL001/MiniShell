@@ -12,7 +12,7 @@
 
 #include "../includes/header.h"
 
-char *get_env_value_2(char *key, t_env *env)
+char	*get_env_value_2(char *key, t_env *env)
 {
 	while (env)
 	{
@@ -28,7 +28,7 @@ char *get_env_value_2(char *key, t_env *env)
 // 	int start;
 // 	char *key;
 // 	char *val;
-	
+
 // 	if (!s)
 // 	return (ft_strdup(""));
 // 	(*i)++;
@@ -88,14 +88,14 @@ char *get_env_value_2(char *key, t_env *env)
 // 	return (res);
 // }
 
-void variable_expansion(t_command *command, t_env *custom_env)
+void	variable_expansion(t_command *command, t_env *custom_env)
 {
-	char *key;
-	t_args *dollar;
-	char *tmp;
+	char	*key;
+	t_args	*dollar;
+	char	*tmp;
 
 	if (!command)
-		return;
+		return ;
 	while (command)
 	{
 		dollar = command->args;
