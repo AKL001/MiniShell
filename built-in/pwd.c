@@ -16,6 +16,7 @@ void	my_pwd(char **args)
 {
 	char	path[1024];
 
+	(void)args;
 	if (getcwd(path, sizeof(path)) == NULL)
 	{
 		error_message("pwd: ", 1);

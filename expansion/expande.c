@@ -90,7 +90,6 @@ char	*get_env_value_2(char *key, t_env *env)
 
 void	variable_expansion(t_command *command, t_env *custom_env)
 {
-	char	*key;
 	t_args	*dollar;
 	char	*tmp;
 

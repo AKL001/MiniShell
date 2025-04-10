@@ -53,6 +53,7 @@ static char	*get_env(t_env *env, const char *key)
 
 static int	handle_cd_error(char *msg, int ret)
 {
+	(void)msg;
 	error_message("No such file or directory\n", 1);
 	return (ret);
 }
@@ -64,15 +65,18 @@ void	my_cd(char **args, t_env **env)
 
 	if (!getcwd(cwd, sizeof(cwd)))
 		return ((void)handle_cd_error("getcwd", -1));
-	target = args[1];
-	if (!target)
+	if (!args[1])
 	{
 		target = get_env(*env, "HOME");
 		if (!target)
 			return ((void)handle_cd_error("cd: HOME not set", 1));
 	}
-	if (args[2])
-		return ((void)handle_cd_error("to many aruments", 1));
+	else
+	{
+		target = args[1];
+		if (args[2])
+			return ((void)handle_cd_error("too many arguments", 1));
+	}
 	if (chdir(target) == -1)
 		return ((void)handle_cd_error("cd: ", 1));
 	g_vars.g_exit_status = 0;

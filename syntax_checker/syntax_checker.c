@@ -12,55 +12,6 @@
 
 #include "../includes/header.h"
 
-static int	unclosed_quotes(char *input)
-{
-	int		i;
-	char	q_type;
-
-	i = 0;
-	q_type = 0;
-	while (input[i])
-	{
-		if (input[i] == '\'' || input[i] == '\"')
-		{
-			if (q_type == input[i])
-				q_type = 0;
-			else if (!q_type)
-				q_type = input[i];
-		}
-		i++;
-	}
-	return (q_type != 0);
-}
-
-static int	unclosed_parentheses(char *input)
-{
-	int	i;
-	int	para_count;
-	int	q_type;
-
-	i = -1;
-	q_type = 0;
-	para_count = 0;
-	while (input[++i])
-	{
-		if (input[i] == '\"' || input[i] == '\'')
-		{
-			if (q_type == input[i])
-				q_type = 0;
-			else if (!q_type)
-				q_type = input[i];
-		}
-		if (input[i] == '(' && !q_type)
-			para_count++;
-		else if (input[i] == ')' && !q_type)
-			para_count--;
-	}
-	if (para_count != 0)
-		return (1);
-	return (0);
-}
-
 static int	invalid_operators(char *input)
 {
 	int		i;

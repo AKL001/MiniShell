@@ -55,10 +55,10 @@ run: re
 all: $(name)
 
 $(name): $(obj) $(libft)
-	cc  $(obj) -o $(name) $(libft) -lreadline
+	cc  $(flags) $(obj) -o $(name) $(libft) -lreadline
 
 %.o: %.c
-	cc  -c $< -o $@
+	cc $(flags) -c $< -o $@
 
 # $(libft):
 # 	@make -C libft/
