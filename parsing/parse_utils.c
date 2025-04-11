@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 00:28:49 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/04/10 19:25:44 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/11 12:39:16 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,9 @@ void	add_command_redirection(t_command *cmd, t_redir_type type,
 {
 	t_redir	*redir;
 	char	*fname_copy;
+	char	*expanded;
 
+	expanded = NULL;
 	fname_copy = ft_strdup(filename);
 	if (!fname_copy)
 		return ;
@@ -65,10 +67,10 @@ void	add_command_redirection(t_command *cmd, t_redir_type type,
 	redir->type = type;
 	redir->next = cmd->redirections;
 	cmd->redirections = redir;
-	if (!redir->quoted && expand_string(fname_copy, cmd->env) != NULL)
-	{
-		redir->filename = expand_string(fname_copy, cmd->env);
-	}
+	if (!redir->quoted)
+		expanded = expand_string(fname_copy, cmd->env);
+	if (expanded)
+		redir->filename = expanded;
 	else
 		redir->filename = ft_strdup(fname_copy);
 	free(fname_copy);
