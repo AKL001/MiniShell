@@ -42,7 +42,7 @@ src =   cleanup/clean_up.c \
 
 obj = $(src:.c=.o)
 
-name = shell
+name = minishell
 libft = libft/libft.a
 flags = -Wall -Wextra -Werror
 
@@ -60,6 +60,5 @@ clean:
 
 fclean: clean
 	rm -f $(name)
-	# @make -C libft/ fclean
 
 re: fclean all
