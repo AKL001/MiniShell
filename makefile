@@ -10,7 +10,6 @@ src =   cleanup/clean_up.c \
 		lexing/trim_string.c \
 		lexing/unclosed_quotes.c \
 		parsing/parse_cmd.c \
-		parsing/parse_cmd_2.c \
 		parsing/parse_utils.c \
 		parsing/remove_quotes.c \
 		parsing/redirection.c \
