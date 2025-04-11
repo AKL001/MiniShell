@@ -33,8 +33,11 @@ void	my_unset(t_env **env, char **args)
 {
 	t_env	*cur;
 	t_env	*prev;
+	t_env	*next;
 	int		i;
 
+	if (!args)
+		return ;
 	i = 1;
 	while (args[i])
 	{
@@ -42,14 +45,41 @@ void	my_unset(t_env **env, char **args)
 		prev = NULL;
 		while (cur)
 		{
-			remove_env_var(env, cur, prev, args[i]);
-			prev = cur;
-			cur = cur->next;
+			next = cur->next;
+			if (ft_strcmp(args[i], cur->key) == 0)
+				remove_env_var(env, cur, prev, args[i]);
+			else
+				prev = cur;
+			cur = next;
 		}
 		i++;
 	}
 	g_vars.g_exit_status = 0;
 }
+
+// void	my_unset(t_env **env, char **args)
+// {
+// 	t_env	*cur;
+// 	t_env	*prev;
+// 	int		i;
+
+// 	if (!args)
+// 		return ;
+// 	i = 1;
+// 	while (args[i])
+// 	{
+// 		cur = *env;
+// 		prev = NULL;
+// 		while (cur)
+// 		{
+// 			remove_env_var(env, cur, prev, args[i]);
+// 			prev = cur;
+// 			cur = cur->next;
+// 		}
+// 		i++;
+// 	}
+// 	g_vars.g_exit_status = 0;
+// }
 
 // void	my_unset(t_env **env, char **args)
 // {

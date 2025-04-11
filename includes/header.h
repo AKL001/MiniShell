@@ -154,8 +154,9 @@ int					is_redirection(t_token_type token_type);
 t_redir_type		get_redirection_type(t_token_type token_type);
 
 //**************print cmd**************************
+/*
 void				print_commands(t_command *cmd);
-
+*/
 // ******************expantion**********************
 char				*ft_strjoin_free(char *s1, char *s2);
 char				*get_env_value_2(char *key, t_env *env);
