@@ -48,11 +48,6 @@ name = shell
 libft = libft/libft.a
 flags = -Wall -Wextra -Werror
 
-# run: re
-# 	@make clean
-# 	# @clear
-# 	@./$(name)
-
 all: $(name)
 
 $(name): $(obj) $(libft)
