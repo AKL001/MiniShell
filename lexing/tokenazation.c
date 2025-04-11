@@ -148,11 +148,13 @@ t_token	*tokenazation(char *input)
 	if (syntax_checker(trim))
 	{
 		free(trim);
+		g_vars.g_exit_status = 2;
 		return (NULL);
 	}
 	if (!check_unclosed_quotes(input))
 	{
 		free(trim);
+		g_vars.g_exit_status = 2;
 		printf("uncloused quotes\n");
 		return (NULL);
 	}

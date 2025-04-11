@@ -54,13 +54,13 @@ int	execute_builtin(t_command *cmd, t_env **env)
 	else if (ft_strcmp(command, "pwd") == 0)
 		return (my_pwd(args_array), free(args_array), 1);
 	else if (ft_strcmp(command, "export") == 0)
-		return (my_export(env, args_array), 1);
+		return (my_export(env, args_array), free(args_array), 1);
 	else if (ft_strcmp(command, "unset") == 0)
-		return (my_unset(env, args_array), 1);
+		return (my_unset(env, args_array), free(args_array), 1);
 	else if (ft_strcmp(command, "env") == 0)
 		return (my_env(*env), free(args_array), 1);
 	else if (ft_strcmp(command, "exit") == 0)
-		return (my_exit(args_array), 1);
+		return (my_exit(args_array), free(args_array), 1);
 	free(args_array);
 	return (0);
 }
