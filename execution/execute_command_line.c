@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../includes/header.h"
+#include <unistd.h>
 
 static void	handle_exit_status(int status)
 {
@@ -31,12 +32,32 @@ static void	handle_exit_status(int status)
 	}
 }
 
+static void	restore_std_fds(int saved_fds[2])
+{
+	dup2(saved_fds[0], STDIN_FILENO);
+	dup2(saved_fds[1], STDOUT_FILENO);
+	close(saved_fds[0]);
+	close(saved_fds[1]);
+}
+
+static int	restore_and_exit(int saved_fds[2], int exit_code)
+{
+	restore_std_fds(saved_fds);
+	return (exit_code);
+}
+
 int	exec_single_cmd(t_command *cmd, pid_t *pids, int *count)
 {
 	pid_t	pid;
+	int		p_fds[2];
 
+	p_fds[0] = dup(STDIN_FILENO);
+	p_fds[1] = dup(STDOUT_FILENO);
+	if (handle_redirections(cmd) == -1)
+		return (restore_and_exit(p_fds, 1));
 	if (execute_builtin(cmd, &cmd->env))
-		return (g_vars.g_exit_status);
+		return (restore_and_exit(p_fds, 1));
+	restore_std_fds(p_fds);
 	pid = fork();
 	if (pid == -1)
 		return (error_message("fork", 1));

@@ -60,11 +60,10 @@ static int	handle_cd_error(char *msg, int ret)
 
 void	my_cd(char **args, t_env **env)
 {
-	char	cwd[1024];
+	char	cwd[1000];
 	char	*target;
 
-	if (!getcwd(cwd, sizeof(cwd)))
-		return ((void)handle_cd_error("getcwd", -1));
+	ft_memset(cwd, 0, sizeof(char *));
 	if (!args[1])
 	{
 		target = get_env(*env, "HOME");

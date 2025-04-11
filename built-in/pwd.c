@@ -12,14 +12,25 @@
 
 #include "../includes/header.h"
 
-void	my_pwd(char **args)
+void	my_pwd(t_env *env)
 {
 	char	path[1024];
+	t_env	*curr_pwd;
 
-	(void)args;
 	if (getcwd(path, sizeof(path)) == NULL)
 	{
-		error_message("pwd: ", 1);
+		curr_pwd = env;
+		while (curr_pwd)
+		{
+			if (ft_strcmp(curr_pwd->key, "PWD") == 0 && curr_pwd->value)
+			{
+				printf("%s\n", curr_pwd->value);
+				g_vars.g_exit_status = 0;
+				return ;
+			}
+			curr_pwd = curr_pwd->next;
+		}
+		g_vars.g_exit_status = 1;
 		return ;
 	}
 	printf("%s\n", path);
