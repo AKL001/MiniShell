@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 03:32:11 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/04/10 21:25:35 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/11 09:58:56 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,15 @@ void				split_wordes(t_token **token);
 /***************parsing*********************/
 t_command			*parse_token(t_token *token, t_env *custom_env);
 char				*ft_strndup(const char *s, size_t n);
+t_command			*initialize_command(t_command **head, t_command **tail,
+						t_env *custom_env);
+int					handle_redirection(t_token **token, t_command *current_cmd,
+						t_command *head);
+int					handle_pipe(t_token **token, t_command *current_cmd,
+						t_command *head);
+int					validate_final_command(t_command *current_cmd,
+						t_command *head);
+
 /**************parse_utils******************/
 void				add_command_redirection(t_command *cmd, t_redir_type type,
 						char *filename);

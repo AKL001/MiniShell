@@ -10,6 +10,7 @@ src =   cleanup/clean_up.c \
 		lexing/trim_string.c \
 		lexing/unclosed_quotes.c \
 		parsing/parse_cmd.c \
+		parsing/parse_cmd_2.c \
 		parsing/parse_utils.c \
 		parsing/remove_quotes.c \
 		parsing/redirection.c \
@@ -45,12 +46,12 @@ obj = $(src:.c=.o)
 
 name = shell
 libft = libft/libft.a
-flags = -g -Wall -Wextra -Werror
+flags = -Wall -Wextra -Werror
 
-run: re
-	@make clean
-	# @clear
-	@./$(name)
+# run: re
+# 	@make clean
+# 	# @clear
+# 	@./$(name)
 
 all: $(name)
 
@@ -59,9 +60,6 @@ $(name): $(obj) $(libft)
 
 %.o: %.c
 	cc $(flags) -c $< -o $@
-
-# $(libft):
-# 	@make -C libft/
 
 clean:
 	rm -f $(obj)
