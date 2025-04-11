@@ -18,7 +18,7 @@ static int	handle_input_redir(t_redir *redir, int *first_in)
 		return (0);
 	*first_in = open(redir->filename, O_RDONLY);
 	if (*first_in == -1)
-		return (error_message(redir->filename, 1));
+		return (error_message("No such file or directory\n", 1));
 	return (0);
 }
 
@@ -34,7 +34,7 @@ static int	handle_output_redir(t_redir *redir, int *first_out)
 		flags |= O_APPEND;
 	fd = open(redir->filename, flags, 0644);
 	if (fd == -1)
-		return (error_message(redir->filename, 1));
+		return (error_message("Permission denied\n", 1));
 	if (*first_out == -1)
 		*first_out = fd;
 	else
