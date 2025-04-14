@@ -6,55 +6,51 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 11:56:39 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/04/11 12:32:58 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/14 19:06:02 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/header.h"
 
-static char	*handle_normal_text(const char *s, int *i)
+char	*handle_normal_text(char *value, char *s, int *i, char *q)
 {
-	int	start;
-
-	start = *i;
-	while (s[*i] && s[*i] != '$' && !is_quote(s[*i]))
+	while (s[*i] && s[*i] != '$')
+	{
+		if (is_quote(s[*i]))
+		{
+			get_quote_value(s[*i], q);
+		}
+		if (!is_quote(s[*i]))
+			value = add_char_to_string(s[*i], value);
+		else if (s[*i] != *q && *q != 0)
+			value = add_char_to_string(s[*i], value);
 		(*i)++;
-	return (ft_substr(s, start, *i - start));
+	}
+	return (value);
 }
 
-static char	*get_next_part(const char *s, int *i, t_env *env)
-{
-	if (s[*i] == '\'')
-		return (handle_single_quote(s, i));
-	if (s[*i] == '"')
-		return (handle_double_quote(s, i, env));
-	if (s[*i] == '$')
-		return (expand_dollar(s, i, env));
-	return (handle_normal_text(s, i));
-}
-
-static char	*join_parts(char *res, char *part)
-{
-	if (!res)
-		return (part);
-	return (ft_strjoin_free(res, part));
-}
-
-char	*expand_string(const char *s, t_env *env)
+char	*expand_string(char *s, t_env *env)
 {
 	int		i;
-	char	*res;
-	char	*part;
+	char	q;
+	char	*string;
 
 	i = 0;
-	res = NULL;
+	q = 0;
+	string = NULL;
+	if (!env || !s)
+		return (NULL);
 	while (s[i])
 	{
-		part = get_next_part(s, &i, env);
-		res = join_parts(res, part);
+		if (is_quote(s[i]))
+		{
+			get_quote_value(s[i], &q);
+			i++;
+		}
+		if (s[i] == '$')
+			string = handle_dollar(string, s, q, &i, env);
+		else
+			string = handle_normal_text(string, s, &i, &q);
 	}
-	if (res)
-		return (res);
-	else
-		return (ft_strdup(""));
+	return (string);
 }

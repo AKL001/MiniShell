@@ -6,131 +6,67 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 04:36:26 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/04/10 10:44:02 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/14 19:21:43 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/header.h"
 
-int	is_space(char c)
+void	get_quote_value(char c, char *q)
 {
-	return (c == ' ' || c == '\t');
+	if ((*q) == 0)
+		(*q) = c;
+	else if (*q == c)
+		(*q) = 0;
 }
 
-// t_token	*command_to_tokens(char *cmd)
-// {
-// 	t_token	*tokens;
-// 	int		i;
-// 	int		start;
-// 	char	quote;
-// 	char	*token;
-// 	t_token	*new_token;
-// 	t_token	*last;
-
-// 	tokens = NULL;
-// 	i = 0;
-// 	quote = 0;
-// 	while (cmd[i])
-// 	{
-// 		while (is_space(cmd[i]))
-// 			i++;
-// 		if (!cmd[i])
-// 			break ;
-// 		start = i;
-// 		while (cmd[i])
-// 		{
-// 			if (!quote && is_quote(cmd[i]))
-// 				quote = cmd[i];
-// 			else if (quote && cmd[i] == quote)
-// 				quote = 0;
-// 			else if (!quote && is_space(cmd[i]))
-// 				break ;
-// 			i++;
-// 		}
-// 		token = ft_substr(cmd, start, i - start);
-// 		if (!token)
-// 		{
-// 			free_token(tokens);
-// 			return (NULL);
-// 		}
-// 		new_token = create_new_token(token);
-// 		free(token);
-// 		if (!new_token)
-// 		{
-// 			free_token(tokens);
-// 			return (NULL);
-// 		}
-// 		if (!tokens)
-// 			tokens = new_token;
-// 		else
-// 		{
-// 			last = tokens;
-// 			while (last->next)
-// 				last = last->next;
-// 			last->next = new_token;
-// 		}
-// 	}
-// 	return (tokens);
-// }
-
-static void	append_token(t_token **tokens, t_token *new_token)
+void	handle_normal_string(t_token **tokens, int *i, char *cmd, char *q)
 {
-	t_token	*last;
+	char	*value;
 
-	if (!*tokens)
-		*tokens = new_token;
-	else
+	value = NULL;
+	if (cmd[*i] && is_quote(cmd[*i]))
 	{
-		last = *tokens;
-		while (last->next)
-			last = last->next;
-		last->next = new_token;
-	}
-}
-
-char	*next_token_str(char *cmd, int *i)
-{
-	int		start;
-	char	quote;
-
-	start = *i;
-	quote = 0;
-	while (cmd[*i])
-	{
-		if (!quote && is_quote(cmd[*i]))
-			quote = cmd[*i];
-		else if (quote && cmd[*i] == quote)
-			quote = 0;
-		else if (!quote && is_space(cmd[*i]))
-			break ;
+		value = add_char_to_string(cmd[*i], value);
 		(*i)++;
 	}
-	return (ft_substr(cmd, start, *i - start));
+	while (cmd[*i] && ((*q) || !is_split_op(cmd[*i])))
+	{
+		if (is_quote(cmd[*i]))
+		{
+			get_quote_value(cmd[*i], q);
+			value = add_char_to_string(cmd[*i], value);
+		}
+		else
+			value = add_char_to_string(cmd[*i], value);
+		(*i)++;
+	}
+	if (value && *value)
+	{
+		add_new_value_to_tokens(tokens, value);
+		free(value);
+	}
 }
 
 t_token	*command_to_tokens(char *cmd)
 {
 	t_token	*tokens;
-	t_token	*new_token;
-	char	*token;
+	char	quote;
 	int		i;
 
 	tokens = NULL;
+	quote = 0;
 	i = 0;
+	if (!cmd)
+		return (NULL);
 	while (cmd[i])
 	{
-		while (is_space(cmd[i]))
-			i++;
-		if (!cmd[i])
-			break ;
-		token = next_token_str(cmd, &i);
-		if (!token)
-			return (free_token(tokens), NULL);
-		new_token = create_new_token(token);
-		free(token);
-		if (!new_token)
-			return (free_token(tokens), NULL);
-		append_token(&tokens, new_token);
+		if ((cmd[i] == '\'' || cmd[i] == '"'))
+			quote = cmd[i];
+		if (is_split_op(cmd[i]) && quote == 0)
+			add_special_operator(&tokens, &i, cmd);
+		else
+			handle_normal_string(&tokens, &i, cmd, &quote);
 	}
 	return (tokens);
 }

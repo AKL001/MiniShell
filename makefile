@@ -11,6 +11,7 @@ src =   cleanup/clean_up.c \
 		lexing/unclosed_quotes.c \
 		parsing/parse_cmd.c \
 		parsing/parse_utils.c \
+		parsing/parse_utile_2.c \
 		parsing/remove_quotes.c \
 		parsing/redirection.c \
 		expansion/expande.c \
@@ -44,12 +45,12 @@ obj = $(src:.c=.o)
 
 name = minishell
 libft = libft/libft.a
-flags = -Wall -Wextra -Werror
+# flags = -Wall -Wextra -Werror
 
 all: $(name)
 
 $(name): $(obj) $(libft)
-	cc  $(flags) $(obj) -o $(name) $(libft) -lreadline
+	cc  -g $(flags) $(obj) -o $(name) $(libft) -lreadline
 
 %.o: %.c
 	cc $(flags) -c $< -o $@

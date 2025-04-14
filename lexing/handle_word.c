@@ -6,107 +6,89 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 04:55:14 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/04/10 10:41:37 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/14 19:23:25 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/header.h"
 
-static char	*join_and_free(char *s1, char *s2)
+int	is_space(char c)
 {
-	char	*joined;
-
-	joined = ft_strjoin(s1, s2);
-	free(s1);
-	free(s2);
-	return (joined);
+	return (c == ' ' || c == '\t');
 }
 
-static char	*handle_plain_text(char *cmd, int *i, char *str)
+char	*add_char_to_string(char c, char *value)
 {
-	int		j;
-	char	*tmp;
+	char	*string;
+	int		len;
+	int		i;
 
-	j = *i;
-	tmp = NULL;
-	while (cmd[*i] && !is_operator(cmd[*i]) && !is_quote(cmd[*i])
-		&& cmd[*i] != ' ' && cmd[*i] != '\t')
-		(*i)++;
-	tmp = ft_substr(cmd, j, *i - j);
-	if (!str)
-		return (tmp);
-	return (join_and_free(str, tmp));
-}
-
-char	*handle_word(char *cmd, int *i)
-{
-	char	*str;
-	char	*quoted;
-
-	str = NULL;
-	quoted = NULL;
-	while (cmd[*i] && !is_operator(cmd[*i]) && cmd[*i] != ' '
-		&& cmd[*i] != '\t')
+	i = 0;
+	if (!value)
+		len = 0;
+	else
+		len = ft_strlen(value);
+	if (!c)
+		return (value);
+	string = malloc(sizeof(char) * (len + 2));
+	while (i < len)
 	{
-		if (is_quote(cmd[*i]))
-		{
-			quoted = handle_quote(cmd, i);
-			if (!quoted)
-				return (NULL);
-			if (!str)
-				str = quoted;
-			else
-				str = join_and_free(str, quoted);
-		}
-		else
-			str = handle_plain_text(cmd, i, str);
+		string[i] = value[i];
+		i++;
 	}
-	return (str);
+	string[i] = c;
+	string[i + 1] = '\0';
+	if (value)
+		free(value);
+	return (string);
 }
 
-// char	*handle_word(char *cmd, int *i)
-// {
-// 	int start;
-// 	char *str = NULL;
-// 	char *tmp = NULL;
-// 	char *quoted;
+void	add_new_value_to_tokens(t_token **tokens, char *value)
+{
+	t_token	*new_token;
+	t_token	*last;
 
-// 	start = *i;
-// 	while (cmd[*i] && !is_operator(cmd[*i]) && cmd[*i] != ' '
-// 		&& cmd[*i] != '\t')
-// 	{
-// 		if (is_quote(cmd[*i]))
-// 		{
-// 			quoted = handle_quote(cmd, i);
-// 			if (!quoted)
-// 				return (NULL);
-// 			if (!str)
-// 				str = quoted;
-// 			else
-// 			{
-// 				tmp = ft_strjoin(str, quoted);
-// 				free(str);
-// 				free(quoted);
-// 				str = tmp;
-// 			}
-// 		}
-// 		else
-// 		{
-// 			int j = *i;
-// 			while (cmd[*i] && !is_operator(cmd[*i]) && !is_quote(cmd[*i])
-// 				&& cmd[*i] != ' ' && cmd[*i] != '\t')
-// 				(*i)++;
-// 			tmp = ft_substr(cmd, j, *i - j);
-// 			if (!str)
-// 				str = tmp;
-// 			else
-// 			{
-// 				char *joined = ft_strjoin(str, tmp);
-// 				free(str);
-// 				free(tmp);
-// 				str = joined;
-// 			}
-// 		}
-// 	}
-// 	return (str);
-// }
+	new_token = create_new_token(value);
+	if (!new_token)
+		return ;
+	if (!(*tokens))
+		(*tokens) = new_token;
+	else
+	{
+		last = (*tokens);
+		while (last->next)
+			last = last->next;
+		last->next = new_token;
+	}
+}
+
+void	add_special_operator(t_token **tokens, int *i, char *cmd)
+{
+	char	*value;
+
+	if (!cmd)
+		return ;
+	value = NULL;
+	if (is_space(cmd[*i]))
+	{
+		(*i)++;
+		return ;
+	}
+	value = add_char_to_string(cmd[*i], value);
+	(*i)++;
+	if (cmd[*i] == cmd[*i - 1])
+	{
+		value = add_char_to_string(cmd[*i], value);
+		(*i)++;
+	}
+	if (value && *value)
+	{
+		add_new_value_to_tokens(tokens, value);
+		free(value);
+	}
+}
+
+int	is_split_op(char c)
+{
+	return (is_space(c) || c == '|' || c == '>' || c == '<');
+}

@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 03:32:11 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/04/11 12:08:58 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/14 19:24:50 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,13 @@ char				*handle_operator(char *cmd, int *i);
 int					is_op_or_quote(char c);
 int					is_space_or_tab(char c);
 int					is_quote(char c);
+void				get_quote_value(char c, char *q);
+char				*add_char_to_string(char c, char *value);
+
+int					is_space(char c);
+void				add_new_value_to_tokens(t_token **tokens, char *value);
+void				add_special_operator(t_token **tokens, int *i, char *cmd);
+int					is_split_op(char c);
 
 /*******************ft_split.c*****************/
 void				free_strings(char **strings);
@@ -124,6 +131,9 @@ void				split_wordes(t_token **token);
 /***************parsing*********************/
 t_command			*parse_token(t_token *token, t_env *custom_env);
 char				*ft_strndup(const char *s, size_t n);
+int					is_quoted_and_strip(char **str);
+void				remply_redir(t_redir **redir, char *filename,
+						t_redir_type type, t_command *cmd);
 
 /**************parse_utils******************/
 void				add_command_redirection(t_command *cmd, t_redir_type type,
@@ -158,17 +168,17 @@ t_redir_type		get_redirection_type(t_token_type token_type);
 void				print_commands(t_command *cmd);
 */
 // ******************expantion**********************
-char				*ft_strjoin_free(char *s1, char *s2);
 char				*get_env_value_2(char *key, t_env *env);
-char				*expand_dollar(const char *s, int *i, t_env *env);
-char				*handle_single_quote(const char *s, int *i);
-char				*handle_double_quote(const char *s, int *i, t_env *env);
-char				*expand_string(const char *s, t_env *env);
+char				*expand_string(char *s, t_env *env);
 void				variable_expansion(t_command *command, t_env *custom_env);
+char				*get_key_value(char *s, int *i);
+char				*handle_exit_case(char *value);
+char				*expand_dollar(char *string, char *s, int *i, t_env *env);
+char				*handle_dollar(char *value, char *s, char q, int *i,
+						t_env *env);
 
 //*******************built_in functions*************
 t_env				*init_envp(char **envp);
-
 int					execute_builtin(t_command *cmd, t_env **env);
 int					count_char(char *str, char c);
 void				my_export(t_env **env, char **args);
