@@ -30,6 +30,7 @@ typedef struct s_vars
 {
 	int				g_exit_status;
 	int				in_child;
+	int 			g_heredoc_temp_fd;
 }					t_vars;
 
 extern t_vars		g_vars;
@@ -212,8 +213,9 @@ char				*ft_read_until_newline(int fd);
 int					handle_heredocs(t_command *cmd);
 int					get_next_line(char *delimiter, int heredoc_fd);
 void				cleanup_heredocs(t_command *cmd);
-int					read_heredoc(t_redir *heredoc, int *heredoc_fd, int open_fd,
-						t_env *env);
+	// int					read_heredoc(t_redir *heredoc, int *heredoc_fd, int open_fd,
+	// 						t_env *env);
+int	read_heredoc(t_redir *heredoc, t_env *env);
 int					execute_command(t_command *cmd, t_env *env);
 int					exec_single_cmd(t_command *cmd, pid_t *pids, int *count);
 int					setup_pipes(t_command *cmd, int in_fd, pid_t *pids,

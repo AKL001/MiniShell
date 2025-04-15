@@ -39,12 +39,9 @@ static int	write_heredoc_content(int fd, char *delimiter, int quoted,
 
 	while (1)
 	{
-		write(STDOUT_FILENO, "> ", 2);
-		line = ft_read_until_newline(STDIN_FILENO);
+		line = readline("> ");
 		if (!line)
 			break ;
-		if (line[ft_strlen(line) - 1] == '\n')
-			line[ft_strlen(line) - 1] = '\0';
 		if (ft_strcmp(line, delimiter) == 0)
 		{
 			free(line);
@@ -56,34 +53,148 @@ static int	write_heredoc_content(int fd, char *delimiter, int quoted,
 	return (0);
 }
 
-int	read_heredoc(t_redir *heredoc, int *heredoc_fd, int open_fd, t_env *env)
-{
-	int	temp_fd;
+// int	read_heredoc(t_redir *heredoc, int *heredoc_fd, int open_fd, t_env *env)
+// {
+// 	int	temp_fd;
 
-	temp_fd = open(".heredoc_temp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (temp_fd == -1)
-		return (error_message("heredoc temp file", 1));
-	if (write_heredoc_content(temp_fd, heredoc->filename, heredoc->quoted,
-			env) == -1)
+// 	temp_fd = open(".heredoc_temp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+// 	if (temp_fd == -1)
+// 		return (error_message("heredoc temp file", 1));
+// 	if (write_heredoc_content(temp_fd, heredoc->filename, heredoc->quoted,
+// 			env) == -1)
+// 	{
+// 		close(temp_fd);
+// 		return (-1);
+// 	}
+// 	close(temp_fd);
+// 	if (open_fd == 1)
+// 	{
+// 		*heredoc_fd = open(".heredoc_temp", O_RDONLY);
+// 		if (*heredoc_fd == -1)
+// 		{
+// 			unlink(".heredoc_temp");
+// 			return (error_message("heredoc read", 1));
+// 		}
+// 	}
+// 	else
+// 		*heredoc_fd = -1;
+// 	unlink(".heredoc_temp");
+// 	return (0);
+// }
+
+void	handle_heredoc_sigint(int sig)
+{
+	(void)sig;
+
+	if (g_vars.g_heredoc_temp_fd != -1)
 	{
-		close(temp_fd);
-		return (-1);
+		close(g_vars.g_heredoc_temp_fd);
+		g_vars.g_heredoc_temp_fd = -1;
 	}
-	close(temp_fd);
-	if (open_fd == 1)
-	{
-		*heredoc_fd = open(".heredoc_temp", O_RDONLY);
-		if (*heredoc_fd == -1)
-		{
-			unlink(".heredoc_temp");
-			return (error_message("heredoc read", 1));
-		}
-	}
-	else
-		*heredoc_fd = -1;
+
 	unlink(".heredoc_temp");
+	write(1, "\n", 1);
+	g_vars.g_exit_status = 130;
+
+	exit(130);
+}
+
+// int	read_heredoc(t_redir *heredoc, t_env *env)
+// {
+// 	int	temp_fd;
+
+// 	temp_fd = open(".heredoc_temp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+// 	if (temp_fd == -1)
+// 		return (error_message("heredoc temp file open", 1));
+
+// 	if (write_heredoc_content(temp_fd, heredoc->filename, heredoc->quoted, env) == -1)
+// 	{
+// 		close(temp_fd); // Clean up on error
+// 		return (error_message("heredoc write failed", 1));
+// 	}
+// 	if (close(temp_fd) == -1)
+// 		return (error_message("heredoc close failed", 1));
+// 	return (0);
+// }
+
+int	read_heredoc(t_redir *heredoc, t_env *env)
+{
+	g_vars.g_heredoc_temp_fd = open(".heredoc_temp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (g_vars.g_heredoc_temp_fd == -1)
+		return (error_message("heredoc temp file open", 1));
+
+	if (write_heredoc_content(g_vars.g_heredoc_temp_fd, heredoc->filename, heredoc->quoted, env) == -1)
+	{
+		close(g_vars.g_heredoc_temp_fd);
+		g_vars.g_heredoc_temp_fd = -1;
+		return (error_message("heredoc write failed", 1));
+	}
+
+	if (close(g_vars.g_heredoc_temp_fd) == -1)
+		return (error_message("heredoc close failed", 1));
+	g_vars.g_heredoc_temp_fd = -1;
 	return (0);
 }
+
+int	read_heredoc_fork(t_redir *redir, int *heredoc_fd,int is_open, t_env *env)
+{
+	pid_t	pid;
+	int		status;
+
+	pid = fork();
+	if (pid == -1)
+		return (error_message("fork failed", 1));
+
+	if (pid == 0)
+	{
+		signal(SIGINT, handle_heredoc_sigint);
+		if (read_heredoc(redir, env) == -1)
+			exit(1);
+		exit(0);
+	}
+	else
+	{
+		// signal(SIGINT, SIG_IGN);
+		// setup_parent_signals();
+		waitpid(pid, &status, 0);
+
+		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+		{
+			write(STDOUT_FILENO, "\n", 1);
+			g_vars.g_exit_status = 130;
+			*heredoc_fd = -1;
+			unlink(".heredoc_temp");
+			return (-1);
+		}
+		else if (WEXITSTATUS(status) != 0)
+		{
+			*heredoc_fd = -1;
+			unlink(".heredoc_temp");
+			return (-1);
+		}
+		if (is_open)
+		{
+			*heredoc_fd = open(".heredoc_temp", O_RDONLY);
+			if (*heredoc_fd == -1)
+			{
+				unlink(".heredoc_temp");
+				return (error_message("parent open heredoc temp failed", 1));
+			}
+		}
+		else
+			*heredoc_fd = -1;
+		if (unlink(".heredoc_temp") == -1)
+		{
+			perror("unlink failed");
+			close(*heredoc_fd);
+			return (-1);
+		}
+
+		redir->heredoc_fd = *heredoc_fd;
+	}
+	return (0);
+}
+
 
 int	handle_heredocs(t_command *cmd)
 {
@@ -102,9 +213,10 @@ int	handle_heredocs(t_command *cmd)
 		{
 			if (redir->type == REDIR_HEREDOC)
 			{
-				if (read_heredoc(redir, &redir->heredoc_fd, open, cmd->env)
+				if (read_heredoc_fork(redir, &redir->heredoc_fd,open, cmd->env)
 					== -1)
 					return (-1);
+				// printf("-----heredoc_fd in hande heredocs => %d------\n",redir->heredoc_fd);
 			}
 			redir = redir->next;
 		}

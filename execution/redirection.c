@@ -60,6 +60,7 @@ static int	process_input_redirs(t_command *cmd, int *in_fd,
 		}
 		else if (r->type == REDIR_HEREDOC && !(*last_input_type))
 		{
+			// printf("im here doc redi %d | %d \n",*in_fd,r->heredoc_fd);
 			if (*in_fd != -1)
 				close(*in_fd);
 			*in_fd = r->heredoc_fd;
@@ -100,8 +101,12 @@ int	handle_redirections(t_command *cmd)
 		return (-1);
 	if (process_output_redirs(cmd, &out_fd) == -1)
 		return (-1);
+	// printf("after handel redirection in_fd = %d\n",in_fd);
 	if (in_fd != -1 && (dup2(in_fd, STDIN_FILENO) == -1 || close(in_fd) == -1))
+	{
+		perror("dup");
 		return (-1);
+	}
 	if (out_fd != -1 && (dup2(out_fd, STDOUT_FILENO) == -1 || close(out_fd)
 			== -1))
 		return (-1);

@@ -13,9 +13,16 @@
 #include "libft.h"
 
 // open file table
-void	ft_putchar_fd(char c, int fd)
+int	ft_putchar_fd(char c, int fd)
 {
-	if (fd < 0)
-		return ;
-	write(fd, &c, 1);
+	if (write(fd, &c, 1) == -1)
+		return (1);
+	return (0);
 }
+
+// void	ft_putchar_fd(char c, int fd)
+// {
+// 	if (fd < 0)
+// 		return ;
+// 	write(fd, &c, 1);
+// }

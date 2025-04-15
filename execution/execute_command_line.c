@@ -46,6 +46,21 @@ static int	restore_and_exit(int saved_fds[2], int exit_code)
 	return (exit_code);
 }
 
+int	is_builtin(t_command *cmd)
+{
+	if (!cmd || !cmd->args || !cmd->args->value)
+		return (0);
+	return (
+		ft_strcmp(cmd->args->value, "cd") == 0 ||
+		ft_strcmp(cmd->args->value, "echo") == 0 ||
+		ft_strcmp(cmd->args->value, "env") == 0 ||
+		ft_strcmp(cmd->args->value, "exit") == 0 ||
+		ft_strcmp(cmd->args->value, "export") == 0 ||
+		ft_strcmp(cmd->args->value, "pwd") == 0 ||
+		ft_strcmp(cmd->args->value, "unset") == 0
+	);
+}
+
 int	exec_single_cmd(t_command *cmd, pid_t *pids, int *count)
 {
 	pid_t	pid;
@@ -53,11 +68,17 @@ int	exec_single_cmd(t_command *cmd, pid_t *pids, int *count)
 
 	p_fds[0] = dup(STDIN_FILENO);
 	p_fds[1] = dup(STDOUT_FILENO);
-	if (handle_redirections(cmd) == -1)
-		return (restore_and_exit(p_fds, 1));
-	if (execute_builtin(cmd, &cmd->env))
-		return (restore_and_exit(p_fds, 1));
+	if (is_builtin(cmd))
+	{
+		if (handle_redirections(cmd) == -1)
+			return (restore_and_exit(p_fds, 1));
+		if (execute_builtin(cmd, &cmd->env))
+			return (restore_and_exit(p_fds, 1));
+		restore_std_fds(p_fds);
+		return (0);
+	}
 	restore_std_fds(p_fds);
+	// printf("exec single cmd\n");
 	pid = fork();
 	if (pid == -1)
 		return (error_message("fork", 1));
@@ -87,6 +108,7 @@ int	execute_command_line(t_command *cmd, t_env *env)
 	if (handle_heredocs(cmd) == -1)
 		return (cleanup_heredocs(cmd), 1);
 	pid_count = 0;
+	// printf("heredoc fd = %d\n",cmd->redirections->heredoc_fd);
 	if (cmd->next)
 		setup_pipes(cmd, STDIN_FILENO, child_pids, &pid_count);
 	else if (exec_single_cmd(cmd, child_pids, &pid_count))

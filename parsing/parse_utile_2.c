@@ -35,13 +35,30 @@ int	is_quoted_and_strip(char **str)
 	size_t	len;
 	char	*original;
 	char	*new_str;
+	int	quoted = 0;
 
 	original = *str;
-	len = strlen(original);
+	len = ft_strlen(original);
 	if (len >= 2 && ((original[0] == '\'' && original[len - 1] == '\'')
 			|| (original[0] == '"' && original[len - 1] == '"')))
 	{
 		new_str = ft_strndup(original + 1, len - 2);
+		free(*str);
+		*str = new_str;
+		return (1);
+	}
+	if (len >= 2 && ((original[0] == '\'' && original[1] == '\'')
+			|| (original[0] == '"' && original[1] == '"')))
+	{
+		new_str = ft_strdup(original + 2);
+		free(*str);
+		*str = new_str;
+		return (1);
+	}
+	if (len >= 2 && ((original[len - 2] == '\'' && original[len - 1] == '\'')
+			|| (original[len - 2] == '"' && original[len - 1] == '"')))
+	{
+		new_str = ft_strndup(original, len - 2);
 		free(*str);
 		*str = new_str;
 		return (1);

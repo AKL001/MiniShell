@@ -28,14 +28,17 @@ int	is_valid_n_flag(char *s)
 	return (1);
 }
 
+
 int	my_echo(t_env *custom_envp, char **args)
 {
 	int	i;
 	int	new_line;
+	int	result;
 
 	(void)custom_envp;
 	i = 1;
 	new_line = 1;
+	result = 0;
 	while (args[i] && is_valid_n_flag(args[i]))
 	{
 		new_line = 0;
@@ -43,12 +46,43 @@ int	my_echo(t_env *custom_envp, char **args)
 	}
 	while (args[i])
 	{
-		ft_putstr_fd(args[i], 1);
-		if (args[i + 1])
-			ft_putchar_fd(' ', 1);
+		if (ft_putstr_fd(args[i], 1) == -1)
+		{
+			perror("write :");
+			result = 1;
+		}
+		if (args[i + 1] && ft_putchar_fd(' ', 1) == -1)
+			result = 1;
 		i++;
 	}
-	if (new_line)
-		ft_putchar_fd('\n', 1);
-	return (0);
+	if (new_line && ft_putchar_fd('\n', 1) == -1)
+		result = 1;
+	g_vars.g_exit_status = result;
+	return (result);
 }
+
+// int	my_echo(t_env *custom_envp, char **args)
+// {
+// 	int	i;
+// 	int	new_line;
+
+// 	(void)custom_envp;
+// 	i = 1;
+// 	new_line = 1;
+// 	while (args[i] && is_valid_n_flag(args[i]))
+// 	{
+// 		new_line = 0;
+// 		i++;
+// 	}
+// 	while (args[i])
+// 	{
+// 		ft_putstr_fd(args[i], 1);
+// 		if (args[i + 1])
+// 			ft_putchar_fd(' ', 1);
+// 		i++;
+// 	}
+// 	if (new_line)
+// 		ft_putchar_fd('\n', 1);
+// 	g_vars.g_exit_status = 0;
+// 	return (0);
+// }

@@ -39,7 +39,8 @@ src =   cleanup/clean_up.c \
 		syntax_checker/syntax_checker.c\
 		syntax_checker/syntax_utils.c\
 		syntax_checker/syntax_utils2.c\
-		signals/signals.c
+		signals/signals.c\
+		print_cmd.c
 
 obj = $(src:.c=.o)
 
@@ -48,9 +49,10 @@ libft = libft/libft.a
 # flags = -Wall -Wextra -Werror
 
 all: $(name)
+	@make clean
 
 $(name): $(obj) $(libft)
-	cc  -g $(flags) $(obj) -o $(name) $(libft) -lreadline
+	cc  $(flags) $(obj) -o $(name) $(libft) -lreadline -g
 
 %.o: %.c
 	cc $(flags) -c $< -o $@

@@ -32,9 +32,9 @@ void	handle_q_type(char *input, int i, char *q_type)
 
 int	is_valid_operator(char *input, int i, char set)
 {
-	int	consecutive;
+	// int	consecutive;
 
-	consecutive = 0;
+	// consecutive = 0;
 	if (set == '&')
 	{
 		if (input[i] == '&' && input[i + 1] == '&')
