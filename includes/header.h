@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 03:32:11 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/04/14 19:24:50 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/15 18:33:50 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,8 @@ typedef struct s_cmd
 // lexing*********************************
 t_token				*create_new_token(char *value);
 void				add_new_token(t_token **tokens, char *value);
-t_token				*tokenazation(char *input);
+t_token	*tokenazation(char *input, t_env *env);
 t_token_type		set_type_token(char *value);
-char				*trim_whitespace(char *input);
 int					check_unclosed_quotes(char *cmd);
 void				free_token(t_token *tokens);
 t_token				*command_to_tokens(char *cmd);
@@ -171,13 +170,14 @@ void				print_commands(t_command *cmd);
 // ******************expantion**********************
 char				*get_env_value_2(char *key, t_env *env);
 char				*expand_string(char *s, t_env *env);
-void				variable_expansion(t_command *command, t_env *custom_env);
 char				*get_key_value(char *s, int *i);
 char				*handle_exit_case(char *value);
-char				*expand_dollar(char *string, char *s, int *i, t_env *env);
-char				*handle_dollar(char *value, char *s, char q, int *i,
-						t_env *env);
+char				*add_var_value(char *string, char *s, t_env *env, int *i);
 
+						char	*trim_whitespace(char *input, t_env *env);
+						char	*remove_quotes(char *trim);
+						
+						
 //*******************built_in functions*************
 t_env				*init_envp(char **envp);
 int					execute_builtin(t_command *cmd, t_env **env);

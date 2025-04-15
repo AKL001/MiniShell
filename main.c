@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:52:26 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/04/14 19:03:30 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/15 18:14:03 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,8 @@ static void	process_input_loop(t_env *env)
 		g_vars.in_child = 1;
 		if (*cmd)
 			add_history(cmd);
-		tokens = tokenazation(cmd);
+		tokens = tokenazation(cmd,env);
+		// print_token_list(tokens);
 		free(cmd);
 		exec_cmd = parse_token(tokens, env);
 		// print_command(exec_cmd);

@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 04:36:26 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/04/14 19:21:43 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/15 17:56:43 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	handle_normal_string(t_token **tokens, int *i, char *cmd, char *q)
 	}
 	if (value && *value)
 	{
+		value = remove_quotes(value);
 		add_new_value_to_tokens(tokens, value);
 		free(value);
 	}
@@ -71,14 +72,14 @@ t_token	*command_to_tokens(char *cmd)
 	return (tokens);
 }
 
-t_token	*tokenazation(char *input)
+t_token	*tokenazation(char *input, t_env *env)
 {
 	char	*trim;
 	t_token	*tokens;
 
 	if (!input)
 		return (NULL);
-	trim = trim_whitespace(input);
+	trim = trim_whitespace(input, env);
 	if (!trim)
 		return (NULL);
 	if (syntax_checker(trim))

@@ -14,9 +14,7 @@ src =   cleanup/clean_up.c \
 		parsing/parse_utile_2.c \
 		parsing/remove_quotes.c \
 		parsing/redirection.c \
-		expansion/expande.c \
 		expansion/expand_dollar.c \
-		expansion/handle_quotes.c \
 		expansion/expand_string.c \
 		built-in/init_env.c \
 		built-in/env.c \
