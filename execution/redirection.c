@@ -36,10 +36,6 @@ static int	handle_output_redir(t_redir *redir, int *first_out)
 	fd = open(redir->filename, flags, 0644);
 	if (fd == -1)
 		return (error_message("Permission denied\n", 1));
-	// if (*first_out == -1)
-	// 	*first_out = fd;
-	// else
-	// 	close(fd);
 	if (*first_out != -1)
 		close(*first_out);
 	*first_out = fd;
@@ -54,21 +50,19 @@ static int	process_input_redirs(t_command *cmd, int *in_fd,
 	r = cmd->redirections;
 	while (r)
 	{
-		if (r->type == REDIR_IN && !(*last_input_type))
+		if (r->type == REDIR_IN)
 		{
 			if (*in_fd != -1)
 				close(*in_fd);
 			*in_fd = open(r->filename, O_RDONLY);
 			if (*in_fd == -1)
-				return(error_message("No such file or directory\n", 1));
-			// *last_input_type = 1;
+				return (error_message("No such file or directory\n", 1));
 		}
-		else if (r->type == REDIR_HEREDOC && !(*last_input_type))
+		else if (r->type == REDIR_HEREDOC)
 		{
 			if (*in_fd != -1)
 				close(*in_fd);
 			*in_fd = r->heredoc_fd;
-			// *last_input_type = 1;
 		}
 		r = r->next;
 	}
@@ -105,7 +99,6 @@ int	handle_redirections(t_command *cmd)
 		return (-1);
 	if (process_output_redirs(cmd, &out_fd) == -1)
 		return (-1);
-	// printf("after  redirection in_fd = %d\n",in_fd);
 	if (in_fd != -1 && (dup2(in_fd, STDIN_FILENO) == -1 || close(in_fd) == -1))
 	{
 		perror("dup");

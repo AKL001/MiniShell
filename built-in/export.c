@@ -42,8 +42,7 @@ static void	append_env_node(t_env **custom_envp, t_env *new_node)
 	head->next = new_node;
 }
 
-static void	add_envp_var(t_env **custom_envp, char *key, char *value,
-		int overwrite)
+void	add_envp_var(t_env **custom_envp, char *key, char *value, int overwrite)
 {
 	t_env	*new_node;
 	t_env	*head;
@@ -69,66 +68,31 @@ static void	add_envp_var(t_env **custom_envp, char *key, char *value,
 		append_env_node(custom_envp, new_node);
 }
 
-char	*get_env(t_env *env, const char *key)
-{
-	while (env)
-	{
-		if (ft_strcmp(env->key, key) == 0)
-			return (env->value);
-		env = env->next;
-	}
-	return (NULL);
-}
-
 static int	process_export_arg(t_env **env, char *arg)
 {
+	char	*plus_equal;
 	char	*equal;
 	char	*key;
 	int		valid;
-	char *plus_equal;
-	char	*existing;
-	char	*new_value;
-	
+
 	plus_equal = ft_strnstr(arg, "+=", ft_strlen(arg));
 	if (plus_equal)
-	{
-		valid = is_valid_identifier(arg);
-		if (valid)
-		{
-			key = ft_strndup(arg, plus_equal - arg);
-			existing = get_env(*env, key);
-			if (existing)
-				new_value = ft_strjoin(existing, plus_equal + 2);
-			else
-				new_value = ft_strjoin("", plus_equal + 2);
-			add_envp_var(env, key, new_value, 1);
-			free(key);
-			free(new_value);
-		}
-		else
-			write(2, "export: not a valid identifier\n", 31);
-		return (valid);
-	}
+		return (handle_plus_equal_case(env, arg, plus_equal));
 	equal = ft_strchr(arg, '=');
 	if (equal)
 	{
 		key = ft_strndup(arg, equal - arg);
-		valid = is_valid_identifier(key);
-		if (valid)
-			add_envp_var(env, key, equal + 1, 1);
-		else
-			write(2, "export: not a valid identifier\n", 31);
+		if (is_valid_identifier(key) == 1)
+			return (add_envp_var(env, key, equal + 1, 1), free(key), 1);
 		free(key);
 	}
 	else
 	{
-		valid = is_valid_identifier(arg);
-		if (valid)
-			add_envp_var(env, arg, "", 0);
-		else
-			write(2, "export: not a valid identifier\n", 31);
+		if (is_valid_identifier(arg) == 1)
+			return (add_envp_var(env, arg, "", 0), 1);
 	}
-	return (valid);
+	write(2, "export: not a valid identifier\n", 31);
+	return (0);
 }
 
 void	my_export(t_env **env, char **args)
@@ -145,7 +109,56 @@ void	my_export(t_env **env, char **args)
 	}
 	g_vars.g_exit_status = 0;
 }
+// static int	process_export_arg(t_env **env, char *arg)
+// {
+// 	char	*equal;
+// 	char	*key;
+// 	int		valid;
+// 	char *plus_equal;
+// 	char	*existing;
+// 	char	*new_value;
 
+// 	plus_equal = ft_strnstr(arg, "+=", ft_strlen(arg));
+// 	if (plus_equal)
+// 	{
+// 		valid = is_valid_identifier(arg);
+// 		if (valid)
+// 		{
+// 			key = ft_strndup(arg, plus_equal - arg);
+// 			existing = get_env(*env, key);
+// 			if (existing)
+// 				new_value = ft_strjoin(existing, plus_equal + 2);
+// 			else
+// 				new_value = ft_strjoin("", plus_equal + 2);
+// 			add_envp_var(env, key, new_value, 1);
+// 			free(key);
+// 			free(new_value);
+// 		}
+// 		else
+// 			write(2, "export: not a valid identifier\n", 31);
+// 		return (valid);
+// 	}
+// 	equal = ft_strchr(arg, '=');
+// 	if (equal)
+// 	{
+// 		key = ft_strndup(arg, equal - arg);
+// 		valid = is_valid_identifier(key);
+// 		if (valid)
+// 			add_envp_var(env, key, equal + 1, 1);
+// 		else
+// 			write(2, "export: not a valid identifier\n", 31);
+// 		free(key);
+// 	}
+// 	else
+// 	{
+// 		valid = is_valid_identifier(arg);
+// 		if (valid)
+// 			add_envp_var(env, arg, "", 0);
+// 		else
+// 			write(2, "export: not a valid identifier\n", 31);
+// 	}
+// 	return (valid);
+// }
 // void	my_export(t_env **env, char **args)
 // {
 // 	int		i;

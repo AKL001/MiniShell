@@ -29,8 +29,10 @@ src =   cleanup/clean_up.c \
 		main.c \
 		execution/exec_utils.c\
 		execution/exec_utils2.c\
+		execution/exec_utils3.c\
 		execution/execute_command_line.c\
 		execution/here_doc.c\
+		execution/here_doc_utils.c\
 		execution/get_next_line.c\
 		execution/pipes.c\
 		execution/redirection.c\

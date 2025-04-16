@@ -40,7 +40,7 @@ static void	update_env(t_env **env, const char *key, const char *value)
 	*env = new;
 }
 
-static char	*get_env(t_env *env, const char *key)
+char	*get_env(t_env *env, const char *key)
 {
 	while (env)
 	{

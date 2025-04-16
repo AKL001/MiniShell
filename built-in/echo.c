@@ -28,6 +28,11 @@ int	is_valid_n_flag(char *s)
 	return (1);
 }
 
+static int	handle_write_error(void)
+{
+	perror("write :");
+	return (1);
+}
 
 int	my_echo(t_env *custom_envp, char **args)
 {
@@ -47,10 +52,7 @@ int	my_echo(t_env *custom_envp, char **args)
 	while (args[i])
 	{
 		if (ft_putstr_fd(args[i], 1) == -1)
-		{
-			perror("write :");
-			result = 1;
-		}
+			result = handle_write_error();
 		if (args[i + 1] && ft_putchar_fd(' ', 1) == -1)
 			result = 1;
 		i++;

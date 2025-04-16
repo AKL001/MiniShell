@@ -20,9 +20,9 @@
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <sys/stat.h>
 # include <sys/wait.h>
 # include <unistd.h>
-#include <sys/stat.h>
 
 # define RED "\033[31m"
 # define RESET "\033[0m"
@@ -31,7 +31,7 @@ typedef struct s_vars
 {
 	int				g_exit_status;
 	int				in_child;
-	int 			g_heredoc_temp_fd;
+	int				g_heredoc_temp_fd;
 }					t_vars;
 
 extern t_vars		g_vars;
@@ -94,7 +94,7 @@ typedef struct s_cmd
 // lexing*********************************
 t_token				*create_new_token(char *value);
 void				add_new_token(t_token **tokens, char *value);
-t_token	*tokenazation(char *input, t_env *env);
+t_token				*tokenazation(char *input, t_env *env);
 t_token_type		set_type_token(char *value);
 int					check_unclosed_quotes(char *cmd);
 void				free_token(t_token *tokens);
@@ -175,13 +175,18 @@ char				*get_key_value(char *s, int *i);
 char				*handle_exit_case(char *value);
 char				*add_var_value(char *string, char *s, t_env *env, int *i);
 
-						char	*trim_whitespace(char *input, t_env *env);
-						char	*remove_quotes(char *trim);
-						
-						
+char				*trim_whitespace(char *input, t_env *env);
+char				*remove_quotes(char *trim);
+
 //*******************built_in functions*************
 t_env				*init_envp(char **envp);
 int					execute_builtin(t_command *cmd, t_env **env);
+int					is_valid_path(const char *path);
+int					handle_plus_equal_case(t_env **env, char *arg,
+						char *plus_equal);
+void				add_envp_var(t_env **custom_envp, char *key, char *value,
+						int overwrite);
+char				*get_env_export(t_env *env, const char *key);
 int					count_char(char *str, char c);
 void				my_export(t_env **env, char **args);
 int					my_echo(t_env *my_envp, char **args);
@@ -195,7 +200,11 @@ t_env				*create_new(char *key, char *value);
 int					is_valid_identifier(char *str);
 void				print_export(t_env *env);
 /*  execution  */
-
+void				handle_heredoc_sigint(int sig);
+int	exec_builtin(t_command *cmd, int *p_fds);
+void	restore_std_fds(int saved_fds[2]);
+int	is_builtin(t_command *cmd);
+int	read_heredoc_fork(t_redir *redir, int *heredoc_fd,int is_open, t_env *env);
 int					execute_command_line(t_command *cmd, t_env *env);
 char				*ft_strjoin_three(char *s1, char *s2, char *s3);
 char				*get_env_value(char *key, t_env *env);
@@ -214,9 +223,7 @@ char				*ft_read_until_newline(int fd);
 int					handle_heredocs(t_command *cmd);
 int					get_next_line(char *delimiter, int heredoc_fd);
 void				cleanup_heredocs(t_command *cmd);
-	// int					read_heredoc(t_redir *heredoc, int *heredoc_fd, int open_fd,
-	// 						t_env *env);
-int	read_heredoc(t_redir *heredoc, t_env *env);
+int					read_heredoc(t_redir *heredoc, t_env *env);
 int					execute_command(t_command *cmd, t_env *env);
 int					exec_single_cmd(t_command *cmd, pid_t *pids, int *count);
 int					setup_pipes(t_command *cmd, int in_fd, pid_t *pids,

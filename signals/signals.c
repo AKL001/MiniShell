@@ -26,6 +26,22 @@ void	sigint_handler(int sig)
 	}
 }
 
+void	handle_heredoc_sigint(int sig)
+{
+	(void)sig;
+
+	if (g_vars.g_heredoc_temp_fd != -1)
+	{
+		close(g_vars.g_heredoc_temp_fd);
+		g_vars.g_heredoc_temp_fd = -1;
+	}
+
+	unlink(".heredoc_temp");
+	write(1, "\n", 1);
+	g_vars.g_exit_status = 130;
+	exit(130);
+}
+
 void	setup_parent_signals(void)
 {
 	signal(SIGINT, sigint_handler);

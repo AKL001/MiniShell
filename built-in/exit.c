@@ -32,7 +32,7 @@ static int	is_numeric(const char *str)
 
 void	my_exit(char **args)
 {
-	long	exit_code;
+	int	exit_code;
 
 	printf("exit\n");
 	if (args[1] && args[2])
@@ -48,8 +48,8 @@ void	my_exit(char **args)
 			error_message("exit: numeric argument required\n", 2);
 			exit(2);
 		}
-		exit_code = ft_atol(args[1]);
-		exit(exit_code % 256);
+		exit_code = ft_atoi(args[1]);
+		exit(exit_code);
 	}
 	exit(g_vars.g_exit_status);
 }
