@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 03:22:04 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/04/15 18:31:51 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/16 21:29:33 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,11 @@ char	*trim_whitespace(char *input, t_env *env)
 		str = ft_strdup("");
 	else
 		str = ft_substr(input, start, end - start + 1);
-	expand = expand_string(str, env);
-	free(str);
-	if (!expand)
+	// expand = expand_string(str, env);
+	// free(str);
+	if (!str)
 		return (ft_strdup(""));
-	return (expand);
+	return (str);
 }
 
 char	*remove_quotes(char *trim)
@@ -85,4 +85,14 @@ char	*remove_quotes(char *trim)
 	if (!string)
 		return (free(trim), ft_strdup(""));
 	return (free(trim), string);
+}
+
+void remove_quotes_main(t_token *tokens)
+{
+	
+	while (tokens)
+	{
+		tokens->value= remove_quotes(tokens->value);;
+		tokens = tokens->next;
+	}
 }

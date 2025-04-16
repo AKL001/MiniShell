@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 04:55:14 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/04/15 17:55:43 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/16 16:23:48 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	add_special_operator(t_token **tokens, int *i, char *cmd)
 	}
 	if (value && *value)
 	{
-		value = remove_quotes(value);
+		// value = remove_quotes(value);
 		add_new_value_to_tokens(tokens, value);
 		free(value);
 	}

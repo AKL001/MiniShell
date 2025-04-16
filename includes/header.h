@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 03:32:11 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/04/15 18:33:50 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/16 21:29:39 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,11 +107,16 @@ int					is_space_or_tab(char c);
 int					is_quote(char c);
 void				get_quote_value(char c, char *q);
 char				*add_char_to_string(char c, char *value);
+void remove_quotes_main(t_token *tokens);
 
 int					is_space(char c);
 void				add_new_value_to_tokens(t_token **tokens, char *value);
 void				add_special_operator(t_token **tokens, int *i, char *cmd);
 int					is_split_op(char c);
+
+void field_split(t_token **tokens);
+void expand_tokens(t_token **tokens, t_env *env);
+
 
 /*******************ft_split.c*****************/
 void				free_strings(char **strings);
@@ -123,11 +128,7 @@ int					len_word(char *str, char *sep);
 char				*word_allocation(char *str, char *sep);
 
 /*******************handle_word.c*****************/
-char				*handle_word(char *cmd, int *i);
 int					inside_quotes(char *str);
-int					count_number_of_strings(char **strings);
-void				add_strings_to_token(char **words, t_token **token);
-void				split_wordes(t_token **token);
 
 /***************parsing*********************/
 t_command			*parse_token(t_token *token, t_env *custom_env);
