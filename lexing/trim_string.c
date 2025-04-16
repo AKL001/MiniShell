@@ -89,10 +89,57 @@ char	*remove_quotes(char *trim)
 
 void remove_quotes_main(t_token *tokens)
 {
-	
+	char	*remove;
+	int		is_delim;
+
+	is_delim = 0;
 	while (tokens)
 	{
-		tokens->value= remove_quotes(tokens->value);;
+		// if (tokens->type )
+		// tokens->value= remove_quotes(tokens->value);;
+		// tokens = tokens->next;
+		if (is_delim && tokens->type == TOKEN_WORD)
+			is_delim = 0;
+		else
+		{
+			if (tokens->type == TOKEN_HEREDOC)
+				is_delim = 1;
+			else
+			{
+				remove = remove_quotes(tokens->value);
+				// free(tokens->value);
+				tokens->value = remove;
+			}
+		}
 		tokens = tokens->next;
 	}
 }
+
+// cat | << | ""eof
+
+// void	expand_tokens(t_token **tokens, t_env *env)
+// {
+// 	t_token	*head;
+// 	char	*expand;
+// 	int		is_delim;
+
+// 	head = *tokens;
+// 	is_delim = 0;
+// 	while (head)
+// 	{
+// 		if (is_delim && head->type == TOKEN_WORD)
+// 			is_delim = 0;
+// 		else
+// 		{
+// 			if (head->type == TOKEN_HEREDOC)
+// 				is_delim = 1;
+// 			else
+// 			{
+// 				expand = remove_quotes(tokens->value);
+// 				free(head->value);
+// 				head->value = expand;
+// 			}
+// 		}
+// 		head = head->next;
+// 	}
+// }

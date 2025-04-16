@@ -138,7 +138,7 @@ static void	process_input_loop(t_env *env)
 		//print_token_list(tokens);
 		free(cmd);
 		exec_cmd = parse_token(tokens, env);
-		print_command(exec_cmd);
+		// print_command(exec_cmd);
 		execute_command_line(exec_cmd, env);
 		free_commands(exec_cmd);
 	}
