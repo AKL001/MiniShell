@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../includes/header.h"
+#include <fcntl.h>
 
 static int	handle_input_redir(t_redir *redir, int *first_in)
 {
@@ -35,10 +36,13 @@ static int	handle_output_redir(t_redir *redir, int *first_out)
 	fd = open(redir->filename, flags, 0644);
 	if (fd == -1)
 		return (error_message("Permission denied\n", 1));
-	if (*first_out == -1)
-		*first_out = fd;
-	else
-		close(fd);
+	// if (*first_out == -1)
+	// 	*first_out = fd;
+	// else
+	// 	close(fd);
+	if (*first_out != -1)
+		close(*first_out);
+	*first_out = fd;
 	return (0);
 }
 
@@ -54,17 +58,17 @@ static int	process_input_redirs(t_command *cmd, int *in_fd,
 		{
 			if (*in_fd != -1)
 				close(*in_fd);
-			if (handle_input_redir(r, in_fd) == -1)
-				return (-1);
-			*last_input_type = 1;
+			*in_fd = open(r->filename, O_RDONLY);
+			if (*in_fd == -1)
+				return(error_message("No such file or directory\n", 1));
+			// *last_input_type = 1;
 		}
 		else if (r->type == REDIR_HEREDOC && !(*last_input_type))
 		{
-			// printf("im here doc redi %d | %d \n",*in_fd,r->heredoc_fd);
 			if (*in_fd != -1)
 				close(*in_fd);
 			*in_fd = r->heredoc_fd;
-			*last_input_type = 1;
+			// *last_input_type = 1;
 		}
 		r = r->next;
 	}
@@ -101,7 +105,7 @@ int	handle_redirections(t_command *cmd)
 		return (-1);
 	if (process_output_redirs(cmd, &out_fd) == -1)
 		return (-1);
-	// printf("after handel redirection in_fd = %d\n",in_fd);
+	// printf("after  redirection in_fd = %d\n",in_fd);
 	if (in_fd != -1 && (dup2(in_fd, STDIN_FILENO) == -1 || close(in_fd) == -1))
 	{
 		perror("dup");

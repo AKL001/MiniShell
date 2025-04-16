@@ -1,0 +1,17 @@
+char				*get_env_value_2(char *key, t_env *env);
+char				*expand_string(char *s, t_env *env);
+char				*get_key_value(char *s, int *i);
+char				*handle_exit_case(char *value);
+char				*add_var_value(char *string, char *s, t_env *env, int *i);
+
+
+
+input > split to tokens {value type} > expand > field split > convert to cmd 
+
+here doc 
+{
+    should do not expand or remove quote , 
+    how can i sleect delemeter ?? 
+
+    type
+}

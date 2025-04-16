@@ -76,9 +76,10 @@ void	my_cd(char **args, t_env **env)
 		if (args[2])
 			return ((void)handle_cd_error("too many arguments", 1));
 	}
+	if (!getcwd(cwd, sizeof(cwd)))
+		return ((void)handle_cd_error("getcwd", 1));
 	if (chdir(target) == -1)
 		return ((void)handle_cd_error("cd: ", 1));
-	g_vars.g_exit_status = 0;
 	update_env(env, "OLDPWD", cwd);
 	if (!getcwd(cwd, sizeof(cwd)))
 		return ((void)handle_cd_error("getcwd", 1));
