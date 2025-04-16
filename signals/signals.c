@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../includes/header.h"
+#include <signal.h>
 
 void	sigint_handler(int sig)
 {
@@ -29,6 +30,7 @@ void	setup_parent_signals(void)
 {
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
+	signal(SIGTERM, SIG_IGN);
 }
 
 void	handle_child_signals(int sig_num)

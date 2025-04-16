@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../includes/header.h"
+#include <signal.h>
 
 static void	process_heredoc_line(int fd, char *line, int quoted, t_env *env)
 {
@@ -148,6 +149,7 @@ int	read_heredoc_fork(t_redir *redir, int *heredoc_fd,int is_open, t_env *env)
 	if (pid == 0)
 	{
 		signal(SIGINT, handle_heredoc_sigint);
+		signal(SIGQUIT, SIG_IGN);
 		if (read_heredoc(redir, env) == -1)
 			exit(1);
 		exit(0);

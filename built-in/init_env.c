@@ -39,6 +39,15 @@ void	update_existing_var(t_env *head, char *key, char *value)
 	}
 }
 
+static int	is_valid_path(const char *path)
+{
+	struct stat info;
+
+	if (!path)
+		return (0);
+	return (stat(path, &info) == 0);
+}
+
 void	add_new_var(t_env **custom_envp, char *key, char *value)
 {
 	t_env	*new_node;
@@ -63,7 +72,10 @@ void	add_env_var(t_env **custom_envp, char *key, char *value)
 	if (!custom_envp || !key || !value)
 		return ;
 	update_existing_var(*custom_envp, key, value);
-	add_new_var(custom_envp, key, value);
+	if (ft_strcmp(key, "OLDPWD") == 0 && !is_valid_path(value))
+		add_new_var(custom_envp, key, "");
+	else
+		add_new_var(custom_envp, key, value);
 }
 
 t_env	*init_envp(char **envp)

@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:52:26 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/04/15 18:14:03 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/16 14:57:28 by ablabib          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,37 @@ void	print_token_list(t_token *head)
 	}
 }
 
+char	**create_default_env(void)
+{
+	char	**env;
+	char	*cwd;
+
+	env = malloc(sizeof(char *) * 5);
+	if (!env)
+		return (NULL);
+	cwd = getcwd(NULL, 0);
+	env[0] = ft_strjoin("PWD=", cwd);
+	env[1] = ft_strdup("SHLVL=1");
+	env[2] = ft_strdup("_=/usr/bin/env");
+	env[3] = ft_strdup("PATH=/usr/bin:/bin");
+	env[4] = NULL;
+	free(cwd);
+	return (env);
+}
+
+
 static int	init_shell_environment(t_env **env, char **envp)
 {
+	char 	**default_env;
+
+	default_env = NULL;
 	if (!envp || !*envp)
-		return (0);
+	{
+		default_env = create_default_env();
+		if (!default_env)
+			return (0);
+		envp = default_env;
+	}
 	*env = init_envp(envp);
 	if (!*env)
 		return (0);
@@ -108,7 +135,7 @@ static void	process_input_loop(t_env *env)
 		if (*cmd)
 			add_history(cmd);
 		tokens = tokenazation(cmd,env);
-		// print_token_list(tokens);
+		//print_token_list(tokens);
 		free(cmd);
 		exec_cmd = parse_token(tokens, env);
 		// print_command(exec_cmd);

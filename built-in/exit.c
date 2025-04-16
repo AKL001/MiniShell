@@ -51,5 +51,5 @@ void	my_exit(char **args)
 		exit_code = ft_atol(args[1]);
 		exit(exit_code % 256);
 	}
-	exit(0);
+	exit(g_vars.g_exit_status);
 }

@@ -22,6 +22,7 @@
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <unistd.h>
+#include <sys/stat.h>
 
 # define RED "\033[31m"
 # define RESET "\033[0m"
