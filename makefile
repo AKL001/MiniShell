@@ -15,6 +15,7 @@ src =   cleanup/clean_up.c \
 		parsing/remove_quotes.c \
 		parsing/redirection.c \
 		expansion/expand_dollar.c \
+		expansion/expand.c \
 		expansion/expand_string.c \
 		built-in/init_env.c \
 		built-in/env.c \
@@ -47,7 +48,7 @@ libft = libft/libft.a
 # flags = -Wall -Wextra -Werror
 
 all: $(name)
-	@make clean
+	@make -s clean
 
 $(name): $(obj) $(libft)
 	cc  $(flags) $(obj) -o $(name) $(libft) -lreadline -g
@@ -57,9 +58,11 @@ $(name): $(obj) $(libft)
 
 clean:
 	rm -f $(obj)
-	@make -C libft/ clean
+	@make -s -C libft/ clean
 
 fclean: clean
 	rm -f $(name)
 
 re: fclean all
+
+.SECONDARY: $(obj)
