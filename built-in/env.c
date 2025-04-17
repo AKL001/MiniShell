@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../includes/header.h"
+#include <stdio.h>
 
 void	free_env(t_env *env)
 {
@@ -35,7 +36,7 @@ void	my_env(t_env *custom_env)
 	head = custom_env;
 	while (head)
 	{
-		if (head->value)
+		if (head->value && head->key)
 			printf("%s=%s\n", head->key, head->value);
 		head = head->next;
 	}

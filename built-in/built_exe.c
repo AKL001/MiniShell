@@ -52,7 +52,7 @@ int	execute_builtin(t_command *cmd, t_env **env)
 	else if (ft_strcmp(command, "cd") == 0)
 		return (my_cd(args_array, env), free(args_array), 1);
 	else if (ft_strcmp(command, "pwd") == 0)
-		return (my_pwd(cmd->env), free(args_array), 1);
+		return (my_pwd(*env), free(args_array), 1);
 	else if (ft_strcmp(command, "export") == 0)
 		return (my_export(env, args_array), free(args_array), 1);
 	else if (ft_strcmp(command, "unset") == 0)

@@ -87,7 +87,7 @@ typedef struct s_cmd
 {
 	t_args			*args;
 	t_redir			*redirections;
-	t_env			*env;
+	t_env			**env;
 	struct s_cmd	*next;
 }					t_command;
 
@@ -132,7 +132,7 @@ char				*word_allocation(char *str, char *sep);
 int					inside_quotes(char *str);
 
 /***************parsing*********************/
-t_command			*parse_token(t_token *token, t_env *custom_env);
+t_command			*parse_token(t_token *token, t_env **custom_env);
 char				*ft_strndup(const char *s, size_t n);
 int					is_quoted_and_strip(char **str);
 void				remply_redir(t_redir **redir, char *filename,
@@ -207,7 +207,8 @@ int	exec_builtin(t_command *cmd, int *p_fds);
 void	restore_std_fds(int saved_fds[2]);
 int	is_builtin(t_command *cmd);
 int	read_heredoc_fork(t_redir *redir, int *heredoc_fd,int is_open, t_env *env);
-int					execute_command_line(t_command *cmd, t_env *env);
+// int					execute_command_line(t_command *cmd, t_env *env);
+int	execute_command_line(t_command *cmd, t_env **env);
 char				*ft_strjoin_three(char *s1, char *s2, char *s3);
 char				*get_env_value(char *key, t_env *env);
 char				*find_command_path(char *cmd, t_env *env);
@@ -226,7 +227,8 @@ int					handle_heredocs(t_command *cmd);
 int					get_next_line(char *delimiter, int heredoc_fd);
 void				cleanup_heredocs(t_command *cmd);
 int					read_heredoc(t_redir *heredoc, t_env *env);
-int					execute_command(t_command *cmd, t_env *env);
+// int					execute_command(t_command *cmd, t_env *env);
+int	execute_command(t_command *cmd, t_env **env); 
 int					exec_single_cmd(t_command *cmd, pid_t *pids, int *count);
 int					setup_pipes(t_command *cmd, int in_fd, pid_t *pids,
 						int *count);

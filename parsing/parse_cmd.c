@@ -13,7 +13,7 @@
 #include "../includes/header.h"
 
 int	prepare_command_if_needed(t_command **current_cmd, t_command **head,
-		t_command ***tail, t_env *env)
+		t_command ***tail, t_env **env)
 {
 	if (*current_cmd)
 		return (1);
@@ -91,7 +91,7 @@ int	process_token_type(t_token **token, t_command **current_cmd,
 	return (1);
 }
 
-t_command	*parse_token(t_token *token, t_env *custom_env)
+t_command	*parse_token(t_token *token, t_env **custom_env)
 {
 	t_command	*current_cmd;
 	t_command	*head;

@@ -43,7 +43,7 @@ int	exec_builtin(t_command *cmd, int *p_fds)
 {
 	if (handle_redirections(cmd) == -1)
 		return (restore_and_exit(p_fds, 1));
-	if (execute_builtin(cmd, &cmd->env))
+	if (execute_builtin(cmd, cmd->env))
 		return (restore_and_exit(p_fds, 1));
 	restore_std_fds(p_fds);
 	return (0);

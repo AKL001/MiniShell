@@ -58,7 +58,7 @@ int	exec_single_cmd(t_command *cmd, pid_t *pids, int *count)
 	}
 }
 
-int	execute_command_line(t_command *cmd, t_env *env)
+int	execute_command_line(t_command *cmd, t_env **env)
 {
 	pid_t	child_pids[100];
 	int		pid_count;

@@ -81,9 +81,9 @@ char	**create_default_env(void)
 	if (!env)
 		return (NULL);
 	cwd = getcwd(NULL, 0);
-	env[0] = ft_strjoin("PWD=", cwd);
-	env[1] = ft_strdup("SHLVL=1");
-	env[2] = ft_strdup("_=/usr/bin/env");
+	env[0] = ft_strdup("SHLVL=1");
+	env[1] = ft_strdup("_=/usr/bin/env");
+	env[2] = ft_strjoin("PWD=", cwd);
 	env[3] = ft_strdup("PATH=/usr/bin:/bin");
 	env[4] = NULL;
 	free(cwd);
@@ -115,7 +115,7 @@ static int	init_shell_environment(t_env **env, char **envp)
 	return (1);
 }
 
-static void	process_input_loop(t_env *env)
+static void	process_input_loop(t_env **env)
 {
 	char		*cmd;
 	t_token		*tokens;
@@ -134,11 +134,11 @@ static void	process_input_loop(t_env *env)
 		g_vars.in_child = 1;
 		if (*cmd)
 			add_history(cmd);
-		tokens = tokenazation(cmd,env);
-		print_token_list(tokens);
+		tokens = tokenazation(cmd,*env);
+		// print_token_list(tokens);
 		free(cmd);
 		exec_cmd = parse_token(tokens, env);
-		print_command(exec_cmd);
+		// print_command(exec_cmd);
 		execute_command_line(exec_cmd, env);
 		free_commands(exec_cmd);
 	}
@@ -152,7 +152,7 @@ int	main(int argc, char *args[], char **envp)
 	(void)args;
 	if (!init_shell_environment(&custom_env, envp))
 		return (1);
-	process_input_loop(custom_env);
+	process_input_loop(&custom_env);
 	clear_history();
 	free_env(custom_env);
 	return (g_vars.g_exit_status);

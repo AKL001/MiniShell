@@ -114,7 +114,7 @@ int	handle_heredocs(t_command *cmd)
 			if (redir->type == REDIR_HEREDOC)
 			{
 				if (read_heredoc_fork(redir, &redir->heredoc_fd, open,
-						cmd->env) == -1)
+						*cmd->env) == -1)
 					return (-1);
 			}
 			redir = redir->next;

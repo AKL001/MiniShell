@@ -29,7 +29,7 @@ static int	exec_child(t_command *cmd, t_env *env, char *cmd_path)
 	return (126);
 }
 
-int	execute_command(t_command *cmd, t_env *env)
+int	execute_command(t_command *cmd, t_env **env)
 {
 	char	*cmd_path;
 
@@ -37,15 +37,15 @@ int	execute_command(t_command *cmd, t_env *env)
 		return (1);
 	if (cmd->args == NULL || cmd->args->value == NULL)
 		return (0);
-	if (execute_builtin(cmd, &env))
+	if (execute_builtin(cmd, env))
 		return (g_vars.g_exit_status);
-	cmd_path = find_command_path(cmd->args->value, env);
+	cmd_path = find_command_path(cmd->args->value, *env);
 	if (!cmd_path)
 	{
 		error_message("Command not found\n", 127);
 		return (127);
 	}
-	return (exec_child(cmd, env, cmd_path));
+	return (exec_child(cmd, *env, cmd_path));
 }
 
 static int	exec_last_cmd(t_command *cmd, int in_fd, pid_t *pids, int *count)
