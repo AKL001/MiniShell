@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 04:36:26 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/04/17 13:42:51 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/17 14:44:36 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,3 +102,6 @@ t_token	*tokenazation(char *input, t_env *env)
 	free(trim);
 	return (tokens);
 }
+
+
+// imput split -> expand -> split -> remove quotes 
