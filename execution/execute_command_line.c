@@ -32,30 +32,30 @@ static void	handle_exit_status(int status)
 	}
 }
 
-int    exec_single_cmd(t_command *cmd, pid_t *pids, int *count)
+int	exec_single_cmd(t_command *cmd, pid_t *pids, int *count)
 {
-    pid_t    pid;
-    int        p_fds[2];
+	pid_t	pid;
+	int		p_fds[2];
 
-    p_fds[0] = dup(STDIN_FILENO);
-    p_fds[1] = dup(STDOUT_FILENO);
-    if (is_builtin(cmd))
+	p_fds[0] = dup(STDIN_FILENO);
+	p_fds[1] = dup(STDOUT_FILENO);
+	if (is_builtin(cmd))
 		return (exec_builtin(cmd, p_fds));
-    restore_std_fds(p_fds);
-    pid = fork();
-    if (pid == -1)
-        return (error_message("fork", 1));
-    if (pid == 0)
-    {
-        setup_child_signals();
-        g_vars.g_exit_status = execute_command(cmd, cmd->env);
-        exit(g_vars.g_exit_status);
-    }
-    else
-    {
-        pids[(*count)++] = pid;
-        return (0);
-    }
+	restore_std_fds(p_fds);
+	pid = fork();
+	if (pid == -1)
+		return (error_message("fork", 1));
+	if (pid == 0)
+	{
+		setup_child_signals();
+		g_vars.g_exit_status = execute_command(cmd, cmd->env);
+		exit(g_vars.g_exit_status);
+	}
+	else
+	{
+		pids[(*count)++] = pid;
+		return (0);
+	}
 }
 
 int	execute_command_line(t_command *cmd, t_env *env)
