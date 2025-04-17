@@ -19,6 +19,8 @@ static int	exec_child(t_command *cmd, t_env *env, char *cmd_path)
 
 	args_arr = args_to_array(cmd->args);
 	env_arr = env_to_array(env);
+	if (!*args_arr)
+		return (0);
 	execve(cmd_path, args_arr, env_arr);
 	error_message("No such file or directory\n", 126);
 	free(cmd_path);

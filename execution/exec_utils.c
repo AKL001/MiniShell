@@ -83,7 +83,8 @@ char	**args_to_array(t_args *args)
 	current = args;
 	while (current)
 	{
-		arr[i++] = ft_strdup(current->value);
+		if (current->value && current->value[0] != '\0')
+			arr[i++] = ft_strdup(current->value);
 		current = current->next;
 	}
 	arr[i] = NULL;
