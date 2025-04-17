@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 04:55:14 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/04/16 16:23:48 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/17 08:46:59 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	is_space(char c)
 {
-	return (c == ' ' || c == '\t');
+	return (ft_isspace(c));
 }
 
 char	*add_char_to_string(char c, char *value)

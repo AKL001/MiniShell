@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:10:36 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/04/16 16:40:17 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/17 09:32:02 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,9 @@ int	is_quoted_and_strip(char **str)
 	size_t	len;
 	char	*original;
 	char	*new_str;
-	int	quoted = 0;
+	int		quoted;
 
+	quoted = 0;
 	original = *str;
 	len = ft_strlen(original);
 	if (len >= 2 && ((original[0] == '\'' && original[len - 1] == '\'')
@@ -69,20 +70,13 @@ int	is_quoted_and_strip(char **str)
 void	remply_redir(t_redir **redir, char *filename, t_redir_type type,
 		t_command *cmd)
 {
-	// char	*expanded;
 	char	*fname_copy;
 
-	// expanded = NULL;
 	fname_copy = ft_strdup(filename);
 	if (!fname_copy)
 		return ;
 	(*redir)->quoted = is_quoted_and_strip(&fname_copy);
 	(*redir)->type = type;
-	// if (!(*redir)->quoted)
-	// 	expanded = expand_string(fname_copy, cmd->env);
-	// if (expanded)
-	// 	(*redir)->filename = expanded;
-	// else
-		(*redir)->filename = ft_strdup(fname_copy);
+	(*redir)->filename = ft_strdup(fname_copy);
 	free(fname_copy);
 }

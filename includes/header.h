@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 03:32:11 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/04/16 21:29:39 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/17 09:12:18 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ int					is_quote(char c);
 void				get_quote_value(char c, char *q);
 char				*add_char_to_string(char c, char *value);
 void remove_quotes_main(t_token *tokens);
+char	**split_token_value(char *value);
 
 int					is_space(char c);
 void				add_new_value_to_tokens(t_token **tokens, char *value);

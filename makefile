@@ -16,6 +16,7 @@ src =   cleanup/clean_up.c \
 		parsing/redirection.c \
 		expansion/expand_dollar.c \
 		expansion/expand.c \
+		expansion/split_value.c \
 		expansion/expand_string.c \
 		built-in/init_env.c \
 		built-in/env.c \

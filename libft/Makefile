@@ -32,6 +32,7 @@ SRCS =	ft_atoi.c \
 		ft_substr.c \
 		ft_tolower.c \
 		ft_toupper.c \
+		ft_isspace.c \
 		ft_atol.c
 
 # BONUS =	ft_lstnew_bonus.c \

@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:00:24 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/04/16 21:09:17 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/17 13:53:25 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,72 +39,13 @@ void	expand_tokens(t_token **tokens, t_env *env)
 	}
 }
 
-
-void update_quote_status(char c, char *q)
+int	check_value(char **value)
 {
-	if (*q == 0 && (c == '\'' || c == '\"'))
-		*q = c;
-	else if (*q == c)
-		*q = 0;
-}
-
-char **add_split_piece(char **arr, char *start, int len)
-{
-	char **new_arr;
-	int i;
-	int count;
-
-	count = 0;
-	while (arr && arr[count])
-		count++;
-	new_arr = malloc(sizeof(char *) * (count + 2));
-	i = 0;
-	while (i < count)
-	{
-		new_arr[i] = arr[i];
-		i++;
-	}
-	new_arr[i] = ft_substr(start, 0, len);
-	new_arr[i + 1] = NULL;
-	free(arr);
-	return (new_arr);
-}
-
-char **split_token_value(char *value)
-{
-	int i;
-	int start;
-	char q;
-	char **res;
+	int	i;
 
 	i = 0;
-	start = 0;
-	q = 0;
-	res = NULL;
-	while (value[i])
-	{
-		update_quote_status(value[i], &q);
-		if ((value[i] == ' ' || value[i] == '\t') && q == 0)
-		{
-			if (i > start)
-				res = add_split_piece(res, value + start, i - start);
-			while (value[i] == ' ' || value[i] == '\t')
-				i++;
-			start = i;
-		}
-		else
-			i++;
-	}
-	if (i > start)
-		res = add_split_piece(res, value + start, i - start);
-	return (res);
-}
-
-int check_value(char **value)
-{
-	int i;
-
-	i = 0;
+	if (!value || !*value)
+		return (0);
 	while (value[i])
 	{
 		i++;
@@ -116,12 +57,12 @@ int check_value(char **value)
 	return (0);
 }
 
-void insert_new_token(t_token *current, char **value)
+void	insert_new_token(t_token *current, char **value)
 {
-	int i;
-	t_token *next;
-	t_token *new;
-	t_token *tmp;
+	int		i;
+	t_token	*next;
+	t_token	*new;
+	t_token	*tmp;
 
 	i = 1;
 	next = current->next;
@@ -139,10 +80,10 @@ void insert_new_token(t_token *current, char **value)
 	tmp->next = next;
 }
 
-void field_split(t_token **tokens)
+void	field_split(t_token **tokens)
 {
-	t_token *current;
-	char **value;
+	t_token	*current;
+	char	**value;
 
 	current = *tokens;
 	while (current)
@@ -151,8 +92,8 @@ void field_split(t_token **tokens)
 		if (check_value(value))
 		{
 			insert_new_token(current, value);
-			free_array(value);
 		}
+		free_array(value);
 		current = current->next;
 	}
 }

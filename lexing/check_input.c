@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 06:24:45 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/04/14 19:23:46 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/17 08:46:36 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	is_operator(char c)
 
 int	is_space_or_tab(char c)
 {
-	return (c == ' ' || c == '\t');
+	return (ft_isspace(c));
 }
 
 int	inside_quotes(char *str)

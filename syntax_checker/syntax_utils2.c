@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ablabib <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 19:14:13 by ablabib           #+#    #+#             */
-/*   Updated: 2025/04/10 19:14:16 by ablabib          ###   ########.fr       */
+/*   Updated: 2025/04/17 08:45:16 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	is_valid_redirection(char *input, int i)
 
 int	check_redir_follow(char *input, int i)
 {
-	while (input[i] && (input[i] == ' ' || input[i] == '\t'))
+	while (input[i] && ft_isspace(input[i]))
 		i++;
 	if (!input[i] || input[i] == '>' || input[i] == '<' || input[i] == '|')
 		return (1);

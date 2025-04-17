@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ablabib <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 19:14:21 by ablabib           #+#    #+#             */
-/*   Updated: 2025/04/10 19:14:22 by ablabib          ###   ########.fr       */
+/*   Updated: 2025/04/17 08:45:41 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*skip_spaces(char *input)
 {
-	while (*input && (*input == ' ' || *input == '\t'))
+	while (*input && ft_isspace(*input))
 		input++;
 	return (input);
 }
