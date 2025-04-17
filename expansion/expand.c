@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:00:24 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/04/17 14:50:52 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/17 15:32:17 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	insert_new_token(t_token *current, char **value)
 	tmp = current;
 	while (value[i])
 	{
-		new = create_new_token(value[i]);
+		new = create_new_token_2(value[i]);
 		new->next = tmp->next;
 		tmp->next = new;
 		tmp = new;
