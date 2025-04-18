@@ -56,18 +56,18 @@ $(NAME): $(OBJ) $(libft)
 	cc $(flags) $(OBJ) -o $(NAME) $(libft) -lreadline  
 # -fsanitize=address 
 $(libft):
-	@make -C $(LIBFT_DIR)
+	@make -s -C $(LIBFT_DIR)
 
 %.o: %.c
 	cc $(flags) -c $< -o $@
 
 clean:
 	rm -f $(OBJ)
-	@make clean -C $(LIBFT_DIR)
+	@make clean -s -C $(LIBFT_DIR)
 
 fclean: clean
 	rm -f $(NAME)
-	@make fclean -C $(LIBFT_DIR)
+	@make fclean -s -C $(LIBFT_DIR)
 
 re: fclean all
 
