@@ -42,7 +42,6 @@ src =   cleanup/clean_up.c \
 		syntax_checker/syntax_utils.c\
 		syntax_checker/syntax_utils2.c\
 		signals/signals.c\
-		print_cmd.c
 
 OBJ = $(src:.c=.o)
 NAME = minishell
