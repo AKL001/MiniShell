@@ -34,10 +34,9 @@ char	**create_default_env(void)
 	return (env);
 }
 
-
 static int	init_shell_environment(t_env **env, char **envp)
 {
-	char 	**default_env;
+	char	**default_env;
 
 	default_env = NULL;
 	if (!envp || !*envp)
@@ -78,11 +77,9 @@ static void	process_input_loop(t_env **env)
 		g_vars.in_child = 1;
 		if (*cmd)
 			add_history(cmd);
-		tokens = tokenazation(cmd,*env);
-		// print_token_list(tokens);
+		tokens = tokenazation(cmd, *env);
 		free(cmd);
 		exec_cmd = parse_token(tokens, env);
-		// print_command(exec_cmd);
 		execute_command_line(exec_cmd, env);
 		free_commands(exec_cmd);
 	}
