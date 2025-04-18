@@ -6,12 +6,11 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 12:04:56 by ablabib           #+#    #+#             */
-/*   Updated: 2025/04/18 10:24:44 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/18 14:56:37 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/header.h"
-#include <stdlib.h>
 
 static void	process_heredoc_line(int fd, char *line, int quoted, t_env *env)
 {
@@ -19,7 +18,7 @@ static void	process_heredoc_line(int fd, char *line, int quoted, t_env *env)
 
 	if (!quoted)
 	{
-		expanded = expand_string(line, env);
+		expanded = expand_string_herdoc(line, env);
 		if (expanded)
 		{
 			write(fd, expanded, ft_strlen(expanded));

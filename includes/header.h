@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 03:32:11 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/04/18 10:33:02 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/18 12:13:44 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,7 @@ char				*skip_spaces(char *input);
 /***************redirections.c*****************/
 int					is_redirection(t_token_type token_type);
 t_redir_type		get_redirection_type(t_token_type token_type);
+char				*expand_string_herdoc(char *s, t_env *env);
 
 //**************print cmd**************************
 /*

@@ -1,56 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_string.c                                    :+:      :+:    :+:   */
+/*   expand_string_hec.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/10 11:56:39 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/04/18 14:57:00 by ael-aiss         ###   ########.fr       */
+/*   Created: 2025/04/18 14:45:44 by ael-aiss          #+#    #+#             */
+/*   Updated: 2025/04/18 14:56:21 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/header.h"
-
-// char *expand_string(char *s, t_env *env)
-// {
-// 	int i;
-// 	char q;
-// 	char *string;
-
-// 	i = 0;
-// 	q = 0;
-// 	string = NULL;
-// 	if (!env || !s)
-// 		return (ft_strdup(""));
-// 	while (s[i])
-// 	{
-// 		if (is_quote(s[i]))
-// 		{
-// 			get_quote_value(s[i], &q);
-// 			string = add_char_to_string(s[i], string);
-// 			i++;
-// 		}
-// 		else if (s[i] == '$' && s[i + 1] && s[i + 1] == '?')
-// 		{
-// 			string = handle_exit_case((string));
-// 			i+=2;
-// 		}
-// 		else if (s[i] == '$' && (q == '\'' || !ft_isalnum(s[i + 1])))
-// 		{
-// 			string = add_char_to_string(s[i], string);
-// 			i++;
-// 		}
-// 		else if (s[i] == '$' && q != '\'')
-// 			string = add_var_value(string, s, env, &i);
-// 		else
-// 		{
-// 			string = add_char_to_string(s[i], string);
-// 			i++;
-// 		}
-// 	}
-// 	return (string);
-// }
 
 static void	handle_quote_case(char *s, char *q, int *i, char **string)
 {
@@ -59,14 +19,14 @@ static void	handle_quote_case(char *s, char *q, int *i, char **string)
 	(*i)++;
 }
 
-static int	handle_special_cases(char *s, char q, char **string, int i)
+static int	handle_special_cases(char *s, char **string, int i)
 {
 	if (s[i] == '$' && s[i + 1] && s[i + 1] == '?')
 	{
 		*string = handle_exit_case(*string);
 		return (2);
 	}
-	if (s[i] == '$' && (q == '\'' || !ft_isalnum(s[i + 1])))
+	if (s[i] == '$' && !ft_isalnum(s[i + 1]))
 	{
 		*string = add_char_to_string(s[i], *string);
 		return (1);
@@ -81,7 +41,7 @@ static void	init_expand_vars(int *i, char *q, char **string)
 	*string = NULL;
 }
 
-char	*expand_string(char *s, t_env *env)
+char	*expand_string_herdoc(char *s, t_env *env)
 {
 	int		i;
 	char	q;
@@ -97,10 +57,10 @@ char	*expand_string(char *s, t_env *env)
 			handle_quote_case(s, &q, &i, &string);
 		else
 		{
-			skip = handle_special_cases(s, q, &string, i);
+			skip = handle_special_cases(s, &string, i);
 			if (skip)
 				i += skip;
-			else if (s[i] == '$' && q != '\'')
+			else if (s[i] == '$')
 				string = add_var_value(string, s, env, &i);
 			else
 				string = add_char_to_string(s[i++], string);

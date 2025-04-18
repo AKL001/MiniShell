@@ -34,6 +34,7 @@ src =   cleanup/clean_up.c \
 		execution/exec_utils3.c\
 		execution/execute_command_line.c\
 		execution/here_doc.c\
+		execution/expand_string_hec.c\
 		execution/here_doc_utils.c\
 		execution/get_next_line.c\
 		execution/pipes.c\
