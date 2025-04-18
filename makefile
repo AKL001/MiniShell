@@ -44,28 +44,31 @@ src =   cleanup/clean_up.c \
 		signals/signals.c\
 		print_cmd.c
 
-obj = $(src:.c=.o)
-
-name = minishell
-libft = libft/libft.a
+OBJ = $(src:.c=.o)
+NAME = minishell
+LIBFT_DIR = libft
+libft = $(LIBFT_DIR)/libft.a
 flags = -Wall -Wextra -Werror
 
-all: $(name)
-	@make -s clean
+all: $(NAME)
 
-$(name): $(obj) $(libft)
-	cc  $(flags) $(obj) -o $(name) $(libft) -lreadline -g
+$(NAME): $(OBJ) $(libft)
+	cc $(flags) $(OBJ) -o $(NAME) $(libft) -lreadline -g
+
+$(libft):
+	@make -C $(LIBFT_DIR)
 
 %.o: %.c
 	cc $(flags) -c $< -o $@
 
 clean:
-	rm -f $(obj)
-	@make -s -C libft/ clean
+	rm -f $(OBJ)
+	@make clean -C $(LIBFT_DIR)
 
 fclean: clean
-	rm -f $(name)
+	rm -f $(NAME)
+	@make fclean -C $(LIBFT_DIR)
 
 re: fclean all
 
-.SECONDARY: $(obj)
+.SECONDARY: $(OBJ)
