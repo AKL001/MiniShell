@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 03:32:11 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/04/18 12:13:44 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/18 14:59:22 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,7 +196,7 @@ int					my_echo(t_env *my_envp, char **args);
 void				my_pwd(t_env *env);
 void				my_env(t_env *custom_env);
 void				my_unset(t_env **env, char **args);
-void				my_exit(char **args,t_env *env);
+void				my_exit(char **args, t_env *env);
 void				my_cd(char **args, t_env **env);
 t_env				*create_new(char *key, char *value);
 int					is_valid_identifier(char *str);
