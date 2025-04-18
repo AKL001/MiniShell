@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:00:24 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/04/17 15:32:17 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/18 09:48:57 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void	expand_tokens(t_token **tokens, t_env *env)
 		}
 		head = head->next;
 	}
+	field_split(tokens);
+	remove_quotes_main(*tokens);
 }
 
 int	check_value(char **value)
@@ -57,8 +59,8 @@ int	check_value(char **value)
 	return (0);
 }
 
- t_token *create_new_token_2(char *value)
- {
+t_token	*create_new_token_2(char *value)
+{
 	t_token	*new_token;
 
 	if (!value)
@@ -72,7 +74,7 @@ int	check_value(char **value)
 	new_token->next = NULL;
 	new_token->type = TOKEN_WORD;
 	return (new_token);
- }
+}
 
 void	insert_new_token(t_token *current, char **value)
 {

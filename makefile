@@ -48,7 +48,7 @@ obj = $(src:.c=.o)
 
 name = minishell
 libft = libft/libft.a
-# flags = -Wall -Wextra -Werror
+flags = -Wall -Wextra -Werror
 
 all: $(name)
 	@make -s clean

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ablabib <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 19:11:14 by ablabib           #+#    #+#             */
-/*   Updated: 2025/04/10 19:11:16 by ablabib          ###   ########.fr       */
+/*   Updated: 2025/04/18 10:26:57 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,11 @@ void	sigint_handler(int sig)
 void	handle_heredoc_sigint(int sig)
 {
 	(void)sig;
-
 	if (g_vars.g_heredoc_temp_fd != -1)
 	{
 		close(g_vars.g_heredoc_temp_fd);
 		g_vars.g_heredoc_temp_fd = -1;
 	}
-
 	unlink(".heredoc_temp");
 	write(1, "\n", 1);
 	g_vars.g_exit_status = 130;

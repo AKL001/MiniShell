@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ablabib <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 22:31:48 by ablabib           #+#    #+#             */
-/*   Updated: 2025/04/10 22:31:50 by ablabib          ###   ########.fr       */
+/*   Updated: 2025/04/18 10:33:57 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ static int	process_export_arg(t_env **env, char *arg)
 	char	*plus_equal;
 	char	*equal;
 	char	*key;
-	int		valid;
 
 	plus_equal = ft_strnstr(arg, "+=", ft_strlen(arg));
 	if (plus_equal)

@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 19:14:13 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/04/17 13:29:00 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/18 10:25:37 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,3 @@ int	my_echo(t_env *custom_envp, char **args)
 // 	g_vars.g_exit_status = 0;
 // 	return (0);
 // }
-

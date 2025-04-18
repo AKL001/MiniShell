@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:10:36 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/04/17 09:32:02 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/18 10:32:44 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,7 @@ int	is_quoted_and_strip(char **str)
 	return (0);
 }
 
-void	remply_redir(t_redir **redir, char *filename, t_redir_type type,
-		t_command *cmd)
+void	remply_redir(t_redir **redir, char *filename, t_redir_type type)
 {
 	char	*fname_copy;
 

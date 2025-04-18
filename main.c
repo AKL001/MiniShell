@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:52:26 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/04/17 13:54:11 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/18 10:27:54 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,63 +14,7 @@
 #include "libft/libft.h"
 
 // int g_exit_status;
-
 t_vars		g_vars;
-
-static void	print_args(t_args *args)
-{
-	printf("Arguments: ");
-	while (args)
-	{
-		printf("[%s]", args->value);
-		args = args->next;
-	}
-	printf("\n");
-}
-
-static void	print_redirections(t_redir *redirections)
-{
-	printf("Redirections: ");
-	while (redirections)
-	{
-		printf("%d:%s ", redirections->type, redirections->filename);
-		redirections = redirections->next;
-	}
-	printf("\n");
-}
-
-void	print_command(t_command *cmd)
-{
-	int	cmd_num;
-
-	cmd_num = 1;
-	while (cmd)
-	{
-		printf("Command %d:\n", cmd_num++);
-		print_args(cmd->args);
-		print_redirections(cmd->redirections);
-		cmd = cmd->next;
-		if (cmd)
-		{
-			printf("---\n");
-		}
-	}
-}
-void	print_token_list(t_token *head)
-{
-	t_token	*current;
-	int		index;
-
-	current = head;
-	index = 0;
-	while (current)
-	{
-		printf("Token [%d]:\n", index);
-		printf("  Value: [%s]\n", current->value);
-		current = current->next;
-		index++;
-	}
-}
 
 char	**create_default_env(void)
 {

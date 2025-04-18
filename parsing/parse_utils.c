@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 00:28:49 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/04/14 19:11:14 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/18 10:34:24 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	add_command_redirection(t_command *cmd, t_redir_type type,
 	redir = malloc(sizeof(t_redir));
 	if (!redir)
 		return ;
-	remply_redir(&redir, filename, type, cmd);
+	remply_redir(&redir, filename, type);
 	redir->next = NULL;
 	if (!cmd->redirections)
 		cmd->redirections = redir;

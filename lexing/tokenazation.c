@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 04:36:26 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/04/17 14:44:36 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/18 10:31:36 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void	handle_normal_string(t_token **tokens, int *i, char *cmd, char *q)
 	}
 	if (value && *value)
 	{
-	// 	value = remove_quotes(value);
 		add_new_value_to_tokens(tokens, value);
 		free(value);
 	}
@@ -79,7 +78,7 @@ t_token	*tokenazation(char *input, t_env *env)
 
 	if (!input)
 		return (NULL);
-	trim = trim_whitespace(input, env);
+	trim = trim_whitespace(input);
 	if (!trim)
 		return (NULL);
 	if (syntax_checker(trim))
@@ -97,11 +96,6 @@ t_token	*tokenazation(char *input, t_env *env)
 	}
 	tokens = command_to_tokens(trim);
 	expand_tokens(&tokens, env);
-	field_split(&tokens);
-	remove_quotes_main(tokens);
 	free(trim);
 	return (tokens);
 }
-
-
-// imput split -> expand -> split -> remove quotes 

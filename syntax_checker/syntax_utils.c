@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 19:14:21 by ablabib           #+#    #+#             */
-/*   Updated: 2025/04/17 08:45:41 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/18 10:26:34 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,6 @@ void	handle_q_type(char *input, int i, char *q_type)
 
 int	is_valid_operator(char *input, int i, char set)
 {
-	// int	consecutive;
-
-	// consecutive = 0;
 	if (set == '&')
 	{
 		if (input[i] == '&' && input[i + 1] == '&')

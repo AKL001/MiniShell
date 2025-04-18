@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 03:32:11 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/04/17 09:12:18 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/18 10:33:02 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,17 +107,16 @@ int					is_space_or_tab(char c);
 int					is_quote(char c);
 void				get_quote_value(char c, char *q);
 char				*add_char_to_string(char c, char *value);
-void remove_quotes_main(t_token *tokens);
-char	**split_token_value(char *value);
+void				remove_quotes_main(t_token *tokens);
+char				**split_token_value(char *value);
 
 int					is_space(char c);
 void				add_new_value_to_tokens(t_token **tokens, char *value);
 void				add_special_operator(t_token **tokens, int *i, char *cmd);
 int					is_split_op(char c);
 
-void field_split(t_token **tokens);
-void expand_tokens(t_token **tokens, t_env *env);
-
+void				field_split(t_token **tokens);
+void				expand_tokens(t_token **tokens, t_env *env);
 
 /*******************ft_split.c*****************/
 void				free_strings(char **strings);
@@ -136,7 +135,7 @@ t_command			*parse_token(t_token *token, t_env **custom_env);
 char				*ft_strndup(const char *s, size_t n);
 int					is_quoted_and_strip(char **str);
 void				remply_redir(t_redir **redir, char *filename,
-						t_redir_type type, t_command *cmd);
+						t_redir_type type);
 
 /**************parse_utils******************/
 void				add_command_redirection(t_command *cmd, t_redir_type type,
@@ -177,7 +176,7 @@ char				*get_key_value(char *s, int *i);
 char				*handle_exit_case(char *value);
 char				*add_var_value(char *string, char *s, t_env *env, int *i);
 
-char				*trim_whitespace(char *input, t_env *env);
+char				*trim_whitespace(char *input);
 char				*remove_quotes(char *trim);
 
 //*******************built_in functions*************
@@ -203,12 +202,13 @@ int					is_valid_identifier(char *str);
 void				print_export(t_env *env);
 /*  execution  */
 void				handle_heredoc_sigint(int sig);
-int	exec_builtin(t_command *cmd, int *p_fds);
-void	restore_std_fds(int saved_fds[2]);
-int	is_builtin(t_command *cmd);
-int	read_heredoc_fork(t_redir *redir, int *heredoc_fd,int is_open, t_env *env);
+int					exec_builtin(t_command *cmd, int *p_fds);
+void				restore_std_fds(int saved_fds[2]);
+int					is_builtin(t_command *cmd);
+int					read_heredoc_fork(t_redir *redir, int *heredoc_fd,
+						int is_open, t_env *env);
 // int					execute_command_line(t_command *cmd, t_env *env);
-int	execute_command_line(t_command *cmd, t_env **env);
+int					execute_command_line(t_command *cmd, t_env **env);
 char				*ft_strjoin_three(char *s1, char *s2, char *s3);
 char				*get_env_value(char *key, t_env *env);
 char				*find_command_path(char *cmd, t_env *env);
@@ -228,7 +228,7 @@ int					get_next_line(char *delimiter, int heredoc_fd);
 void				cleanup_heredocs(t_command *cmd);
 int					read_heredoc(t_redir *heredoc, t_env *env);
 // int					execute_command(t_command *cmd, t_env *env);
-int	execute_command(t_command *cmd, t_env **env); 
+int					execute_command(t_command *cmd, t_env **env);
 int					exec_single_cmd(t_command *cmd, pid_t *pids, int *count);
 int					setup_pipes(t_command *cmd, int in_fd, pid_t *pids,
 						int *count);

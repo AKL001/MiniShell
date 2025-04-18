@@ -6,7 +6,7 @@
 /*   By: ael-aiss <ael-aiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 19:15:42 by ael-aiss          #+#    #+#             */
-/*   Updated: 2025/04/10 19:22:30 by ael-aiss         ###   ########.fr       */
+/*   Updated: 2025/04/18 10:19:29 by ael-aiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,11 +89,11 @@ t_env	*init_envp(char **envp)
 		if (equal)
 		{
 			*equal = '\0';
-			key = ft_strdup(entry);       // Duplicate key part
-			value = ft_strdup(equal + 1); // Duplicate value part
+			key = ft_strdup(entry);
+			value = ft_strdup(equal + 1);
 			if (key && value)
 				add_env_var(&custom_envp, key, value);
-			free(key);                    // Free temporary duplicates
+			free(key);
 			free(value);
 		}
 		free(entry);
