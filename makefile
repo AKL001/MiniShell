@@ -52,8 +52,8 @@ flags = -Wall -Wextra -Werror
 all: $(NAME)
 
 $(NAME): $(OBJ) $(libft)
-	cc $(flags) $(OBJ) -o $(NAME) $(libft) -lreadline -g
-
+	cc $(flags) $(OBJ) -o $(NAME) $(libft) -lreadline  
+# -fsanitize=address 
 $(libft):
 	@make -C $(LIBFT_DIR)
 

@@ -30,7 +30,7 @@ static int	is_numeric(const char *str)
 	return (1);
 }
 
-void	my_exit(char **args)
+void	my_exit(char **args, t_env *env)
 {
 	int	exit_code;
 
@@ -49,7 +49,9 @@ void	my_exit(char **args)
 			exit(2);
 		}
 		exit_code = ft_atoi(args[1]);
+		free_env(env);
 		exit(exit_code);
 	}
+	free_env(env);
 	exit(g_vars.g_exit_status);
 }

@@ -29,7 +29,7 @@ static char	**convert_args_to_array(t_args *args)
 	count = 0;
 	while (temp)
 	{
-		arg_array[count++] = temp->value;
+		arg_array[count++] = ft_strdup(temp->value);
 		temp = temp->next;
 	}
 	arg_array[count] = NULL;
@@ -48,19 +48,19 @@ int	execute_builtin(t_command *cmd, t_env **env)
 	if (!args_array)
 		return (0);
 	if (ft_strcmp(command, "echo") == 0)
-		return (my_echo(*env, args_array), free(args_array), 1);
+		return (my_echo(*env, args_array), free_array(args_array), 1);
 	else if (ft_strcmp(command, "cd") == 0)
-		return (my_cd(args_array, env), free(args_array), 1);
+		return (my_cd(args_array, env), free_array(args_array), 1);
 	else if (ft_strcmp(command, "pwd") == 0)
-		return (my_pwd(*env), free(args_array), 1);
+		return (my_pwd(*env), free_array(args_array), 1);
 	else if (ft_strcmp(command, "export") == 0)
-		return (my_export(env, args_array), free(args_array), 1);
+		return (my_export(env, args_array), free_array(args_array), 1);
 	else if (ft_strcmp(command, "unset") == 0)
-		return (my_unset(env, args_array), free(args_array), 1);
+		return (my_unset(env, args_array), free_array(args_array), 1);
 	else if (ft_strcmp(command, "env") == 0)
-		return (my_env(*env), free(args_array), 1);
+		return (my_env(*env), free_array(args_array), 1);
 	else if (ft_strcmp(command, "exit") == 0)
-		return (my_exit(args_array), free(args_array), 1);
-	free(args_array);
+		return (my_exit(args_array,*env), free_array(args_array), 1);
+	free_array(args_array);
 	return (0);
 }
